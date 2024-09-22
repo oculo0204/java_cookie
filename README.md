@@ -1,7 +1,9 @@
 
 # 자바 스윙 쿠키런
 
-
+## 환경
+jdk8 또는 openjdk8 이상
+lombok (구글에 lombok 설치법 검색 - 이클립스(sts), vscode, intellij는 설치법이 각각 다릅니다)
 
 
 ## 기능
