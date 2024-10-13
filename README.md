@@ -40,14 +40,3 @@
     [edit?usp=sharin](https://docs.google.com/document/d/186wqmXqhi6x3xojDk15uvSKXqqwvuTTaioYv2E5JpEo/edit?usp=sharin)
     
 
----
-
-- 팀원 별 긴급 연락처 & 개인정보
-    
-    
-    | 이름 | 전화번호 | 이메일 | 학번 |
-    | --- | --- | --- | --- |
-    | 장서원 | 010-5886-4234 | oculo0204@gmail.com | 20211626 |
-    | 박가연 | 010-7564-2474 | qkrrkdus1098@gmail.com | 20231137 |
-    | 이주연 | 010-2334-2857 | [zoo0406.jyl@gmail.com](mailto:zoo0406.jyl@gmail.com) | 20180994 |
-    | 이하경 | 010-8425-9246 | [56j78@naver.com](mailto:56j78@naver.com) | 20221403 |
