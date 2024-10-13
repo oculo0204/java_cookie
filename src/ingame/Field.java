@@ -10,13 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Field {
-	
-	private Image image; // ¹ßÆÇ ÀÌ¹ÌÁö
-	
-	// ¹ßÆÇÀÇ ÁÂÇ¥¿Í ³ÐÀÌ ³ôÀÌ
+
+	private Image image; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private int x;
 	private int y;
 	private int width;
 	private int height;
 }
-
