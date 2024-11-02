@@ -1,11 +1,9 @@
 package main;
 
+import java.awt.CardLayout;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -14,27 +12,24 @@ import panels.EndPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.SelectPanel;
-import main.listenAdapter;
 
-import java.awt.CardLayout;
-
-// windowBuilder ·Î ÇÁ·¹ÀÓ¸¸ Á¦ÀÛÇÏ°í ³ª¸ÓÁö´Â ÀÔ·Â
+// windowBuilder ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
 
 public class Main extends listenAdapter {
 
-	private JFrame frame; // Ã¢À» ¶ç¿ì±â À§ÇÑ ÇÁ·¹ÀÓ
+	private JFrame frame; // Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	private IntroPanel introPanel; // ÀÎÆ®·Î
+	private IntroPanel introPanel; // ï¿½ï¿½Æ®ï¿½ï¿½
 
-	private SelectPanel selectPanel; // Ä³¸¯ÅÍ ¼±ÅÃ
+	private SelectPanel selectPanel; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	private GamePanel gamePanel; // °ÔÀÓÁøÇà
+	private GamePanel gamePanel; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	private EndPanel endPanel; // °ÔÀÓ°á°ú
+	private EndPanel endPanel; // ï¿½ï¿½ï¿½Ó°ï¿½ï¿½
 
-	private CardLayout cl; // Ä«µå ·¹ÀÌÀÌ¿ô ¿ÀºêÁ§Æ®
+	private CardLayout cl; // Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-	private CookieImg ci; // ÄíÅ°ÀÌ¹ÌÁö
+	private CookieImg ci; // ï¿½ï¿½Å°ï¿½Ì¹ï¿½ï¿½ï¿½
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -47,7 +42,6 @@ public class Main extends listenAdapter {
 	public EndPanel getEndPanel() {
 		return endPanel;
 	}
-
 
 	/**
 	 * Launch the application.
@@ -71,26 +65,27 @@ public class Main extends listenAdapter {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500); // Ã¢ »çÀÌÁî (100,100ÁÂÇ¥´Â ¾Æ·¡ÀÇ frame.setLocationRelativeTo(null) ¶§¹®¿¡ ÀÇ¹Ì°¡ ¾ø¾îÁø´Ù)
-		frame.setLocationRelativeTo(null); // Ã¢À» È­¸é Áß¾Ó¿¡ ¹èÄ¡
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ¿¢½º¹öÆ°À» ´©¸£¸é Á¾·á
-		cl = new CardLayout(0, 0); // Ä«µå·¹ÀÌ¾Æ¿ô °´Ã¼ »ý¼º
-		frame.getContentPane().setLayout(cl); // ÇÁ·¹ÀÓÀ» Ä«µå·¹ÀÌ¾Æ¿ôÀ¸·Î º¯°æ
+		frame.setBounds(100, 100, 800, 500); // Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (100,100ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ frame.setLocationRelativeTo(null) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+												// ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		frame.setLocationRelativeTo(null); // Ã¢ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ß¾Ó¿ï¿½ ï¿½ï¿½Ä¡
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		cl = new CardLayout(0, 0); // Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+		frame.getContentPane().setLayout(cl); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		introPanel = new IntroPanel();
-		introPanel.addMouseListener(this); // introÆÐ³ÎÀº ¿©±â¼­ ¹Ù·Î ³Ö´Â ¹æ½ÄÀ¸·Î ¸¶¿ì½º¸®½º³Ê¸¦ Ãß°¡ÇÔ.
-		
-		selectPanel = new SelectPanel(this); // MainÀÇ ¸®½º³Ê¸¦ ³Ö±âÀ§ÇÑ this
-		gamePanel = new GamePanel(frame, cl, this); // MainÀÇ ÇÁ·¹ÀÓ ¹× Ä«µå·¹ÀÌ¾Æ¿ôÀ» ÀÌ¿ëÇÏ°í ¸®½º³Ê¸¦ ³Ö±âÀ§ÇÑ this
-		endPanel = new EndPanel(this); // MainÀÇ ¸®½º³Ê¸¦ ³Ö±âÀ§ÇÑ this
+		introPanel.addMouseListener(this); // introï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ù·ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ ï¿½ß°ï¿½ï¿½ï¿½.
 
-		// ¸ðµç ÆÐ³ÎÀÇ ·¹ÀÌ¾Æ¿ôÀ» null·Î º¯È¯
+		selectPanel = new SelectPanel(this); // Mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ this
+		gamePanel = new GamePanel(frame, cl, this); // Mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ this
+		endPanel = new EndPanel(this); // Mainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ this
+
+		// ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½È¯
 		introPanel.setLayout(null);
 		selectPanel.setLayout(null);
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
 
-		// ÇÁ·¹ÀÓ¿¡ ÆÐ³ÎµéÀ» Ãß°¡ÇÑ´Ù.(Ä«µå ·¹ÀÌ¾Æ¿ôÀ» À§ÇÑ ÆÐ³Îµé)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½Ð³Îµï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.(Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³Îµï¿½)
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(selectPanel, "select");
 		frame.getContentPane().add(gamePanel, "game");
@@ -99,38 +94,38 @@ public class Main extends listenAdapter {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) { // mouseClicked·Î º¯°æ°¡´É
-		if (e.getComponent().toString().contains("IntroPanel")) { // IntroPanel¿¡¼­ ¸¶¿ì½º¸¦ ´­·¶´Ù¸é
+	public void mousePressed(MouseEvent e) { // mouseClickedï¿½ï¿½ ï¿½ï¿½ï¿½æ°¡ï¿½ï¿½
+		if (e.getComponent().toString().contains("IntroPanel")) { // IntroPanelï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
 			try {
 				Thread.sleep(300);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			cl.show(frame.getContentPane(), "select"); // selectÆÐ³ÎÀ» Ä«µå·¹ÀÌ¾Æ¿ô ÃÖ»ó´ÜÀ¸·Î º¯°æ
-			selectPanel.requestFocus(); // ¸®½º³Ê¸¦ selectÆÐ³Î¿¡ °­Á¦·Î ÁÜ
-			
-		} else if (e.getComponent().getName().equals("StartBtn")) { // StartBtnÀÌ¶ó´Â ÀÌ¸§À» °¡Áø ¹öÆ°À» ´­·¶´Ù¸é
+			cl.show(frame.getContentPane(), "select"); // selectï¿½Ð³ï¿½ï¿½ï¿½ Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			selectPanel.requestFocus(); // ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ selectï¿½Ð³Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+
+		} else if (e.getComponent().getName().equals("StartBtn")) { // StartBtnï¿½Ì¶ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
 			if (selectPanel.getCi() == null) {
-				JOptionPane.showMessageDialog(null, "Ä³¸¯ÅÍ¸¦ °ñ¶óÁÖ¼¼¿ä"); // Ä³¸¯ÅÍ¸¦ ¾È°ñ¶úÀ»°æ¿ì ÆË¾÷
+				JOptionPane.showMessageDialog(null, "Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½"); // Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½
 			} else {
-				cl.show(frame.getContentPane(), "game"); // Ä³¸¯ÅÍ¸¦ °ñ¶ú´Ù¸é °ÔÀÓÆÐ³ÎÀ» Ä«µå·¹ÀÌ¾Æ¿ô ÃÖ»ó´ÜÀ¸·Î º¯°æ
-				gamePanel.gameSet(selectPanel.getCi()); // ÄíÅ°ÀÌ¹ÌÁö¸¦ ³Ñ°ÜÁÖ°í °ÔÀÓÆÐ³Î ¼¼ÆÃ
-				gamePanel.gameStart(); // °ÔÀÓ½ÃÀÛ
-				gamePanel.requestFocus(); // ¸®½º³Ê¸¦ gameÆÐ³Î¿¡ °­Á¦·Î ÁÜ
+				cl.show(frame.getContentPane(), "game"); // Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				gamePanel.gameSet(selectPanel.getCi()); // ï¿½ï¿½Å°ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½
+				gamePanel.gameStart(); // ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½
+				gamePanel.requestFocus(); // ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ gameï¿½Ð³Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			}
-			
-		} else if (e.getComponent().getName().equals("endAccept")) { // endAccept ÀÌ¶ó´Â ÀÌ¸§À» °¡Áø ¹öÆ°À» ´­·¶´Ù¸é
-			frame.getContentPane().remove(gamePanel); // ¹æ±Ý Çß´ø °ÔÀÓ ÆÐ³ÎÀ» ÇÁ·¹ÀÓ¿¡¼­ »èÁ¦
-			gamePanel = new GamePanel(frame, cl, this); // °ÔÀÓÆÐ³ÎÀ» »õ ÆÐ³Î·Î ±³Ã¼
+
+		} else if (e.getComponent().getName().equals("endAccept")) { // endAccept ï¿½Ì¶ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
+			frame.getContentPane().remove(gamePanel); // ï¿½ï¿½ï¿½ ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			gamePanel = new GamePanel(frame, cl, this); // ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ð³Î·ï¿½ ï¿½ï¿½Ã¼
 			gamePanel.setLayout(null);
-			frame.getContentPane().add(gamePanel, "game"); // ÇÁ·¹ÀÓ¿¡ »õ °ÔÀÓÆÐ³Î Ãß°¡(Ä«µå·¹ÀÌ¾Æ¿ô ÇÏ´Ü)
-			
-			frame.getContentPane().remove(selectPanel); // ¹æ±Ý ¼±ÅÃÇß´ø selectÆÐ³ÎÀ» »èÁ¦
-			selectPanel = new SelectPanel(this); // select ÆÐ³ÎÀ» »õ ÆÐ³Î·Î ±³Ã¼
+			frame.getContentPane().add(gamePanel, "game"); // ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ ï¿½ß°ï¿½(Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½Ï´ï¿½)
+
+			frame.getContentPane().remove(selectPanel); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ selectï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			selectPanel = new SelectPanel(this); // select ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ð³Î·ï¿½ ï¿½ï¿½Ã¼
 			selectPanel.setLayout(null);
-			frame.getContentPane().add(selectPanel, "select"); // ÇÁ·¹ÀÓ¿¡ »õ selectÆÐ³Î Ãß°¡(Ä«µå·¹ÀÌ¾Æ¿ô ÇÏ´Ü)
-			cl.show(frame.getContentPane(), "select"); // »õ selectÆÐ³ÎÀ» Ä«µå·¹ÀÌ¾Æ¿ô ÃÖ»ó´ÜÀ¸·Î ÀÌµ¿ (È­¸é¿¡ º¸ÀÓ)
-			selectPanel.requestFocus(); // ¸®½º³Ê¸¦ selectÆÐ³Î¿¡ °­Á¦·Î ÁÜ
+			frame.getContentPane().add(selectPanel, "select"); // ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ selectï¿½Ð³ï¿½ ï¿½ß°ï¿½(Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½Ï´ï¿½)
+			cl.show(frame.getContentPane(), "select"); // ï¿½ï¿½ selectï¿½Ð³ï¿½ï¿½ï¿½ Ä«ï¿½å·¹ï¿½Ì¾Æ¿ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ (È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½)
+			selectPanel.requestFocus(); // ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ selectï¿½Ð³Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		}
 	}
 }

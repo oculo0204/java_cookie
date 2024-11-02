@@ -1,24 +1,20 @@
 package panels;
 
-import java.awt.CardLayout;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class IntroPanel extends JPanel {
-	
-	ImageIcon introIc = new ImageIcon("img/intro/intro.png"); // ÀÎÆ®·Î ÀÌ¹ÌÁö
-	
+
+	ImageIcon introIc = new ImageIcon("img/intro/intro2.jpg"); // ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g); // È­¸éÀ» ºñ¿î´Ù
-		
-		// ÀÎÆ®·Î È­¸éÀ» ±×¸°´Ù
-		g.drawImage(introIc.getImage(), -60, 0, /* this.getWidth(), this.getHeight(), */ null);
+		super.paintComponent(g); // È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+		// ï¿½ï¿½Æ®ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
+		g.drawImage(introIc.getImage(), 0, 0, /* this.getWidth(), this.getHeight(), */ null);
 
 	}
 
