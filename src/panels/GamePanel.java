@@ -80,8 +80,18 @@ public class GamePanel extends JPanel {
 	private ImageIcon slideIconUp;
 	private ImageIcon slideIconDown;
 
+	private ImageIcon skipIconUp;
+	private ImageIcon skipIconDown;
+
+	boolean skipActive = false;
+
+	ImageIcon artIcon;
+	ImageIcon ballIcon;
+	ImageIcon bookIcon;
+
 	Image jumpBtn;
 	Image slideBtn;
+	Image skipBtn;
 
 	// ����Ʈ ����
 	private List<Jelly> jellyList; // ���� ����Ʈ
@@ -91,6 +101,8 @@ public class GamePanel extends JPanel {
 	private List<Tacle> tacleList; // ��ֹ� ����Ʈ
 
 	private List<Integer> mapLengthList;
+
+	// 코인 리스트들 따로 만들어야겠지 아마..?
 
 	private int mapLength = 0;
 
@@ -111,6 +123,8 @@ public class GamePanel extends JPanel {
 	private boolean escKeyOn = false; // �Ͻ������� ���� escŰ Ȯ��
 
 	private boolean downKeyOn = false; // �ٿ�Ű �������� ����
+
+	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
 
@@ -237,37 +251,37 @@ public class GamePanel extends JPanel {
 
 		}
 
-//		// ������ �׸���
-//		for (int i = 0; i < jellyList.size(); i++) {
-//
-//			Jelly tempJelly = jellyList.get(i);
-//
-//			if (tempJelly.getX() > -90 && tempJelly.getX() < 810) {
-//
-//				alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-//						(float) tempJelly.getAlpha() / 255);
-//				g2.setComposite(alphaComposite); // �����ϰ� �ϴ¹�� 2
-//
-//				buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
-//						tempJelly.getHeight(), null);
-//
-//				// alpha���� �ǵ�����
-//				alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
-//				g2.setComposite(alphaComposite);
-//			}
-//		}
-//
-//		// ��ֹ��� �׸���
-//		for (int i = 0; i < tacleList.size(); i++) {
-//
-//			Tacle tempTacle = tacleList.get(i);
-//
-//			if (tempTacle.getX() > -90 && tempTacle.getX() < 810) {
-//
-//				buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
-//						tempTacle.getHeight(), null);
-//			}
-//		}
+		// ������ �׸���
+		for (int i = 0; i < jellyList.size(); i++) {
+
+			Jelly tempJelly = jellyList.get(i);
+
+			if (tempJelly.getX() > -90 && tempJelly.getX() < 810) {
+
+				alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+						(float) tempJelly.getAlpha() / 255);
+				g2.setComposite(alphaComposite); // �����ϰ� �ϴ¹�� 2
+
+				buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
+						tempJelly.getHeight(), null);
+
+				// alpha���� �ǵ�����
+				alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
+				g2.setComposite(alphaComposite);
+			}
+		}
+
+		// ��ֹ��� �׸���
+		for (int i = 0; i < tacleList.size(); i++) {
+
+			Tacle tempTacle = tacleList.get(i);
+
+			if (tempTacle.getX() > -90 && tempTacle.getX() < 810) {
+
+				buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
+						tempTacle.getHeight(), null);
+			}
+		}
 
 		if (c1.isInvincible()) { // ���������� ���
 			// ��Ű�� alpha���� �޾ƿ´�
@@ -305,8 +319,8 @@ public class GamePanel extends JPanel {
 //		buffg.setColor(Color.WHITE);
 //		buffg.drawString(Integer.toString(resultScore), 700, 85);
 
-		// ������ �׸���
-		Util.drawFancyString(g2, Integer.toString(resultScore), 600, 58, 30, Color.WHITE);
+		// 게임화면 점수그리는곳
+		Util.drawFancyString(g2, Integer.toString(resultScore), 300, 100, 25, Color.white);
 
 		// ü�°������� �׸���
 		buffg.drawImage(lifeBar.getImage(), 20, 30, null);
@@ -318,6 +332,10 @@ public class GamePanel extends JPanel {
 		buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
 
 		buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
+		buffg.drawImage(skipBtn, 650, 240, 132, 100, null);
+		buffg.drawImage(artIcon.getImage(), 30, 100, null);
+		buffg.drawImage(ballIcon.getImage(), 100, 100, null);
+		buffg.drawImage(bookIcon.getImage(), 200, 100, null);
 
 		if (escKeyOn) { // escŰ�� ������� ȭ���� �帮�� �����
 
@@ -343,8 +361,8 @@ public class GamePanel extends JPanel {
 	private void makeMo() {
 
 		mo1 = new MapObjectImg(new ImageIcon("img/Objectimg/map1img/bg1.png"),
-				new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc1.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc2.png"), new ImageIcon("img/Objectimg/map1img/tacle1.gif"),
@@ -352,24 +370,24 @@ public class GamePanel extends JPanel {
 				new ImageIcon("img/Objectimg/map1img/tacle3.png"));
 
 		mo2 = new MapObjectImg(new ImageIcon("img/Objectimg/map2img/back1.png"),
-				new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map2img/field1.png"), new ImageIcon("img/Objectimg/map2img/field2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
 
 		mo3 = new MapObjectImg(new ImageIcon("img/Objectimg/map3img/bg.png"),
-				new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map3img/field.png"), new ImageIcon("img/Objectimg/map3img/field2.png"),
 				new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
 				new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
 
 		mo4 = new MapObjectImg(new ImageIcon("img/Objectimg/map4img/bback.png"),
-				new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest2.png"),
@@ -510,8 +528,22 @@ public class GamePanel extends JPanel {
 		slideIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
 		slideIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
 
+		skipIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
+		skipIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
+
+		artIcon = new ImageIcon("img/Objectimg/lifebar/art.png");
+		ballIcon = new ImageIcon("img/Objectimg/lifebar/ball.png");
+		bookIcon = new ImageIcon("img/Objectimg/lifebar/book.png");
+
+		artIcon = imageSetSize(artIcon, 50, 50);
+		ballIcon = imageSetSize(ballIcon, 50, 50);
+		bookIcon = imageSetSize(bookIcon, 50, 50);
+
+//		Image artIcon = artIcon.getScaledInstance(50, 50, (Integer) null);
+
 		jumpBtn = jumpButtonIconUp.getImage();
 		slideBtn = slideIconUp.getImage();
+		skipBtn = skipIconUp.getImage();
 
 		jellyList = new ArrayList<>(); // ���� ����Ʈ
 
@@ -581,6 +613,13 @@ public class GamePanel extends JPanel {
 
 	}
 
+	ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+
 	// ������ �߰� �޼���
 	private void initListener() {
 		addKeyListener(new KeyAdapter() { // Ű ������ �߰�
@@ -598,7 +637,12 @@ public class GamePanel extends JPanel {
 						escKeyOn = false;
 					}
 				}
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					skipBtn = skipIconDown.getImage();
+					skipActive = true;
+					skipKeyOn = true;
 
+				}
 				if (!escKeyOn) {
 					if (e.getKeyCode() == KeyEvent.VK_SPACE) {// �����̽� Ű�� ������ ���������� 2�� �ƴҶ�
 						jumpBtn = jumpButtonIconDown.getImage();
@@ -639,7 +683,15 @@ public class GamePanel extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					jumpBtn = jumpButtonIconUp.getImage();
 				}
+
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					skipBtn = skipIconUp.getImage();
+					skipActive = false;
+					skipKeyOn = false;
+
+				}
 			}
+
 		});
 	}
 
@@ -854,8 +906,8 @@ public class GamePanel extends JPanel {
 
 							foot = c1.getY() + c1.getHeight(); // ĳ���� �� ��ġ �罺ĵ
 
-							if ( // ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
-							c1.getImage() != slideIc.getImage()
+							if (!skipActive && // ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
+									c1.getImage() != slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
@@ -872,8 +924,7 @@ public class GamePanel extends JPanel {
 								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
 								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
 
-							} else if ( // �����̵� �ϴ� ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
-							c1.getImage() == slideIc.getImage()
+							} else if (!skipActive && c1.getImage() == slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()

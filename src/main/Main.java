@@ -65,7 +65,7 @@ public class Main extends listenAdapter {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500); // â ������ (100,100��ǥ�� �Ʒ��� frame.setLocationRelativeTo(null) ������
+		frame.setBounds(100, 100, 1080, 720); // â ������ (100,100��ǥ�� �Ʒ��� frame.setLocationRelativeTo(null) ������
 												// �ǹ̰� ��������)
 		frame.setLocationRelativeTo(null); // â�� ȭ�� �߾ӿ� ��ġ
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ������ư�� ������ ����
