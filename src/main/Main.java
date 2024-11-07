@@ -10,122 +10,103 @@ import javax.swing.JOptionPane;
 import ingame.CookieImg;
 import panels.EndPanel;
 import panels.GamePanel;
-import panels.IntroPanel;
 import panels.SelectPanel;
 
-// windowBuilder �� �����Ӹ� �����ϰ� �������� �Է�
-
 public class Main extends listenAdapter {
+    private JFrame frame;
+    private SelectPanel selectPanel;
+    private GamePanel gamePanel;
+    private EndPanel endPanel;
+    private CardLayout cl;
+    private CookieImg ci;
 
-	private JFrame frame; // â�� ���� ���� ������
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
 
-	private IntroPanel introPanel; // ��Ʈ��
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
-	private SelectPanel selectPanel; // ĳ���� ����
+    public EndPanel getEndPanel() {
+        return endPanel;
+    }
 
-	private GamePanel gamePanel; // ��������
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Main window = new Main();
+                    window.frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	private EndPanel endPanel; // ���Ӱ��
+    public Main() {
+        initialize();
+    }
 
-	private CardLayout cl; // ī�� �����̿� ������Ʈ
+    private void initialize() {
+        frame = new JFrame();
+        frame.setBounds(100, 100, 800, 500);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        cl = new CardLayout(0, 0);
+        frame.getContentPane().setLayout(cl);
 
-	private CookieImg ci; // ��Ű�̹���
+        // IntroPanel 코드 제거
+        // introPanel = new IntroPanel();
+        // introPanel.addMouseListener(this);
 
-	public GamePanel getGamePanel() {
-		return gamePanel;
-	}
+        selectPanel = new SelectPanel(this);
+        gamePanel = new GamePanel(frame, cl, this);
+        endPanel = new EndPanel(this);
 
-	public void setGamePanel(GamePanel gamePanel) {
-		this.gamePanel = gamePanel;
-	}
+        // 각 패널의 레이아웃 설정
+        selectPanel.setLayout(null);
+        gamePanel.setLayout(null);
+        endPanel.setLayout(null);
 
-	public EndPanel getEndPanel() {
-		return endPanel;
-	}
+        // Frame에 패널 추가
+        frame.getContentPane().add(selectPanel, "select");
+        frame.getContentPane().add(gamePanel, "game");
+        frame.getContentPane().add(endPanel, "end");
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main window = new Main();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+        // 프로그램 시작 시 selectPanel로 전환
+        cl.show(frame.getContentPane(), "select");
+        selectPanel.requestFocus(); // selectPanel에 포커스 설정
+    }
 
-	public Main() {
-		initialize();
-	}
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // IntroPanel 클릭 처리 제거
+        // if (e.getComponent().toString().contains("IntroPanel")) { ... }
 
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500); // â ������ (100,100��ǥ�� �Ʒ��� frame.setLocationRelativeTo(null) ������
-												// �ǹ̰� ��������)
-		frame.setLocationRelativeTo(null); // â�� ȭ�� �߾ӿ� ��ġ
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ������ư�� ������ ����
-		cl = new CardLayout(0, 0); // ī�巹�̾ƿ� ��ü ����
-		frame.getContentPane().setLayout(cl); // �������� ī�巹�̾ƿ����� ����
+        // Start 버튼 클릭 시 처리
+        if (e.getComponent().getName().equals("StartBtn")) {
+            if (selectPanel.getCi() == null) {
+                JOptionPane.showMessageDialog(null, "캐릭터를 선택해 주세요");
+            } else {
+                cl.show(frame.getContentPane(), "game");
+                gamePanel.gameSet(selectPanel.getCi());
+                gamePanel.gameStart();
+                gamePanel.requestFocus();
+            }
+        } else if (e.getComponent().getName().equals("endAccept")) {
+            frame.getContentPane().remove(gamePanel);
+            gamePanel = new GamePanel(frame, cl, this);
+            gamePanel.setLayout(null);
+            frame.getContentPane().add(gamePanel, "game");
 
-		introPanel = new IntroPanel();
-		introPanel.addMouseListener(this); // intro�г��� ���⼭ �ٷ� �ִ� ������� ���콺�����ʸ� �߰���.
-
-		selectPanel = new SelectPanel(this); // Main�� �����ʸ� �ֱ����� this
-		gamePanel = new GamePanel(frame, cl, this); // Main�� ������ �� ī�巹�̾ƿ��� �̿��ϰ� �����ʸ� �ֱ����� this
-		endPanel = new EndPanel(this); // Main�� �����ʸ� �ֱ����� this
-
-		// ��� �г��� ���̾ƿ��� null�� ��ȯ
-		introPanel.setLayout(null);
-		selectPanel.setLayout(null);
-		gamePanel.setLayout(null);
-		endPanel.setLayout(null);
-
-		// �����ӿ� �гε��� �߰��Ѵ�.(ī�� ���̾ƿ��� ���� �гε�)
-		frame.getContentPane().add(introPanel, "intro");
-		frame.getContentPane().add(selectPanel, "select");
-		frame.getContentPane().add(gamePanel, "game");
-		frame.getContentPane().add(endPanel, "end");
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) { // mouseClicked�� ���氡��
-		if (e.getComponent().toString().contains("IntroPanel")) { // IntroPanel���� ���콺�� �����ٸ�
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			cl.show(frame.getContentPane(), "select"); // select�г��� ī�巹�̾ƿ� �ֻ������ ����
-			selectPanel.requestFocus(); // �����ʸ� select�гο� ������ ��
-
-		} else if (e.getComponent().getName().equals("StartBtn")) { // StartBtn�̶�� �̸��� ���� ��ư�� �����ٸ�
-			if (selectPanel.getCi() == null) {
-				JOptionPane.showMessageDialog(null, "ĳ���͸� ����ּ���"); // ĳ���͸� �Ȱ������� �˾�
-			} else {
-				cl.show(frame.getContentPane(), "game"); // ĳ���͸� ����ٸ� �����г��� ī�巹�̾ƿ� �ֻ������ ����
-				gamePanel.gameSet(selectPanel.getCi()); // ��Ű�̹����� �Ѱ��ְ� �����г� ����
-				gamePanel.gameStart(); // ���ӽ���
-				gamePanel.requestFocus(); // �����ʸ� game�гο� ������ ��
-			}
-
-		} else if (e.getComponent().getName().equals("endAccept")) { // endAccept �̶�� �̸��� ���� ��ư�� �����ٸ�
-			frame.getContentPane().remove(gamePanel); // ��� �ߴ� ���� �г��� �����ӿ��� ����
-			gamePanel = new GamePanel(frame, cl, this); // �����г��� �� �гη� ��ü
-			gamePanel.setLayout(null);
-			frame.getContentPane().add(gamePanel, "game"); // �����ӿ� �� �����г� �߰�(ī�巹�̾ƿ� �ϴ�)
-
-			frame.getContentPane().remove(selectPanel); // ��� �����ߴ� select�г��� ����
-			selectPanel = new SelectPanel(this); // select �г��� �� �гη� ��ü
-			selectPanel.setLayout(null);
-			frame.getContentPane().add(selectPanel, "select"); // �����ӿ� �� select�г� �߰�(ī�巹�̾ƿ� �ϴ�)
-			cl.show(frame.getContentPane(), "select"); // �� select�г��� ī�巹�̾ƿ� �ֻ������ �̵� (ȭ�鿡 ����)
-			selectPanel.requestFocus(); // �����ʸ� select�гο� ������ ��
-		}
-	}
+            frame.getContentPane().remove(selectPanel);
+            selectPanel = new SelectPanel(this);
+            selectPanel.setLayout(null);
+            frame.getContentPane().add(selectPanel, "select");
+            cl.show(frame.getContentPane(), "select");
+            selectPanel.requestFocus();
+        }
+    }
 }
