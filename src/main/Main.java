@@ -12,10 +12,18 @@ import panels.IntroPanel;
 import panels.SelectPanel;
 import main.listenAdapter;
 import panels.MainPanel; // 새로운 패널 추가
-
 import java.awt.CardLayout;
+import ingame.CookieImg;
+import javax.swing.ImageIcon;
 
 public class Main extends listenAdapter {
+	
+	//기본 캐릭터 설정
+	private CookieImg ci;
+
+	public CookieImg getCi() {
+		return ci;
+	}
 
     private JFrame frame;
     private IntroPanel introPanel;
@@ -54,6 +62,14 @@ public class Main extends listenAdapter {
     }
 
     private void initialize() {
+        ci = new CookieImg(
+                new ImageIcon("img/cookieimg/cookie1/player_origin.gif"),
+                new ImageIcon("img/cookieimg/cookie1/player_up.gif"),
+                new ImageIcon("img/cookieimg/cookie1/player_doubleup.gif"),
+                new ImageIcon("img/cookieimg/cookie1/player_jumpend.png"),
+                new ImageIcon("img/cookieimg/cookie1/player_down.gif"),
+                new ImageIcon("img/cookieimg/cookie1/player_attack.png")
+            );
         frame = new JFrame();
         frame.setBounds(100, 100, 1290, 760);  // 화면 크기를 1280x720으로 설정
 
@@ -65,7 +81,7 @@ public class Main extends listenAdapter {
         introPanel = new IntroPanel();
         introPanel.addMouseListener(this);
         
-        mainPanel = new MainPanel(); // MainPanel 인스턴스 생성
+        mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
         selectPanel = new SelectPanel(this);
         gamePanel = new GamePanel(frame, cl, this);
         endPanel = new EndPanel(this);
@@ -95,14 +111,12 @@ public class Main extends listenAdapter {
             mainPanel.requestFocus(); // mainPanel에 포커스 요청
             
         } else if (e.getComponent().getName().equals("StartBtn")) {
-            if (selectPanel.getCi() == null) {
-                JOptionPane.showMessageDialog(null, "Please select a character.");
-            } else {
+            
                 cl.show(frame.getContentPane(), "game");
-                gamePanel.gameSet(selectPanel.getCi());
+                gamePanel.gameSet(getCi());
                 gamePanel.gameStart();
                 gamePanel.requestFocus();
-            }
+            
             
         } else if (e.getComponent().getName().equals("endAccept")) {
             frame.getContentPane().remove(gamePanel);
