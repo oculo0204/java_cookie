@@ -93,6 +93,10 @@ public class GamePanel extends JPanel {
 	Image slideBtn;
 	Image skipBtn;
 
+	int type1Count = 0;
+	int type2Count = 0;
+	int type3Count = 0;
+
 	// ����Ʈ ����
 	private List<Jelly> jellyList; // ���� ����Ʈ
 
@@ -320,7 +324,9 @@ public class GamePanel extends JPanel {
 //		buffg.drawString(Integer.toString(resultScore), 700, 85);
 
 		// 게임화면 점수그리는곳
-		Util.drawFancyString(g2, Integer.toString(resultScore), 300, 100, 25, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type1Count), 90, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type2Count), 190, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type3Count), 290, 110, 18, Color.white);
 
 		// ü�°������� �׸���
 		buffg.drawImage(lifeBar.getImage(), 20, 30, null);
@@ -334,8 +340,8 @@ public class GamePanel extends JPanel {
 		buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
 		buffg.drawImage(skipBtn, 650, 240, 132, 100, null);
 		buffg.drawImage(artIcon.getImage(), 30, 100, null);
-		buffg.drawImage(ballIcon.getImage(), 100, 100, null);
-		buffg.drawImage(bookIcon.getImage(), 200, 100, null);
+		buffg.drawImage(ballIcon.getImage(), 130, 100, null);
+		buffg.drawImage(bookIcon.getImage(), 230, 100, null);
 
 		if (escKeyOn) { // escŰ�� ������� ȭ���� �帮�� �����
 
@@ -461,19 +467,19 @@ public class GamePanel extends JPanel {
 			for (int j = 0; j < maxY; j += 1) {
 				if (colorArr[i][j] == 16776960) { // ������ 16776960�� ��� �⺻���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1234));
+					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 1));
 
 				} else if (colorArr[i][j] == 13158400) { // ������ 13158400�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 2345));
+					jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 2));
 
 				} else if (colorArr[i][j] == 9868800) { // ������ 9868800�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 3456));
+					jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 3));
 
 				} else if (colorArr[i][j] == 16737280) { // ������ 16737280�� ��� �� ���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 4567));
+					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 4));
 				}
 			}
 		}
@@ -528,8 +534,8 @@ public class GamePanel extends JPanel {
 		slideIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
 		slideIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
 
-		skipIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
-		skipIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
+		skipIconUp = new ImageIcon("img/Objectimg/lifebar/skipno.png");
+		skipIconDown = new ImageIcon("img/Objectimg/lifebar/skipdim.png");
 
 		artIcon = new ImageIcon("img/Objectimg/lifebar/art.png");
 		ballIcon = new ImageIcon("img/Objectimg/lifebar/ball.png");
@@ -914,6 +920,24 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
+								switch (tempJelly.getType()) {
+								case 1: // 타입 1
+									type1Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+
+									break;
+								case 2: // 타입 2
+									type2Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								case 3: // 타입 3
+									type3Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								default:
+									// System.out.println("Unknown jelly type: " + tempJelly.getType());
+									break;
+								}
 								if (tempJelly.getImage() == jellyHPIc.getImage()) {
 									if ((c1.getHealth() + 100) > 1000) {
 										c1.setHealth(1000);
@@ -923,6 +947,10 @@ public class GamePanel extends JPanel {
 								}
 								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
 								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
+								System.out.println("resultScore: " + resultScore);
+								System.out.println("Type 1 Jellies Eaten: " + type1Count);
+								System.out.println("Type 2 Jellies Eaten: " + type2Count);
+								System.out.println("Type 3 Jellies Eaten: " + type3Count);
 
 							} else if (!skipActive && c1.getImage() == slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
@@ -932,6 +960,21 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
+								switch (tempJelly.getType()) {
+								case 1: // 타입 1
+									type1Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								case 2: // 타입 2
+									type2Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								case 3: // 타입 3
+									type3Count++;
+									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								}
+
 								if (tempJelly.getImage() == jellyHPIc.getImage()) {
 									if ((c1.getHealth() + 100) > 1000) {
 										c1.setHealth(1000);
@@ -941,7 +984,10 @@ public class GamePanel extends JPanel {
 								}
 								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
 								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
-
+								System.out.println("resultScore: " + resultScore);
+//								System.out.println("Type 1 Jellies Eaten: " + type1Count);
+//								System.out.println("Type 2 Jellies Eaten: " + type2Count);
+//								System.out.println("Type 3 Jellies Eaten: " + type3Count);
 							}
 						}
 					}
@@ -1253,7 +1299,7 @@ public class GamePanel extends JPanel {
 
 					t2 = Util.getTime() - t1; // ���� �ð����� t1�� ����
 
-					jumpY = set - (int) ((t2) / 30); // jumpY �� �����Ѵ�.
+					jumpY = set - (int) ((t2) / 50); // jumpY �� �����Ѵ�.
 					// 여기가 y값 좌표 조정하는데구나
 
 					c1.setY(c1.getY() - jumpY); // Y���� �����Ѵ�.
