@@ -85,7 +85,7 @@ public class Main extends listenAdapter {
 		selectPanel = new SelectPanel(this); // Main�� �����ʸ� �ֱ����� this
 		gamePanel = new GamePanel(frame, cl, this); // Main�� ������ �� ī�巹�̾ƿ��� �̿��ϰ� �����ʸ� �ֱ����� this
 		endPanel = new EndPanel(this); // Main�� �����ʸ� �ֱ����� this
-		collectionPanel = new CollectionPanel(this);
+		collectionPanel = new CollectionPanel();
 		
 		// ��� �г��� ���̾ƿ��� null�� ��ȯ
 		introPanel.setLayout(null);
@@ -100,7 +100,7 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(collectionPanel, "collection");
-		
+
 		JScrollPane scroll = new JScrollPane(collectionPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setBounds(0,0,800,800);
 		frame.add(scroll);

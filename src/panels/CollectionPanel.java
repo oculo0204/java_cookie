@@ -6,16 +6,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class CollectionPanel extends JPanel {
+	
+//	엔딩 이름과 사진을 각각 하나씩 포함하는 flowlayout의 패널
 	public class collection extends JPanel{
 		JLabel name = new JLabel();
 		JLabel image = new JLabel();
@@ -27,7 +25,7 @@ public class CollectionPanel extends JPanel {
 			
 			image.setIcon(new ImageIcon(img));
 			this.name.setText(name);
-			isNew = true;
+			isNew = false;
 			
 			FlowLayout fl = new FlowLayout();
 			setLayout(fl);
@@ -36,10 +34,14 @@ public class CollectionPanel extends JPanel {
 		}
 	}
 	
+	
+//	돌아가기 버튼과 수집목록(Collections)패널, 스크롤바를 포함하는 패널
 	public CollectionPanel () {
-		setBackground(Color.white);
+		setLayout(null);
 		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+		setBackground(Color.white);
 		
+//		collections: collection개체를 포함하는 GridLayout 패널
 		JPanel collections = new JPanel();
 		GridLayout  gl = new GridLayout(4,4);
 		collections.setLayout(gl);
@@ -63,9 +65,18 @@ public class CollectionPanel extends JPanel {
 		for(int i = 0; i < 13; i++) {
 			collections.add(collectionArray[i]);
 		}
+
+//		isNew값이 true면 항목이 보이지않게 함
+		for(int i = 0; i < 13; i++) {
+			collections.add(collectionArray[i]);
+			if(collectionArray[i].isNew) {
+				collectionArray[i].setVisible(false);
+			}
+		}
 		
 		collections.setBounds(100,50,600,600);
 		
+//		돌아가기 버튼
 		add(collections);
 		Button back = new Button("←");
 		back.setBounds(0,0,50,50);
