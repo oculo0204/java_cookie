@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import ingame.CookieImg;
 import panels.EndPanel;
@@ -97,6 +98,7 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
+		
 	}
 
 	@Override
