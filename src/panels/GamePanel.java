@@ -72,7 +72,7 @@ public class GamePanel extends JPanel {
 	// ü�� ������
 	private ImageIcon lifeBar;
 
-	private ImageIcon redBg; // �ǰݽ� ���� ȭ��
+	private ImageIcon redBg;
 
 	private ImageIcon jumpButtonIconUp;
 	private ImageIcon jumpButtonIconDown;
@@ -80,8 +80,22 @@ public class GamePanel extends JPanel {
 	private ImageIcon slideIconUp;
 	private ImageIcon slideIconDown;
 
+	private ImageIcon skipIconUp;
+	private ImageIcon skipIconDown;
+
+	boolean skipActive = false;
+
+	ImageIcon artIcon;
+	ImageIcon ballIcon;
+	ImageIcon bookIcon;
+
 	Image jumpBtn;
 	Image slideBtn;
+	Image skipBtn;
+
+	int type1Count = 0;
+	int type2Count = 0;
+	int type3Count = 0;
 
 	// ����Ʈ ����
 	private List<Jelly> jellyList; // ���� ����Ʈ
@@ -91,6 +105,8 @@ public class GamePanel extends JPanel {
 	private List<Tacle> tacleList; // ��ֹ� ����Ʈ
 
 	private List<Integer> mapLengthList;
+
+	// 코인 리스트들 따로 만들어야겠지 아마..?
 
 	private int mapLength = 0;
 
@@ -111,6 +127,8 @@ public class GamePanel extends JPanel {
 	private boolean escKeyOn = false; // �Ͻ������� ���� escŰ Ȯ��
 
 	private boolean downKeyOn = false; // �ٿ�Ű �������� ����
+
+	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
 
@@ -301,12 +319,9 @@ public class GamePanel extends JPanel {
 			g2.setComposite(alphaComposite);
 		}
 
-//		buffg.setFont(new Font("Arial", Font.BOLD, 30));
-//		buffg.setColor(Color.WHITE);
-//		buffg.drawString(Integer.toString(resultScore), 700, 85);
-
-		// ������ �׸���
-		Util.drawFancyString(g2, Integer.toString(resultScore), 600, 58, 30, Color.WHITE);
+		Util.drawFancyString(g2, Integer.toString(type1Count), 90, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type2Count), 190, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type3Count), 290, 110, 18, Color.white);
 
 		// ü�°������� �׸���
 		buffg.drawImage(lifeBar.getImage(), 20, 30, null);
@@ -317,6 +332,10 @@ public class GamePanel extends JPanel {
 		// ��ư�� �׸���
 		buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
 		buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
+		buffg.drawImage(skipBtn, 650, 240, 132, 100, null);
+		buffg.drawImage(artIcon.getImage(), 30, 100, null);
+		buffg.drawImage(ballIcon.getImage(), 130, 100, null);
+		buffg.drawImage(bookIcon.getImage(), 230, 100, null);
 
 		if (escKeyOn) { // escŰ�� ������� ȭ���� �帮�� �����
 
@@ -342,8 +361,8 @@ public class GamePanel extends JPanel {
 	private void makeMo() {
 
 		mo1 = new MapObjectImg(new ImageIcon("img/Objectimg/map1img/bg1.png"),
-				new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc1.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc2.png"), new ImageIcon("img/Objectimg/map1img/tacle1.gif"),
@@ -351,24 +370,24 @@ public class GamePanel extends JPanel {
 				new ImageIcon("img/Objectimg/map1img/tacle3.png"));
 
 		mo2 = new MapObjectImg(new ImageIcon("img/Objectimg/map2img/back1.png"),
-				new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map2img/field1.png"), new ImageIcon("img/Objectimg/map2img/field2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
 
 		mo3 = new MapObjectImg(new ImageIcon("img/Objectimg/map3img/bg.png"),
-				new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map3img/field.png"), new ImageIcon("img/Objectimg/map3img/field2.png"),
 				new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
 				new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
 
 		mo4 = new MapObjectImg(new ImageIcon("img/Objectimg/map4img/bback.png"),
-				new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-				new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+				new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
+				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
 				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest2.png"),
@@ -440,25 +459,26 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < maxX; i += 1) { // ������ 1ĭ�� �����ϱ� ������ 1,1������� �ݺ����� ������.
 			for (int j = 0; j < maxY; j += 1) {
+
 				if (colorArr[i][j] == 16776960) { // ������ 16776960�� ��� �⺻���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1234));
+					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 1));
 
 				} else if (colorArr[i][j] == 13158400) { // ������ 13158400�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 2345));
+					jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 2));
 
 				} else if (colorArr[i][j] == 9868800) { // ������ 9868800�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 3456));
+					jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 3));
 
 				} else if (colorArr[i][j] == 16737280) { // ������ 16737280�� ��� �� ���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 4567));
+					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 4));
+
 				}
 			}
 		}
-
 		for (int i = 0; i < maxX; i += 2) { // ������ 4ĭ�� �����ϴ� �����̱� ������ 2,2������� �ݺ����� ������.
 			for (int j = 0; j < maxY; j += 2) {
 				if (colorArr[i][j] == 0) { // ������ 0 �ϰ�� (������)
@@ -493,7 +513,7 @@ public class GamePanel extends JPanel {
 	}
 
 	// makeMo, initImageIcon, imitMap �޼��带 �̿��ؼ� ��ü ����
-	private void initObject() {
+	public void initObject() {
 
 		// ��������� �̹���������
 		lifeBar = new ImageIcon("img/Objectimg/lifebar/lifeBar1.png");
@@ -509,8 +529,22 @@ public class GamePanel extends JPanel {
 		slideIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
 		slideIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
 
+		skipIconUp = new ImageIcon("img/Objectimg/lifebar/skipno.png");
+		skipIconDown = new ImageIcon("img/Objectimg/lifebar/skipdim.png");
+
+		artIcon = new ImageIcon("img/Objectimg/lifebar/art.png");
+		ballIcon = new ImageIcon("img/Objectimg/lifebar/ball.png");
+		bookIcon = new ImageIcon("img/Objectimg/lifebar/book.png");
+
+		artIcon = imageSetSize(artIcon, 50, 50);
+		ballIcon = imageSetSize(ballIcon, 50, 50);
+		bookIcon = imageSetSize(bookIcon, 50, 50);
+
+//		Image artIcon = artIcon.getScaledInstance(50, 50, (Integer) null);
+
 		jumpBtn = jumpButtonIconUp.getImage();
 		slideBtn = slideIconUp.getImage();
+		skipBtn = skipIconUp.getImage();
 
 		jellyList = new ArrayList<>(); // ���� ����Ʈ
 
@@ -580,7 +614,13 @@ public class GamePanel extends JPanel {
 
 	}
 
-	// ������ �߰� �޼���
+	ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+
 	private void initListener() {
 		addKeyListener(new KeyAdapter() { // Ű ������ �߰�
 
@@ -597,7 +637,12 @@ public class GamePanel extends JPanel {
 						escKeyOn = false;
 					}
 				}
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					skipBtn = skipIconDown.getImage();
+					skipActive = true;
+					skipKeyOn = true;
 
+				}
 				if (!escKeyOn) {
 					if (e.getKeyCode() == KeyEvent.VK_SPACE) {// �����̽� Ű�� ������ ���������� 2�� �ƴҶ�
 						jumpBtn = jumpButtonIconDown.getImage();
@@ -638,7 +683,15 @@ public class GamePanel extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					jumpBtn = jumpButtonIconUp.getImage();
 				}
+
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					skipBtn = skipIconUp.getImage();
+					skipActive = false;
+					skipKeyOn = false;
+
+				}
 			}
+
 		});
 	}
 
@@ -794,17 +847,21 @@ public class GamePanel extends JPanel {
 					// ����̹��� ������ ���� ���̵� ���� ����
 					mapLength += gameSpeed;
 
-					if (b11.getX() < -(b11.getWidth() - 1)) { // ���1-1 �� -(������)���� ������, �� ȭ������� ��γ����� ��� 1-2�ڿ� ����
+					if (b11.getX() < -(b11.getWidth() - 1)) { // ���1-1 �� -(������)���� ������, �� ȭ������� ��γ�����
+																// ��� 1-2�ڿ� ����
 						b11.setX(b11.getWidth());
 					}
-					if (b12.getX() < -(b12.getWidth() - 1)) { // ���1-2 �� -(������)���� ������, �� ȭ������� ��γ����� ��� 1-1�ڿ� ����
+					if (b12.getX() < -(b12.getWidth() - 1)) { // ���1-2 �� -(������)���� ������, �� ȭ������� ��γ�����
+																// ��� 1-1�ڿ� ����
 						b12.setX(b12.getWidth());
 					}
 
-					if (b21.getX() < -(b21.getWidth() - 1)) { // ���1-1 �� -(������)���� ������, �� ȭ������� ��γ����� ��� 1-2�ڿ� ����
+					if (b21.getX() < -(b21.getWidth() - 1)) { // ���1-1 �� -(������)���� ������, �� ȭ������� ��γ�����
+																// ��� 1-2�ڿ� ����
 						b21.setX(b21.getWidth());
 					}
-					if (b22.getX() < -(b22.getWidth() - 1)) { // ���1-2 �� -(������)���� ������, �� ȭ������� ��γ����� ��� 1-1�ڿ� ����
+					if (b22.getX() < -(b22.getWidth() - 1)) { // ���1-2 �� -(������)���� ������, �� ȭ������� ��γ�����
+																// ��� 1-1�ڿ� ����
 						b22.setX(b22.getWidth());
 					}
 
@@ -834,41 +891,64 @@ public class GamePanel extends JPanel {
 					// ������ġ�� -4 �� ���ش�.
 					for (int i = 0; i < jellyList.size(); i++) {
 
-						Jelly tempJelly = jellyList.get(i); // �ӽ� ������ ����Ʈ �ȿ� �ִ� ���� ������ �ҷ�����
+						Jelly tempJelly = jellyList.get(i);
 
-						if (tempJelly.getX() < -90) { // ������ x ��ǥ�� -90 �̸��̸� �ش� ������ �����Ѵ�.(����ȭ)
-
+						if (tempJelly.getX() < -90) {
 							fieldList.remove(tempJelly);
-
 						} else {
-
-							tempJelly.setX(tempJelly.getX() - gameSpeed); // �� ���ǿ� �ش��� �ȵǸ� x��ǥ�� ������
+							tempJelly.setX(tempJelly.getX() - gameSpeed);
 							if (tempJelly.getImage() == jellyEffectIc.getImage() && tempJelly.getAlpha() > 4) {
 								tempJelly.setAlpha(tempJelly.getAlpha() - 5);
 							}
 
-							foot = c1.getY() + c1.getHeight(); // ĳ���� �� ��ġ �罺ĵ
+							foot = c1.getY() + c1.getHeight(); // 캐릭터의 발 위치
 
-							if ( // ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
-							c1.getImage() != slideIc.getImage()
+							// HP 물약(jellyHPIc) 충돌 처리 - skipActive 여부와 상관없이 HP 충돌 처리
+							if (tempJelly.getImage() == jellyHPIc.getImage()
+									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
+									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
+									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
+									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot) {
+
+								if ((c1.getHealth() + 100) > 1000) {
+									c1.setHealth(1000);
+								} else {
+									c1.setHealth(c1.getHealth() + 100);
+								}
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
+								System.out.println("resultScore: " + resultScore);
+							}
+
+							// 일반 젤리 충돌 처리 - skipActive 상태 고려
+							else if (!skipActive && c1.getImage() != slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-								if (tempJelly.getImage() == jellyHPIc.getImage()) {
-									if ((c1.getHealth() + 100) > 1000) {
-										c1.setHealth(1000);
-									} else {
-										c1.setHealth(c1.getHealth() + 100);
-									}
+								switch (tempJelly.getType()) {
+								case 1:
+									type1Count++;
+									break;
+								case 2:
+									type2Count++;
+									break;
+								case 3:
+									type3Count++;
+									break;
+								default:
+									break;
 								}
-								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
-								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
 
-							} else if ( // �����̵� �ϴ� ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
-							c1.getImage() == slideIc.getImage()
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
+								System.out.println("resultScore: " + resultScore);
+							}
+
+							// 슬라이드 상태에서의 젤리 충돌 처리 - skipActive 상태 고려
+							else if (!skipActive && c1.getImage() == slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
@@ -876,16 +956,23 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-								if (tempJelly.getImage() == jellyHPIc.getImage()) {
-									if ((c1.getHealth() + 100) > 1000) {
-										c1.setHealth(1000);
-									} else {
-										c1.setHealth(c1.getHealth() + 100);
-									}
+								switch (tempJelly.getType()) {
+								case 1:
+									type1Count++;
+									break;
+								case 2:
+									type2Count++;
+									break;
+								case 3:
+									type3Count++;
+									break;
+								default:
+									break;
 								}
-								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
-								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
 
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
+								System.out.println("resultScore: " + resultScore);
 							}
 						}
 					}
@@ -950,7 +1037,8 @@ public class GamePanel extends JPanel {
 					int tempField; // ������ġ�� ��� ��ĵ�ϴ� ��������
 					int tempNowField; // ĳ���Ϳ� ������ ���̿� ���� ����Ǵ� ��������, ����� nowField�� �����Ѵ�
 
-					// ��Ű�� �������¶�� ���� ���� �ʱ� ������ 400���� ���� / ������ �ƴ϶�� 2000(��������);
+					// ��Ű�� �������¶�� ���� ���� �ʱ� ������ 400���� ���� / ������ �ƴ϶��
+					// 2000(��������);
 					if (c1.isInvincible()) {
 						tempNowField = 400;
 					} else {
@@ -1196,7 +1284,7 @@ public class GamePanel extends JPanel {
 
 					t2 = Util.getTime() - t1; // ���� �ð����� t1�� ����
 
-					jumpY = set - (int) ((t2) / 40); // jumpY �� �����Ѵ�.
+					jumpY = set - (int) ((t2) / 50); // jumpY �� �����Ѵ�.
 
 					c1.setY(c1.getY() - jumpY); // Y���� �����Ѵ�.
 
