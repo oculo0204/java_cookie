@@ -1,11 +1,14 @@
 package main;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import ingame.CookieImg;
 import panels.EndPanel;
@@ -97,6 +100,11 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(collectionPanel, "collection");
+		
+		JScrollPane scroll = new JScrollPane(collectionPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBounds(0,0,800,800);
+		frame.add(scroll);
+		
 	}
 
 	@Override
