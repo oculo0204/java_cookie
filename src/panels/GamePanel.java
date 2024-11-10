@@ -72,7 +72,7 @@ public class GamePanel extends JPanel {
 	// ü�� ������
 	private ImageIcon lifeBar;
 
-	private ImageIcon redBg; // �ǰݽ� ���� ȭ��
+	private ImageIcon redBg;
 
 	private ImageIcon jumpButtonIconUp;
 	private ImageIcon jumpButtonIconDown;
@@ -319,11 +319,6 @@ public class GamePanel extends JPanel {
 			g2.setComposite(alphaComposite);
 		}
 
-//		buffg.setFont(new Font("Arial", Font.BOLD, 30));
-//		buffg.setColor(Color.WHITE);
-//		buffg.drawString(Integer.toString(resultScore), 700, 85);
-
-		// 게임화면 점수그리는곳
 		Util.drawFancyString(g2, Integer.toString(type1Count), 90, 110, 18, Color.white);
 		Util.drawFancyString(g2, Integer.toString(type2Count), 190, 110, 18, Color.white);
 		Util.drawFancyString(g2, Integer.toString(type3Count), 290, 110, 18, Color.white);
@@ -336,7 +331,6 @@ public class GamePanel extends JPanel {
 
 		// ��ư�� �׸���
 		buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-
 		buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
 		buffg.drawImage(skipBtn, 650, 240, 132, 100, null);
 		buffg.drawImage(artIcon.getImage(), 30, 100, null);
@@ -465,6 +459,7 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < maxX; i += 1) { // ������ 1ĭ�� �����ϱ� ������ 1,1������� �ݺ����� ������.
 			for (int j = 0; j < maxY; j += 1) {
+
 				if (colorArr[i][j] == 16776960) { // ������ 16776960�� ��� �⺻���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
 					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 1));
@@ -480,10 +475,10 @@ public class GamePanel extends JPanel {
 				} else if (colorArr[i][j] == 16737280) { // ������ 16737280�� ��� �� ���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
 					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 4));
+
 				}
 			}
 		}
-
 		for (int i = 0; i < maxX; i += 2) { // ������ 4ĭ�� �����ϴ� �����̱� ������ 2,2������� �ݺ����� ������.
 			for (int j = 0; j < maxY; j += 2) {
 				if (colorArr[i][j] == 0) { // ������ 0 �ϰ�� (������)
@@ -518,7 +513,7 @@ public class GamePanel extends JPanel {
 	}
 
 	// makeMo, initImageIcon, imitMap �޼��带 �̿��ؼ� ��ü ����
-	private void initObject() {
+	public void initObject() {
 
 		// ��������� �̹���������
 		lifeBar = new ImageIcon("img/Objectimg/lifebar/lifeBar1.png");
@@ -626,7 +621,6 @@ public class GamePanel extends JPanel {
 		return xyimg;
 	}
 
-	// ������ �߰� �޼���
 	private void initListener() {
 		addKeyListener(new KeyAdapter() { // Ű ������ �߰�
 
@@ -897,23 +891,37 @@ public class GamePanel extends JPanel {
 					// ������ġ�� -4 �� ���ش�.
 					for (int i = 0; i < jellyList.size(); i++) {
 
-						Jelly tempJelly = jellyList.get(i); // �ӽ� ������ ����Ʈ �ȿ� �ִ� ���� ������ �ҷ�����
+						Jelly tempJelly = jellyList.get(i);
 
-						if (tempJelly.getX() < -90) { // ������ x ��ǥ�� -90 �̸��̸� �ش� ������ �����Ѵ�.(����ȭ)
-
+						if (tempJelly.getX() < -90) {
 							fieldList.remove(tempJelly);
-
 						} else {
-
-							tempJelly.setX(tempJelly.getX() - gameSpeed); // �� ���ǿ� �ش��� �ȵǸ� x��ǥ�� ������
+							tempJelly.setX(tempJelly.getX() - gameSpeed);
 							if (tempJelly.getImage() == jellyEffectIc.getImage() && tempJelly.getAlpha() > 4) {
 								tempJelly.setAlpha(tempJelly.getAlpha() - 5);
 							}
 
-							foot = c1.getY() + c1.getHeight(); // ĳ���� �� ��ġ �罺ĵ
+							foot = c1.getY() + c1.getHeight(); // 캐릭터의 발 위치
 
-							if (!skipActive && // ĳ������ ���� �ȿ� ������ ������ �������� �Դ´�.
-									c1.getImage() != slideIc.getImage()
+							// HP 물약(jellyHPIc) 충돌 처리 - skipActive 여부와 상관없이 HP 충돌 처리
+							if (tempJelly.getImage() == jellyHPIc.getImage()
+									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
+									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
+									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
+									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot) {
+
+								if ((c1.getHealth() + 100) > 1000) {
+									c1.setHealth(1000);
+								} else {
+									c1.setHealth(c1.getHealth() + 100);
+								}
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
+								System.out.println("resultScore: " + resultScore);
+							}
+
+							// 일반 젤리 충돌 처리 - skipActive 상태 고려
+							else if (!skipActive && c1.getImage() != slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
@@ -921,38 +929,26 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
 								switch (tempJelly.getType()) {
-								case 1: // 타입 1
+								case 1:
 									type1Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
-
 									break;
-								case 2: // 타입 2
+								case 2:
 									type2Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
 									break;
-								case 3: // 타입 3
+								case 3:
 									type3Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
 									break;
 								default:
-									// System.out.println("Unknown jelly type: " + tempJelly.getType());
 									break;
 								}
-								if (tempJelly.getImage() == jellyHPIc.getImage()) {
-									if ((c1.getHealth() + 100) > 1000) {
-										c1.setHealth(1000);
-									} else {
-										c1.setHealth(c1.getHealth() + 100);
-									}
-								}
-								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
-								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
-								System.out.println("resultScore: " + resultScore);
-								System.out.println("Type 1 Jellies Eaten: " + type1Count);
-								System.out.println("Type 2 Jellies Eaten: " + type2Count);
-								System.out.println("Type 3 Jellies Eaten: " + type3Count);
 
-							} else if (!skipActive && c1.getImage() == slideIc.getImage()
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
+								System.out.println("resultScore: " + resultScore);
+							}
+
+							// 슬라이드 상태에서의 젤리 충돌 처리 - skipActive 상태 고려
+							else if (!skipActive && c1.getImage() == slideIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
 									&& tempJelly.getX() + tempJelly.getWidth() * 80 / 100 <= face
 									&& tempJelly.getY() + tempJelly.getWidth() * 20 / 100 >= c1.getY()
@@ -961,33 +957,22 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
 								switch (tempJelly.getType()) {
-								case 1: // 타입 1
+								case 1:
 									type1Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
 									break;
-								case 2: // 타입 2
+								case 2:
 									type2Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
 									break;
-								case 3: // 타입 3
+								case 3:
 									type3Count++;
-									// System.out.println("tempJelly.getType():" + tempJelly.getType());
+									break;
+								default:
 									break;
 								}
 
-								if (tempJelly.getImage() == jellyHPIc.getImage()) {
-									if ((c1.getHealth() + 100) > 1000) {
-										c1.setHealth(1000);
-									} else {
-										c1.setHealth(c1.getHealth() + 100);
-									}
-								}
-								tempJelly.setImage(jellyEffectIc.getImage()); // ������ �̹����� ����Ʈ�� �ٲ۴�
-								resultScore = resultScore + tempJelly.getScore(); // �������� ���� ������ ���Ѵ�
+								tempJelly.setImage(jellyEffectIc.getImage());
+								resultScore += tempJelly.getScore();
 								System.out.println("resultScore: " + resultScore);
-//								System.out.println("Type 1 Jellies Eaten: " + type1Count);
-//								System.out.println("Type 2 Jellies Eaten: " + type2Count);
-//								System.out.println("Type 3 Jellies Eaten: " + type3Count);
 							}
 						}
 					}
@@ -1300,10 +1285,8 @@ public class GamePanel extends JPanel {
 					t2 = Util.getTime() - t1; // ���� �ð����� t1�� ����
 
 					jumpY = set - (int) ((t2) / 50); // jumpY �� �����Ѵ�.
-					// 여기가 y값 좌표 조정하는데구나
 
 					c1.setY(c1.getY() - jumpY); // Y���� �����Ѵ�.
-					System.out.println(jumpY);
 
 					if (nowJump != c1.getCountJump()) { // ������ �ѹ� ���Ǹ� ù��° ������ �����.
 						break;
