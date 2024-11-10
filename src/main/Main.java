@@ -12,7 +12,6 @@ import panels.EndPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
-import panels.SelectPanel;
 
 public class Main extends listenAdapter {
 
@@ -25,7 +24,6 @@ public class Main extends listenAdapter {
 
 	private JFrame frame;
 	private IntroPanel introPanel;
-	private SelectPanel selectPanel;
 	private GamePanel gamePanel;
 	private EndPanel endPanel;
 	private MainPanel mainPanel; // MainPanel 변수 추가
@@ -79,19 +77,16 @@ public class Main extends listenAdapter {
 		introPanel.addMouseListener(this);
 
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
-		selectPanel = new SelectPanel(this);
 		gamePanel = new GamePanel(frame, cl, this);
 		endPanel = new EndPanel(this);
 
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
-		selectPanel.setLayout(null);
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(mainPanel, "main"); // MainPanel을 "main"으로 추가
-		frame.getContentPane().add(selectPanel, "select");
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 	}
@@ -119,13 +114,6 @@ public class Main extends listenAdapter {
 			gamePanel = new GamePanel(frame, cl, this);
 			gamePanel.setLayout(null);
 			frame.getContentPane().add(gamePanel, "game");
-
-			frame.getContentPane().remove(selectPanel);
-			selectPanel = new SelectPanel(this);
-			selectPanel.setLayout(null);
-			frame.getContentPane().add(selectPanel, "select");
-			cl.show(frame.getContentPane(), "select");
-			selectPanel.requestFocus();
 		}
 	}
 }
