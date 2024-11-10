@@ -12,6 +12,7 @@ import panels.EndPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.SelectPanel;
+import panels.CollectionPanel;
 
 // windowBuilder �� �����Ӹ� �����ϰ� �������� �Է�
 
@@ -27,6 +28,8 @@ public class Main extends listenAdapter {
 
 	private EndPanel endPanel; // ���Ӱ��
 
+	private CollectionPanel collectionPanel;
+	
 	private CardLayout cl; // ī�� �����̿� ������Ʈ
 
 	private CookieImg ci; // ��Ű�̹���
@@ -42,6 +45,7 @@ public class Main extends listenAdapter {
 	public EndPanel getEndPanel() {
 		return endPanel;
 	}
+	
 
 	/**
 	 * Launch the application.
@@ -78,19 +82,21 @@ public class Main extends listenAdapter {
 		selectPanel = new SelectPanel(this); // Main�� �����ʸ� �ֱ����� this
 		gamePanel = new GamePanel(frame, cl, this); // Main�� ������ �� ī�巹�̾ƿ��� �̿��ϰ� �����ʸ� �ֱ����� this
 		endPanel = new EndPanel(this); // Main�� �����ʸ� �ֱ����� this
-
+		collectionPanel = new CollectionPanel(this);
+		
 		// ��� �г��� ���̾ƿ��� null�� ��ȯ
 		introPanel.setLayout(null);
 		selectPanel.setLayout(null);
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
+		collectionPanel.setLayout(null);
 
 		// �����ӿ� �гε��� �߰��Ѵ�.(ī�� ���̾ƿ��� ���� �гε�)
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(selectPanel, "select");
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
-
+		frame.getContentPane().add(collectionPanel, "collection");
 	}
 
 	@Override
