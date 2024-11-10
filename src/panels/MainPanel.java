@@ -1,6 +1,7 @@
 package panels;
 
 import java.awt.Font;
+import java.awt.BorderLayout;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -45,35 +46,37 @@ public class MainPanel extends JPanel {
 	public MainPanel(Object o) {
 		// 레이아웃과 패널 크기 설정
 		setLayout(null);
-		setSize(1280, 720);
+		setSize(800,500);
 
 		// 폰트 로드
 		Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 24f);
 
 		// GIF 레이블 생성 및 위치 설정
-		lblArtCoin = new JLabel(resizeImageIcon(artCoinGif, 0.7));
-		lblArtCoin.setBounds(600, 200, 160, 160); // 위치와 크기는 필요에 맞게 조정
+		lblArtCoin = new JLabel(resizeImageIcon(artCoinGif, 0.4));
+		lblArtCoin.setBounds(350, 80, 160, 160); // 위치와 크기는 필요에 맞게 조정
 		add(lblArtCoin);
 
-		lblStudyCoin = new JLabel(resizeImageIcon(studyCoinGif, 0.8));
-		lblStudyCoin.setBounds(700, 300, 160, 160);
+		lblStudyCoin = new JLabel(resizeImageIcon(studyCoinGif, 0.5));
+		lblStudyCoin.setBounds(420, 120, 160, 160);
 		add(lblStudyCoin);
 
-		lblGymCoin = new JLabel(resizeImageIcon(gymCoinGif, 0.9));
-		lblGymCoin.setBounds(600, 400, 160, 160);
+		lblGymCoin = new JLabel(resizeImageIcon(gymCoinGif, 0.6));
+		lblGymCoin.setBounds(350, 200, 140, 160);
 		add(lblGymCoin);
 
 		// 트로피 버튼
-		btnTrophy = new JButton(resizeImageIcon(trophyIcon, 0.9));
-		btnTrophy.setBounds(950, 5, 180, 180);
+		btnTrophy = new JButton(resizeImageIcon(trophyIcon, 0.6));
+		btnTrophy.setBounds(530, -20, 180, 180);
 		btnTrophy.setBorderPainted(false);
 		btnTrophy.setFocusPainted(false);
 		btnTrophy.setContentAreaFilled(false);
+		btnTrophy.addMouseListener((MouseListener) o);
+		btnTrophy.setName("EndArchiveBtn"); 
 		add(btnTrophy);
 
 		// 옵션 버튼
-		btnOptions = new JButton(resizeImageIcon(optionsIcon, 0.9));
-		btnOptions.setBounds(1080, 5, 180, 180);
+		btnOptions = new JButton(resizeImageIcon(optionsIcon, 0.6));
+		btnOptions.setBounds(620, -20, 180, 180);
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
@@ -81,8 +84,8 @@ public class MainPanel extends JPanel {
 
 		// EASY 버튼
 		btnEasy = new JButton("", easyButtonImg);
-		btnEasy = new JButton("", resizeImageIcon(easyButtonImg, 0.9));
-		btnEasy.setBounds(850, 395, 350, 120);
+		btnEasy = new JButton("", resizeImageIcon(easyButtonImg, 0.5));
+		btnEasy.setBounds(570, 275, 175, 60);
 		btnEasy.setBorderPainted(false);
 		btnEasy.setFocusPainted(false);
 		btnEasy.setContentAreaFilled(false);
@@ -90,9 +93,9 @@ public class MainPanel extends JPanel {
 		add(btnEasy);
 
 		// START 버튼
-		btnStart = new JButton("", resizeImageIcon(startButtonImg, 0.9));
+		btnStart = new JButton("", resizeImageIcon(startButtonImg, 0.5));
 		btnStart.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnStart.setBounds(850, 530, 350, 120);
+		btnStart.setBounds(570, 350, 175, 60);
 		btnStart.setBorderPainted(false);
 		btnStart.setFocusPainted(false);
 		btnStart.setContentAreaFilled(false);
@@ -102,8 +105,8 @@ public class MainPanel extends JPanel {
 
 		// 배경 이미지
 		lblBackground = new JLabel(backgroundImg);
-		lblBackground.setBounds(0, 0, 1280, 720);
-		add(lblBackground);
+		lblBackground.setBounds(0, 0, 785, 460);
+		add(lblBackground, BorderLayout.CENTER);
 	}
 
 	// 폰트 로딩 함수
@@ -140,11 +143,11 @@ public class MainPanel extends JPanel {
 	private void toggleDifficulty() {
 		if (difficulty == 1) {
 			// 난이도 1 (Easy) -> 난이도 2 (Hard)
-			btnEasy.setIcon(resizeImageIcon(hardButtonImg, 0.9)); // 버튼 이미지를 하드로 변경
+			btnEasy.setIcon(resizeImageIcon(hardButtonImg, 0.5)); // 버튼 이미지를 하드로 변경
 			difficulty = 2; // 난이도 값을 하드로 변경
 		} else {
 			// 난이도 2 (Hard) -> 난이도 1 (Easy)
-			btnEasy.setIcon(resizeImageIcon(easyButtonImg, 0.9)); // 버튼 이미지를 이지로 변경
+			btnEasy.setIcon(resizeImageIcon(easyButtonImg, 0.5)); // 버튼 이미지를 이지로 변경
 			difficulty = 1; // 난이도 값을 이지로 변경
 		}
 	}

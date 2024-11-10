@@ -12,6 +12,7 @@ import panels.EndPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
+import panels.EndArchivePanel;
 
 public class Main extends listenAdapter {
 
@@ -28,6 +29,7 @@ public class Main extends listenAdapter {
 	private EndPanel endPanel;
 	private MainPanel mainPanel; // MainPanel 변수 추가
 	private CardLayout cl;
+	private EndArchivePanel endArchivePanel;
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -39,6 +41,9 @@ public class Main extends listenAdapter {
 
 	public EndPanel getEndPanel() {
 		return endPanel;
+	}
+	public EndArchivePanel getEndArchivePanel() {
+		return endArchivePanel;
 	}
 
 	public static void main(String[] args) {
@@ -66,7 +71,7 @@ public class Main extends listenAdapter {
 				new ImageIcon("img/cookieimg/cookie1/player_down.gif"),
 				new ImageIcon("img/cookieimg/cookie1/player_attack.png"));
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1290, 760); // 화면 크기를 1280x720으로 설정
+		frame.setBounds(100, 100, 800, 500); // 화면 크기를 1280x720으로 설정
 
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,16 +84,19 @@ public class Main extends listenAdapter {
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 		endPanel = new EndPanel(this);
+		endArchivePanel = new EndArchivePanel(this);
 
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
+		endArchivePanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(mainPanel, "main"); // MainPanel을 "main"으로 추가
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
+		frame.getContentPane().add(endArchivePanel, "endArchive");
 	}
 
 	@Override
@@ -102,12 +110,17 @@ public class Main extends listenAdapter {
 			cl.show(frame.getContentPane(), "main"); // "select" 대신 "main"으로 변경
 			mainPanel.requestFocus(); // mainPanel에 포커스 요청
 
-		} else if (e.getComponent().getName().equals("StartBtn")) {
-
+		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn")) {
+			if(e.getComponent().getName().equals("StartBtn")) {
 			cl.show(frame.getContentPane(), "game");
 			gamePanel.gameSet(getCi());
 			gamePanel.gameStart();
 			gamePanel.requestFocus();
+			}
+			else {
+				cl.show(frame.getContentPane(), "endArchive");
+				endArchivePanel.requestFocus();
+			}
 
 		} else if (e.getComponent().getName().equals("endAccept")) {
 			frame.getContentPane().remove(gamePanel);
