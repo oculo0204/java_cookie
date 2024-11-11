@@ -55,6 +55,7 @@ public class GamePanel extends JPanel {
 	private ImageIcon jelly1Ic;
 	private ImageIcon jelly2Ic;
 	private ImageIcon jelly3Ic;
+	private ImageIcon jelly4Ic;
 	private ImageIcon jellyHPIc;
 
 	private ImageIcon jellyEffectIc;
@@ -88,6 +89,7 @@ public class GamePanel extends JPanel {
 	ImageIcon artIcon;
 	ImageIcon ballIcon;
 	ImageIcon bookIcon;
+	ImageIcon gameIcon;
 
 	Image jumpBtn;
 	Image slideBtn;
@@ -96,6 +98,7 @@ public class GamePanel extends JPanel {
 	int type1Count = 0;
 	int type2Count = 0;
 	int type3Count = 0;
+	int type4Count = 0;
 
 	// ����Ʈ ����
 	private List<Jelly> jellyList; // ���� ����Ʈ
@@ -322,6 +325,7 @@ public class GamePanel extends JPanel {
 		Util.drawFancyString(g2, Integer.toString(type1Count), 90, 110, 18, Color.white);
 		Util.drawFancyString(g2, Integer.toString(type2Count), 190, 110, 18, Color.white);
 		Util.drawFancyString(g2, Integer.toString(type3Count), 290, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type4Count), 390, 110, 18, Color.white);
 
 		// ü�°������� �׸���
 		buffg.drawImage(lifeBar.getImage(), 20, 30, null);
@@ -336,6 +340,7 @@ public class GamePanel extends JPanel {
 		buffg.drawImage(artIcon.getImage(), 30, 100, null);
 		buffg.drawImage(ballIcon.getImage(), 130, 100, null);
 		buffg.drawImage(bookIcon.getImage(), 230, 100, null);
+		buffg.drawImage(gameIcon.getImage(), 330, 100, null);
 
 		if (escKeyOn) { // escŰ�� ������� ȭ���� �帮�� �����
 
@@ -363,7 +368,8 @@ public class GamePanel extends JPanel {
 		mo1 = new MapObjectImg(new ImageIcon("img/Objectimg/map1img/bg1.png"),
 				new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
 				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
-				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+				new ImageIcon("img/Objectimg/lifebar/game.png"), new ImageIcon("img/Objectimg/map1img/life.png"),
+				new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc1.png"),
 				new ImageIcon("img/Objectimg/map1img/fieldIc2.png"), new ImageIcon("img/Objectimg/map1img/tacle1.gif"),
 				new ImageIcon("img/Objectimg/map1img/tacle2.png"), new ImageIcon("img/Objectimg/map1img/tacle3.png"),
@@ -372,7 +378,8 @@ public class GamePanel extends JPanel {
 		mo2 = new MapObjectImg(new ImageIcon("img/Objectimg/map2img/back1.png"),
 				new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
 				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
-				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+				new ImageIcon("img/Objectimg/lifebar/game.png"), new ImageIcon("img/Objectimg/map1img/life.png"),
+				new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map2img/field1.png"), new ImageIcon("img/Objectimg/map2img/field2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
 				new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
@@ -380,15 +387,17 @@ public class GamePanel extends JPanel {
 		mo3 = new MapObjectImg(new ImageIcon("img/Objectimg/map3img/bg.png"),
 				new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
 				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
-				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
-				new ImageIcon("img/Objectimg/map3img/field.png"), new ImageIcon("img/Objectimg/map3img/field2.png"),
-				new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
-				new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
+				new ImageIcon("img/Objectimg/lifebar/game.png"), new ImageIcon("img/Objectimg/map1img/life.png"),
+				new ImageIcon("img/Objectimg/map1img/effectTest.png"), new ImageIcon("img/Objectimg/map3img/field.png"),
+				new ImageIcon("img/Objectimg/map3img/field2.png"), new ImageIcon("img/Objectimg/map3img/tacle1.png"),
+				new ImageIcon("img/Objectimg/map3img/tacle2.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"),
+				new ImageIcon("img/Objectimg/map3img/tacle3.png"));
 
 		mo4 = new MapObjectImg(new ImageIcon("img/Objectimg/map4img/bback.png"),
 				new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/lifebar/art.png"),
 				new ImageIcon("img/Objectimg/lifebar/ball.png"), new ImageIcon("img/Objectimg/lifebar/book.png"),
-				new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+				new ImageIcon("img/Objectimg/lifebar/game.png"), new ImageIcon("img/Objectimg/map1img/life.png"),
+				new ImageIcon("img/Objectimg/map1img/effectTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest.png"),
 				new ImageIcon("img/Objectimg/map4img/ffootTest2.png"),
 				new ImageIcon("img/Objectimg/map4img/tacle1.png"), new ImageIcon("img/Objectimg/map4img/tacle2.png"),
@@ -414,6 +423,7 @@ public class GamePanel extends JPanel {
 		jelly1Ic = mo.getJelly1Ic();
 		jelly2Ic = mo.getJelly2Ic();
 		jelly3Ic = mo.getJelly3Ic();
+		jelly4Ic = mo.getJelly4Ic();
 		jellyHPIc = mo.getJellyHPIc();
 
 		jellyEffectIc = mo.getJellyEffectIc();
@@ -460,21 +470,24 @@ public class GamePanel extends JPanel {
 		for (int i = 0; i < maxX; i += 1) { // ������ 1ĭ�� �����ϱ� ������ 1,1������� �ݺ����� ������.
 			for (int j = 0; j < maxY; j += 1) {
 
-				if (colorArr[i][j] == 16776960) { // ������ 16776960�� ��� �⺻���� ����
+				if (colorArr[i][j] == 16383094) { // ������ 16776960�� ��� �⺻���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
 					jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 1));
 
-				} else if (colorArr[i][j] == 13158400) { // ������ 13158400�� ��� ������� ����
+				} else if (colorArr[i][j] == 12830298) { // ������ 13158400�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
 					jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 2));
 
-				} else if (colorArr[i][j] == 9868800) { // ������ 9868800�� ��� ������� ����
+				} else if (colorArr[i][j] == 9606211) { // ������ 9868800�� ��� ������� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
 					jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 3));
 
-				} else if (colorArr[i][j] == 16737280) { // ������ 16737280�� ��� �� ���� ����
+				} else if (colorArr[i][j] == 13930054) { // gameIcon
+					jellyList.add(new Jelly(jelly4Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 4));
+
+				} else if (colorArr[i][j] == 13398848) { // ������ 16737280�� ��� �� ���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
-					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 4));
+					jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1, 5));
 
 				}
 			}
@@ -494,15 +507,15 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < maxX; i += 2) { // ��ֹ��� 4ĭ �̻��� �����Ѵ�. ���� ����
 			for (int j = 0; j < maxY; j += 2) {
-				if (colorArr[i][j] == 16711680) { // ������ 16711680�� ��� (������) 1ĭ
+				if (colorArr[i][j] == 12796717) { // ������ 16711680�� ��� (������) 1ĭ
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 80���� �Ѵ�.
 					tacleList.add(new Tacle(tacle10Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80, 0));
 
-				} else if (colorArr[i][j] == 16711830) { // ������ 16711830�� ��� (��ȫ) 2ĭ
+				} else if (colorArr[i][j] == 12863120) { // 지금 꼬깔콘 이미지만 제대로 보이고 있음
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 160���� �Ѵ�.
 					tacleList.add(new Tacle(tacle20Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 160, 0));
 
-				} else if (colorArr[i][j] == 16711935) { // ������ 16711830�� ��� (����ũ) 3ĭ
+				} else if (colorArr[i][j] == 13257965) { // ������ 16711830�� ��� (����ũ) 3ĭ
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 240���� �Ѵ�.
 					tacleList.add(new Tacle(tacle30Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 240, 0));
 				}
@@ -535,12 +548,12 @@ public class GamePanel extends JPanel {
 		artIcon = new ImageIcon("img/Objectimg/lifebar/art.png");
 		ballIcon = new ImageIcon("img/Objectimg/lifebar/ball.png");
 		bookIcon = new ImageIcon("img/Objectimg/lifebar/book.png");
+		gameIcon = new ImageIcon("img/ObjectImg/lifebar/game.png");
 
 		artIcon = imageSetSize(artIcon, 50, 50);
 		ballIcon = imageSetSize(ballIcon, 50, 50);
 		bookIcon = imageSetSize(bookIcon, 50, 50);
-
-//		Image artIcon = artIcon.getScaledInstance(50, 50, (Integer) null);
+		gameIcon = imageSetSize(gameIcon, 50, 50);
 
 		jumpBtn = jumpButtonIconUp.getImage();
 		slideBtn = slideIconUp.getImage();
@@ -938,6 +951,8 @@ public class GamePanel extends JPanel {
 								case 3:
 									type3Count++;
 									break;
+								case 4:
+									type4Count++;
 								default:
 									break;
 								}
@@ -966,6 +981,8 @@ public class GamePanel extends JPanel {
 								case 3:
 									type3Count++;
 									break;
+								case 4:
+									type4Count++;
 								default:
 									break;
 								}

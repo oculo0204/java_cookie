@@ -121,11 +121,11 @@ public class Main extends listenAdapter {
 			frame.getContentPane().add(gamePanel, "game");
 
 			frame.getContentPane().remove(selectPanel);
-			selectPanel = new SelectPanel(this);
-			selectPanel.setLayout(null);
-			frame.getContentPane().add(selectPanel, "select");
-			cl.show(frame.getContentPane(), "select");
-			selectPanel.requestFocus();
+			mainPanel = new MainPanel(this);
+			mainPanel.setLayout(null);
+			frame.getContentPane().add(mainPanel, "main");
+			cl.show(frame.getContentPane(), "main");
+			mainPanel.requestFocus();
 		}
 	}
 }
