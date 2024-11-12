@@ -85,13 +85,13 @@ public class Main extends listenAdapter {
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 		endPanel = new EndPanel(this);
-		endArchivePanel = new EndArchivePanel(this);
+		endArchivePanel = new EndArchivePanel();
 
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
-		endArchivePanel.setLayout(null);
+//		endArchivePanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(mainPanel, "main"); // MainPanel을 "main"으로 추가
