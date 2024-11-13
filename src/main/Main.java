@@ -129,7 +129,9 @@ public class Main extends listenAdapter {
 			gamePanel = new GamePanel(frame, cl, this);
 			gamePanel.setLayout(null);
 			frame.getContentPane().add(gamePanel, "game");
-		} else if (e.getComponent().getName().equals("backBtn")) {
+		}
+//		엔딩수집 돌아가기 버튼
+		else if (e.getComponent().getName().equals("backBtn")) {
 			cl.show(frame.getContentPane(), "main");
 		}
 		
