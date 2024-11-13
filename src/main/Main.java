@@ -85,7 +85,7 @@ public class Main extends listenAdapter {
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 		endPanel = new EndPanel(this);
-		endArchivePanel = new EndArchivePanel();
+		endArchivePanel = new EndArchivePanel(this);
 
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
@@ -129,6 +129,9 @@ public class Main extends listenAdapter {
 			gamePanel = new GamePanel(frame, cl, this);
 			gamePanel.setLayout(null);
 			frame.getContentPane().add(gamePanel, "game");
+		} else if (e.getComponent().getName().equals("backBtn")) {
+			cl.show(frame.getContentPane(), "main");
 		}
+		
 	}
 }

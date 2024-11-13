@@ -9,11 +9,14 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import main.listenAdapter;
 
 public class EndArchivePanel extends JScrollPane {
 	public class collection extends JPanel{
@@ -82,17 +85,21 @@ public class EndArchivePanel extends JScrollPane {
 			
 //			뒤로가기 버튼
 			Button back = new Button("←");
+			back.setName("backBtn");
 			back.setBounds(0,0,50,50);
+			back.addMouseListener((MouseListener)o);
 			add(back);
 			
 		}	
 	}
 	
 //	스크롤설정
-	public EndArchivePanel() {
-		setViewportView(new EndArchive(this));		
+	public EndArchivePanel(Object o) {
+		EndArchive ea = new EndArchive(o);
+		setViewportView(ea);		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 	}
 }
 
