@@ -26,7 +26,13 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import main.listenAdapter;
 
 public class EndArchivePanel extends JScrollPane {
+	
 	public class collection extends JPanel{
+
+		public void paintComponent(Graphics g) {
+			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
+		};
+		
 		JLabel name = new JLabel();
 		JLabel image = new JLabel();
 		Boolean isNew;
@@ -49,12 +55,16 @@ public class EndArchivePanel extends JScrollPane {
 
 	public class EndArchive extends JPanel{
 
+		public void paintComponent(Graphics g) {
+			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
+		};
+		
 		public EndArchive (Object o) {
 			
 			
 			setLayout(null);
 			setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-			setBackground(Color.white);
+			
 			
 			JPanel collections = new JPanel();
 			GridLayout  gl = new GridLayout(4,4);
@@ -129,6 +139,8 @@ public class EndArchivePanel extends JScrollPane {
 	
 //	스크롤설정
 	public EndArchivePanel(Object o) {
+		
+		
 		EndArchive ea = new EndArchive(o);
 		setViewportView(ea);		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
