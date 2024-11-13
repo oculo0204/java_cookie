@@ -124,11 +124,17 @@ public class Main extends listenAdapter {
 				endArchivePanel.requestFocus();
 			}
 
-		} else if (e.getComponent().getName().equals("endAccept")) {
+		}else if (e.getComponent().getName().equals("endAccept")) {
 			frame.getContentPane().remove(gamePanel);
 			gamePanel = new GamePanel(frame, cl, this);
 			gamePanel.setLayout(null);
 			frame.getContentPane().add(gamePanel, "game");
+
+			mainPanel = new MainPanel(this);
+			mainPanel.setLayout(null);
+			frame.getContentPane().add(mainPanel, "main");
+			cl.show(frame.getContentPane(), "main");
+			mainPanel.requestFocus();
 		}
 	}
 }
