@@ -10,18 +10,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Jelly {
-	private Image image; // Á©¸® ÀÌ¹ÌÁö
-	
-	// Á©¸®µéÀÇ ÁÂÇ¥¿Í Å©±â
+	private Image image; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ Å©ï¿½ï¿½
 	private int x;
 	private int y;
 	private int width;
 	private int height;
-	
-	// Á©¸®ÀÇ Åõ¸íµµ 0Åõ¸í 255ºÒÅõ¸í
-	private int alpha;
-	
-	// Á©¸®ÀÇ Á¡¼ö
-	private int score;
-}
 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ 255ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int alpha;
+
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private int score;
+	private int type;
+
+	public int getScore() {
+		return this.score;
+	}
+
+	public int getType() {
+		return this.type;
+	}
+
+}
