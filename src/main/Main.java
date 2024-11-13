@@ -98,7 +98,7 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
-		
+	
 	}
 
 	@Override

@@ -55,9 +55,11 @@ public class EndArchivePanel extends JScrollPane {
 
 	public class EndArchive extends JPanel{
 
+		@Override
 		public void paintComponent(Graphics g) {
-			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
-		};
+		    super.paintComponent(g);
+		    g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
+		}
 		
 		public EndArchive (Object o) {
 			
@@ -66,10 +68,14 @@ public class EndArchivePanel extends JScrollPane {
 			setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 			
 			
-			JPanel collections = new JPanel();
+			JPanel collections = new JPanel() {@Override
+				public void paintComponent(Graphics g) {
+			    super.paintComponent(g);
+			    g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+			};
 			GridLayout  gl = new GridLayout(4,4);
 			collections.setLayout(gl);
-			
 			collection[] collectionArray = new collection[13];
 			
 			collectionArray[0] = new collection("img/endings/1.png", "옥황상제");
@@ -140,7 +146,6 @@ public class EndArchivePanel extends JScrollPane {
 //	스크롤설정
 	public EndArchivePanel(Object o) {
 		
-		
 		EndArchive ea = new EndArchive(o);
 		setViewportView(ea);		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -149,5 +154,7 @@ public class EndArchivePanel extends JScrollPane {
 		Image thumb = new ImageIcon("img/endArchive/thumb.png").getImage();
 		setVerticalScrollBar(new MyScrollBar(track, thumb));
 	}
+
+
 }
 
