@@ -29,4 +29,5 @@ public class Endings {
 	Ending 백수 = new Ending("백수", "백수 설명");
 	Ending 요리사 = new Ending("요리사", "요리사 설명");
 	
+	
 }
