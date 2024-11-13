@@ -3,18 +3,25 @@ package panels;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import main.listenAdapter;
 
@@ -92,6 +99,33 @@ public class EndArchivePanel extends JScrollPane {
 			
 		}	
 	}
+//	커스텀 스크롤바 디자인
+	public class MyScrollBar extends JScrollBar {
+		public MyScrollBar(Image track, Image thumb) {
+			super(JScrollBar.VERTICAL);
+			setUI(new BasicScrollBarUI() {
+				@Override
+				protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+					g.drawImage(track, r.x, r.y, r.width, r.height, null);
+				}
+				@Override
+				protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+					g.drawImage(thumb, r.x, r.y, r.width, r.height, null);
+				}
+				@Override
+				protected JButton createDecreaseButton(int orientation) {
+					JButton btn = new JButton();
+				    btn.setPreferredSize(new Dimension(0, 0));
+					return btn;}
+				@Override
+				protected JButton createIncreaseButton(int orientation) {
+					JButton btn = new JButton();
+				    btn.setPreferredSize(new Dimension(0, 0));
+					return btn;}
+			});
+		}
+	}
+	
 	
 //	스크롤설정
 	public EndArchivePanel(Object o) {
@@ -99,7 +133,9 @@ public class EndArchivePanel extends JScrollPane {
 		setViewportView(ea);		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
+		Image track = new ImageIcon("img/endArchive/track.png").getImage();
+		Image thumb = new ImageIcon("img/endArchive/thumb.png").getImage();
+		setVerticalScrollBar(new MyScrollBar(track, thumb));
 	}
 }
 
