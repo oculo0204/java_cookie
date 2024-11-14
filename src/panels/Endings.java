@@ -39,7 +39,7 @@ public class Endings {
 			name = n;
 			imagePath = "img/endings/"+ n +".png";
 			description = des;
-			isNew = false;
+			isNew = true;
 
 			//ImageIcon img = new ImageIcon("imagePath");
 			//imageicon = new ImageIcon(img.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));

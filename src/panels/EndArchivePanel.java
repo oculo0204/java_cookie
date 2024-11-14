@@ -51,9 +51,9 @@ public class EndArchivePanel extends JScrollPane {
 			}
 		}
 		
-//		public void paintComponent(Graphics g) {
-//			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
-//		};
+		public void paintComponent(Graphics g) {
+			g.drawImage(new ImageIcon("img/endArchive/frame.png").getImage(), 0,0,null);
+		};
 		
 		JLabel name = new JLabel();
 		JLabel image = new JLabel();
@@ -67,18 +67,21 @@ public class EndArchivePanel extends JScrollPane {
 			Image img = imgIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 			
 			
-			image.setIcon(new ImageIcon(img));
-			this.name.setText(e.endings[i].name);
 			isNew = e.endings[i].isNew;
+			
+			if(isNew) {
+				this.name.setText("???");
+				image.setIcon(new ImageIcon("img/endArchive/background.png"));
+			}
+			else {
+				image.setIcon(new ImageIcon(img));
+				this.name.setText(e.endings[i].name);
+				
+			}
 			image.setHorizontalAlignment(JLabel.CENTER);
 			name.setHorizontalAlignment(JLabel.CENTER);
 			
-			
-//			FlowLayout fl = new FlowLayout();
-//			setLayout(fl);
-//			add(image);
-//			add(this.name);
-			setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 			
 			setPreferredSize(new Dimension(160,180));
 			BorderLayout bl = new BorderLayout();
@@ -127,22 +130,25 @@ public class EndArchivePanel extends JScrollPane {
 
 			for(int i = 0; i < 13; i++) {
 				collections.add(collectionArray[i]);
-				if(collectionArray[i].isNew) {
-					collectionArray[i].setVisible(false);
-				}
+				
 			}
 			
 			collections.setBounds(50,100,700,900);
 			add(collections);
 			
 			
+//			타이틀
+			JLabel title= new JLabel();
+			title.setIcon(new ImageIcon("img/endArchive/title.png"));
+			title.setBounds(200,10,380,80);
+			add(title);
 			
 //			뒤로가기 버튼
 			JButton back = new JButton();
 			ImageIcon backIcon = new ImageIcon("img/endArchive/back.png");
-			Image img = backIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			Image backImg = backIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 			
-			back.setIcon(new ImageIcon(img));
+			back.setIcon(new ImageIcon(backImg));
 			back.setBorderPainted(false);
 			back.setContentAreaFilled(false);
 			back.setName("backBtn");
