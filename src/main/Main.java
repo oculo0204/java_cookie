@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 
 import ingame.CookieImg;
 import panels.EndPanel;
+import panels.Endings;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
@@ -31,6 +32,7 @@ public class Main extends listenAdapter {
 	private MainPanel mainPanel; // MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
+	public Endings endings = new Endings();
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -85,8 +87,8 @@ public class Main extends listenAdapter {
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 		endPanel = new EndPanel(this);
-		endArchivePanel = new EndArchivePanel(this);
-
+		endArchivePanel = new EndArchivePanel(this, endings);
+		
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
 		gamePanel.setLayout(null);
