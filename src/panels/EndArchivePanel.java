@@ -1,11 +1,15 @@
 package panels;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -13,7 +17,11 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -29,29 +37,54 @@ public class EndArchivePanel extends JScrollPane {
 	
 	public Endings endings;
 	public class collection extends JPanel{
+
+		private Font loadCustomFont(String fontPath, float fontSize) {
+			try {
+				File fontFile = new File(fontPath);
+				Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(font);
+				return font;
+			} catch (IOException | FontFormatException e) {
+				e.printStackTrace();
+				return new Font("Arial", Font.BOLD, 24); // 예외가 발생하면 기본 폰트 반환
+			}
+		}
 		
-		public void paintComponent(Graphics g) {
-			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
-		};
+//		public void paintComponent(Graphics g) {
+//			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0,0,null);
+//		};
 		
 		JLabel name = new JLabel();
 		JLabel image = new JLabel();
 		Boolean isNew;
 		
 		public collection(Endings e, int i) {
-			
-			
+
+			Font cookieRunBlack = loadCustomFont("fonts/CookieRun Regular.otf", 20f);
+			this.name.setFont(cookieRunBlack);
 			ImageIcon imgIcon = new ImageIcon(e.endings[i].imagePath);
 			Image img = imgIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+			
 			
 			image.setIcon(new ImageIcon(img));
 			this.name.setText(e.endings[i].name);
 			isNew = e.endings[i].isNew;
+			image.setHorizontalAlignment(JLabel.CENTER);
+			name.setHorizontalAlignment(JLabel.CENTER);
 			
-			FlowLayout fl = new FlowLayout();
-			setLayout(fl);
-			add(this.name);
+			
+//			FlowLayout fl = new FlowLayout();
+//			setLayout(fl);
+//			add(image);
+//			add(this.name);
+			setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			
+			setPreferredSize(new Dimension(160,180));
+			BorderLayout bl = new BorderLayout();
+			setLayout(bl);
 			add(image);
+			add(this.name, "South");
 		}
 		
 	}
@@ -77,8 +110,11 @@ public class EndArchivePanel extends JScrollPane {
 			    g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 			};
-			GridLayout  gl = new GridLayout(4,4);
-			collections.setLayout(gl);
+			
+//			GridLayout  gl = new GridLayout(4,4);
+//			collections.setLayout(gl);
+//			
+			collections.setLayout(new FlowLayout());
 			collection[] collectionArray = new collection[Endings.count];
 			
 			for(int i = 0; i<Endings.count; i++) {
@@ -96,15 +132,24 @@ public class EndArchivePanel extends JScrollPane {
 				}
 			}
 			
-			collections.setBounds(100,150,600,600);
+			collections.setBounds(50,100,700,900);
 			add(collections);
 			
+			
+			
 //			뒤로가기 버튼
-			JButton back = new JButton("←");
+			JButton back = new JButton();
+			ImageIcon backIcon = new ImageIcon("img/endArchive/back.png");
+			Image img = backIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			
+			back.setIcon(new ImageIcon(img));
+			back.setBorderPainted(false);
+			back.setContentAreaFilled(false);
 			back.setName("backBtn");
 			back.setBounds(20,20,50,50);
 			back.addMouseListener((MouseListener)o);
 			add(back);
+			
 			
 		}	
 	}
