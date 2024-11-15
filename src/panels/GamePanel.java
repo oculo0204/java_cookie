@@ -468,8 +468,8 @@ public class GamePanel extends JPanel {
 		int maxX = sizeArr[0]; // ���� ����
 		int maxY = sizeArr[1]; // ���� ����
 
-		for (int i = 0; i < maxX; i += 1) { // ������ 1ĭ�� �����ϱ� ������ 1,1������� �ݺ����� ������.
-			for (int j = 0; j < maxY; j += 1) {
+		for (int i = 0; i < maxX; i += 2) { // ������ 1ĭ�� �����ϱ� ������ 1,1������� �ݺ����� ������.
+			for (int j = 0; j < maxY; j += 2) {
 
 				if (colorArr[i][j] == 16776960) { // ������ 16776960�� ��� �⺻���� ����
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 30���� �Ѵ�.
@@ -508,15 +508,15 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < maxX; i += 2) { // ��ֹ��� 4ĭ �̻��� �����Ѵ�. ���� ����
 			for (int j = 0; j < maxY; j += 2) {
-				if (colorArr[i][j] == 12796717) { // ������ 16711680�� ��� (������) 1ĭ
+				if (colorArr[i][j] ==  16711680) { // ������ 16711680�� ��� (������) 1ĭ
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 80���� �Ѵ�.
 					tacleList.add(new Tacle(tacle10Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80, 0));
 
-				} else if (colorArr[i][j] == 12863120) { // 지금 꼬깔콘 이미지만 제대로 보이고 있음
+				} else if (colorArr[i][j] == 16711830) { // 지금 꼬깔콘 이미지만 제대로 보이고 있음
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 160���� �Ѵ�.
 					tacleList.add(new Tacle(tacle20Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 160, 0));
 
-				} else if (colorArr[i][j] == 13257965) { // ������ 16711830�� ��� (����ũ) 3ĭ
+				} else if (colorArr[i][j] == 16711935) { // ������ 16711830�� ��� (����ũ) 3ĭ
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 240���� �Ѵ�.
 					tacleList.add(new Tacle(tacle30Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 240, 0));
 				}
