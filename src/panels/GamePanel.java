@@ -506,13 +506,13 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		for (int i = 0; i < maxX; i += 2) { // ��ֹ��� 4ĭ �̻��� �����Ѵ�. ���� ����
+		for (int i = 0; i < maxX; i += 2) { // 장애물
 			for (int j = 0; j < maxY; j += 2) {
-				if (colorArr[i][j] ==  16711680) { // ������ 16711680�� ��� (������) 1ĭ
+				if (colorArr[i][j] ==  16711830) { //빨강 꼬깔콘
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 80���� �Ѵ�.
 					tacleList.add(new Tacle(tacle10Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80, 0));
 
-				} else if (colorArr[i][j] == 16711830) { // 지금 꼬깔콘 이미지만 제대로 보이고 있음
+				} else if (colorArr[i][j] == 16711680) { //분홍 새
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 160���� �Ѵ�.
 					tacleList.add(new Tacle(tacle20Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 160, 0));
 
@@ -527,7 +527,7 @@ public class GamePanel extends JPanel {
 		Random rand = new Random();
 
 		// 전체 맵넓이의 /20 만큼 젤리를 생성한다
-		int maxRan = (maxX / 15) * 3; // maxRan * 맵 수
+		int maxRan = (20) * 3; // maxRan * 맵 수
 		ArrayList<Integer> randListX = new ArrayList<>();
 		ArrayList<Integer> randListY = new ArrayList<>();
 
@@ -537,8 +537,8 @@ public class GamePanel extends JPanel {
 			int resultY = 0;
 			int randX = (int) (Math.random() * (maxX - 20)) + 20; // 20~maxX까지 중에 생성
 
-			// Y 값은 3~8까지의 픽셀에만 설정되도록 조건 추가
-			int randY = (int) (Math.random() * 5) + 3;
+			// Y 값은 4,6,8 픽셀에만 설정되도록 조건 추가
+			int randY = (int) ((Math.random() * 2) + 2)*2;
 
 			boolean isTacle = false;
 			// 현재 젤리 위치가 장애물과 같으면 isTacle=true
@@ -587,30 +587,15 @@ public class GamePanel extends JPanel {
 			// 새로 만든 젤리를 리스트에 투가
 			randListX.add(resultX);
 			randListY.add(resultY);
-			// 젤리 생성
+			
+			
+			// 게임 젤리 생성
 
-			int jellyType = rand.nextInt(4);
-
-			Jelly newJelly = null;
-
-			// 각 젤리 타입에 맞는 색상으로 생성
-			if (jellyType == 0) { // 젤리1 (색값 16776960)
-				newJelly = new Jelly(jelly1Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
-						1);
-			} else if (jellyType == 1) { // 젤리2 (색값 13158400)
-				newJelly = new Jelly(jelly2Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
-						2);
-			} else if (jellyType == 2) { // 젤리3 (색값 9868800)
-				newJelly = new Jelly(jelly3Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
-						3);
-			} else if (jellyType == 3) { // 젤리4 (색값 13930054)
-				newJelly = new Jelly(jelly4Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
-						4);
-			}
+			Jelly newJelly = new Jelly(jelly4Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
+					4);
 
 			// 젤리 추가 후 콘솔에 출력
 			jellyList.add(newJelly);
-			System.out.println("새로 생성된 젤리: " + newJelly);
 
 		}
 		this.mapLength = this.mapLength + tempMapLength;
