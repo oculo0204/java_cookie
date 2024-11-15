@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.CardLayout;
+
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 
@@ -58,7 +59,9 @@ public class Main extends listenAdapter {
 				}
 			}
 		});
+		
 	}
+	
 
 	public Main() {
 		initialize();
@@ -123,7 +126,6 @@ public class Main extends listenAdapter {
 				cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
 			}
-
 		}else if (e.getComponent().getName().equals("endAccept")) {
 			frame.getContentPane().remove(gamePanel);
 			gamePanel = new GamePanel(frame, cl, this);
@@ -138,3 +140,4 @@ public class Main extends listenAdapter {
 		}
 	}
 }
+
