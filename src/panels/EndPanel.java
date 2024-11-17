@@ -234,7 +234,7 @@ public class EndPanel extends JPanel {
         // 엔딩 배경 이미지 (가장 마지막에 추가하여 가장 뒤에 표시되도록 함)
         ImageIcon backIcon = new ImageIcon("img/end/ending-bk.png");
         Image backImage = backIcon.getImage();
-        Image resizeBackImage = backImage.getScaledInstance(1280, 720, Image.SCALE_SMOOTH);
+        Image resizeBackImage = backImage.getScaledInstance(800, 500, Image.SCALE_SMOOTH);
         imageLabel = new JLabel(new ImageIcon(resizeBackImage));
         imageLabel.setBounds(0, 0, 1280, 720);
         add(imageLabel);

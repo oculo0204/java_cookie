@@ -1,10 +1,7 @@
 package main;
 
 import java.awt.CardLayout;
-
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
@@ -13,11 +10,11 @@ import javax.swing.JScrollPane;
 
 import ingame.CookieImg;
 import panels.EndPanel;
+import panels.Endings;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
 import panels.EndArchivePanel;
-import panels.Endings;
 
 public class Main extends listenAdapter {
 
@@ -35,7 +32,7 @@ public class Main extends listenAdapter {
 	private MainPanel mainPanel; // MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
-	private Endings endings ;
+	public Endings endings = new Endings();
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -63,9 +60,7 @@ public class Main extends listenAdapter {
 				}
 			}
 		});
-		
 	}
-	
 
 	public Main() {
 		initialize();
@@ -91,24 +86,23 @@ public class Main extends listenAdapter {
 
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
-		
-		endings = new Endings();
+
 		endArchivePanel = new EndArchivePanel(this, endings);
 		
 		endPanel = new EndPanel(this,endings);
-
+		
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
-		endArchivePanel.setLayout(null);
+//		endArchivePanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(mainPanel, "main"); // MainPanel을 "main"으로 추가
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
-		
+	
 	}
 
 	@Override
@@ -133,18 +127,23 @@ public class Main extends listenAdapter {
 				cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
 			}
-		}else if (e.getComponent().getName().equals("endAccept")) {
-			frame.getContentPane().remove(gamePanel);
-			gamePanel = new GamePanel(frame, cl, this);
-			gamePanel.setLayout(null);
-			frame.getContentPane().add(gamePanel, "game");
 
-			mainPanel = new MainPanel(this);
-			mainPanel.setLayout(null);
-			frame.getContentPane().add(mainPanel, "main");
-			cl.show(frame.getContentPane(), "main");
-			mainPanel.requestFocus();
+		} else if (e.getComponent().getName().equals("endAccept")) {
+		    frame.getContentPane().remove(gamePanel);
+		    gamePanel = new GamePanel(frame, cl, this);
+		    gamePanel.setLayout(null);
+		    frame.getContentPane().add(gamePanel, "game");
+
+		    mainPanel = new MainPanel(this);
+		    mainPanel.setLayout(null);
+		    frame.getContentPane().add(mainPanel, "main");
+		    cl.show(frame.getContentPane(), "main");
+		    mainPanel.requestFocus();
 		}
+//		엔딩수집 돌아가기 버튼
+		else if (e.getComponent().getName().equals("backBtn")) {
+			cl.show(frame.getContentPane(), "main");
+		}
+		
 	}
 }
-
