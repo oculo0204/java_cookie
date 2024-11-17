@@ -2,7 +2,9 @@ package main;
 
 import java.awt.CardLayout;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
 import panels.EndArchivePanel;
+import panels.Endings;
 
 public class Main extends listenAdapter {
 
@@ -32,6 +35,7 @@ public class Main extends listenAdapter {
 	private MainPanel mainPanel; // MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
+	private Endings endings ;
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -87,8 +91,11 @@ public class Main extends listenAdapter {
 
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
-		endPanel = new EndPanel(this);
+		
+		endings = new Endings();
 		endArchivePanel = new EndArchivePanel(this);
+		
+		endPanel = new EndPanel(this,endings);
 
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정

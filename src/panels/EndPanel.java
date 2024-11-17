@@ -60,6 +60,7 @@ public class EndPanel extends JPanel {
 
     public EndPanel(Object o) {
         // 레이아웃을 수동으로 관리
+    	this.e = endings;
         setLayout(null);
         
         //Ending endings;
