@@ -93,7 +93,7 @@ public class Main extends listenAdapter {
 		gamePanel = new GamePanel(frame, cl, this);
 		
 		endings = new Endings();
-		endArchivePanel = new EndArchivePanel(this);
+		endArchivePanel = new EndArchivePanel(this, endings);
 		
 		endPanel = new EndPanel(this,endings);
 
