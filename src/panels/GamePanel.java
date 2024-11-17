@@ -28,6 +28,7 @@ import ingame.MapObjectImg;
 import ingame.Tacle;
 import main.Main;
 import util.Util;
+import panels.EndPanel;
 
 public class GamePanel extends JPanel {
 
@@ -831,7 +832,7 @@ public class GamePanel extends JPanel {
 
 					foot = c1.getY() + c1.getHeight(); // ĳ���� �� ��ġ �罺ĵ
 					if (foot > 1999 || c1.getHealth() < 1) {
-						main.getEndPanel().setResultScore(resultScore);
+						main.getEndPanel().setResultScore(type1Count,type2Count,type3Count,type4Count);
 						cl.show(superFrame.getContentPane(), "end");
 						main.setGamePanel(new GamePanel(superFrame, cl, main));
 						superFrame.requestFocus();
