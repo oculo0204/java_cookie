@@ -58,7 +58,7 @@ public class EndPanel extends JPanel {
     private Image resizeBacksuCookieImage;
     // private int resultScore;
 
-    public EndPanel(Object o) {
+    public EndPanel(Object o, Endings endings) {
         // 레이아웃을 수동으로 관리
     	this.e = endings;
         setLayout(null);
@@ -230,9 +230,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeKingCookieImage));
     	    contextLabel.setText(e.endings[0].description);
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[0].isNew) {
+    	    if(e.endings[0].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[0].isNew = true;
+    	    	e.endings[0].isNew =false;
     	    }
     	}
     	//공부 코인 - 교수 엔딩
@@ -241,9 +241,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeProfessorCookieImage));
     	    contextLabel.setText(e.endings[3].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[3].isNew) {
+    	    if(e.endings[3].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[3].isNew = true;
+    	    	e.endings[3].isNew =false;
     	    }
     	}
     	//공부 코인 - 프로그래머 엔딩
@@ -252,9 +252,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeProgrammerCookieImage));
     	    contextLabel.setText(e.endings[5].description);
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[5].isNew) {
+    	    if(e.endings[5].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[5].isNew = true;
+    	    	e.endings[5].isNew =false;
     	    }
     	}
     	//에술 코인 - 피아니스트 엔딩
@@ -263,9 +263,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizePianistCookieImage));
     	    contextLabel.setText(e.endings[1].description);
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[1].isNew) {
+    	    if(e.endings[1].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[1].isNew = true;
+    	    	e.endings[1].isNew = false;
     	    }
     	}
     	//에술 코인 - 화가 엔딩
@@ -274,9 +274,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizePainterCookieImage));
     	    contextLabel.setText(e.endings[2].description);
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[2].isNew) {
+    	    if(e.endings[2].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[2].isNew = true;
+    	    	e.endings[2].isNew =false;
     	    }
     	}
     	//운동 코인 - 국가 대표 엔딩
@@ -285,9 +285,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeNationalCookieImage));
     	    contextLabel.setText(e.endings[10].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[10].isNew) {
+    	    if(e.endings[10].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[10].isNew = true;
+    	    	e.endings[10].isNew = false;
     	    }
     	}
     	//운동 코인 - 아마추어 운동 선수 엔딩
@@ -296,9 +296,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeAthleteCookieImage));
     	    contextLabel.setText(e.endings[8].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[8].isNew) {
+    	    if(e.endings[8].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[8].isNew = true;
+    	    	e.endings[8].isNew =false;
     	    }
     	}
     	// 종합 코인(공부 코인 + 게임 코인) - 프로게이머 엔딩
@@ -307,9 +307,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeProgammerCookieImage));
     	    contextLabel.setText(e.endings[6].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[6].isNew) {
+    	    if(e.endings[6].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[6].isNew = true;
+    	    	e.endings[6].isNew = false;
     	    }
     	}
     	// 종합 코인(예술 코인 + 운동 코인) - 요리사 엔딩
@@ -318,9 +318,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeCookerCookieImage));
     	    contextLabel.setText(e.endings[12].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[12].isNew) {
+    	    if(e.endings[12].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[12].isNew = true;
+    	    	e.endings[12].isNew = false;
     	    }
     	}
      	// 백수 엔딩
@@ -329,9 +329,9 @@ public class EndPanel extends JPanel {
     	    cookieImageLabel.setIcon(new ImageIcon(resizeBacksuCookieImage));
     	    contextLabel.setText(e.endings[11].description);	
     	    //새로 얻은 쿠키인지 확인
-    	    if(!e.endings[11].isNew) {
+    	    if(e.endings[11].isNew) {
     	    	newCookieLabel.setText("new");
-    	    	e.endings[11].isNew = true;
+    	    	e.endings[11].isNew = false;
     	    }
     	}
         //코인 수 업데이트
