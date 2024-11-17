@@ -1,16 +1,14 @@
 package panels;
 
-import java.awt.Color;
 import main.listenAdapter;
 import panels.Endings.Ending;
 
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import main.listenAdapter;
+
 
 public class EndPanel extends JPanel {
 	
@@ -57,65 +56,84 @@ public class EndPanel extends JPanel {
     private Image resizeCookerCookieImage;
     private Image resizeBacksuCookieImage;
     // private int resultScore;
+    
+	// 폰트 로딩 함수
+	private Font loadCustomFont(String fontPath, float fontSize) {
+		try {
+			File fontFile = new File(fontPath);
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(font);
+			return font;
+		} catch (IOException | FontFormatException e) {
+			e.printStackTrace();
+			return new Font("Arial", Font.BOLD, 24); // 예외가 발생하면 기본 폰트 반환
+		}
+	}
 
     public EndPanel(Object o, Endings endings) {
+    	
         // 레이아웃을 수동으로 관리
     	this.e = endings;
         setLayout(null);
         
+        //폰트
+        Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 24f);
+        Font cookieRunRegular = loadCustomFont("fonts/CookieRun Regular.otf", 12f);
+        
         //Ending endings;
         //새로운 쿠키일때 
         newCookieLabel = new JLabel("");
-        newCookieLabel.setFont(new Font("Gill Sans Ultra Bold", Font.ITALIC, 20));
+        newCookieLabel.setFont(cookieRunBlack);
         newCookieLabel.setBounds(100, 70, 400, 87);
         newCookieLabel.setForeground(Color.RED);
         add(newCookieLabel);
         // 쿠키 이름 라벨
         cookieNameLabel = new JLabel("");
-        cookieNameLabel.setFont(new Font("Gill Sans Ultra Bold", Font.BOLD, 45));
+        cookieNameLabel.setFont(cookieRunBlack);
         cookieNameLabel.setBounds(115, 100, 400, 87);
         add(cookieNameLabel);
         
         // 옥황상제 쿠키 이미지 얻기
     	ImageIcon king_cookie = new ImageIcon(e.endings[0].imagePath);
     	Image kingCookieImage = king_cookie.getImage();
-		Image resizeKingCookieImage = kingCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeKingCookieImage = kingCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         // 교수 쿠키 이미지 얻기
     	ImageIcon professor_cookie = new ImageIcon(e.endings[3].imagePath);
     	Image professorCookieImage = professor_cookie.getImage();
-		Image resizeProfessorCookieImage = professorCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeProfessorCookieImage = professorCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 프로그래머 쿠키 이미지 얻기
 	 	ImageIcon programmer_cookie = new ImageIcon(e.endings[5].imagePath);
     	Image programmerCookieImage = programmer_cookie.getImage();
-		Image resizeProgrammerCookieImage = programmerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeProgrammerCookieImage = programmerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 피아니스트 쿠키 이미지 얻기
 		ImageIcon pianist_cookie = new ImageIcon(e.endings[1].imagePath);
     	Image pianistCookieImage = pianist_cookie.getImage();
-		Image resizePianistCookieImage = pianistCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizePianistCookieImage = pianistCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 화가 쿠키 이미지 얻기
 		ImageIcon painter_cookie = new ImageIcon(e.endings[2].imagePath);
     	Image painterCookieImage = painter_cookie.getImage();
-		Image resizePainterCookieImage = painterCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizePainterCookieImage = painterCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 국가대표 쿠키 이미지 얻기
 		ImageIcon national_cookie = new ImageIcon(e.endings[10].imagePath);
     	Image nationalCookieImage = national_cookie.getImage();
-		Image resizeNatioanlCookieImage = nationalCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeNationalCookieImage = nationalCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 운동선수 쿠키 이미지 얻기
 		ImageIcon athlete_cookie = new ImageIcon(e.endings[8].imagePath);
     	Image athleteCookieImage = athlete_cookie.getImage();
-		Image resizeAthleteCookieImage = athleteCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeAthleteCookieImage = athleteCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 프로게이머 쿠키 이미지 얻기
 		ImageIcon progammer_cookie = new ImageIcon(e.endings[6].imagePath);
     	Image progammerCookieImage = progammer_cookie.getImage();
-		Image resizeProgammerCookieImage = progammerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeProgammerCookieImage = progammerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 요리사 쿠키 이미지 얻기
 		ImageIcon cooker_cookie = new ImageIcon(e.endings[12].imagePath);
     	Image cookerCookieImage = cooker_cookie.getImage();
-		Image resizeCookerCookieImage = cookerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeCookerCookieImage = cookerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		// 백수 쿠키 이미지 얻기
 		ImageIcon backsu_cookie = new ImageIcon(e.endings[11].imagePath);
 		Image backsuCookieImage = backsu_cookie.getImage();
-		Image resizeBacksuCookieImage = backsuCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		resizeBacksuCookieImage = backsuCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 		//쿠키 이미지 라벨
         cookieImageLabel = new JLabel();
         cookieImageLabel.setBounds(100, 150, 200, 200); // 위치와 크기 조정
@@ -170,7 +188,7 @@ public class EndPanel extends JPanel {
         add(studyNumberLabel);
         //쿠키 설명
         contextLabel = new JLabel();
-        contextLabel.setFont(new Font("Gill Sans Ultra Bold", Font.BOLD, 15));
+        contextLabel.setFont(cookieRunRegular);
         contextLabel.setBounds(50, 350, 600, 80);
         add(contextLabel);
         // 다시 시작 버튼
@@ -222,7 +240,7 @@ public class EndPanel extends JPanel {
         add(imageLabel);
     }
 
-    public void setResultScore(int exerciseCoin, int gameCoin, int artCoin, int studyCoin) {
+    public void setResultScore(int artCoin, int exerciseCoin , int studyCoin, int gameCoin) {
         // 코인 수에 따라 이름과 이미지, 설명 설정
     	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
      	if(studyCoin >= 20 && gameCoin >= 20 && artCoin >= 20 && exerciseCoin >= 20) {
