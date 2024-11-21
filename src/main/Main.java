@@ -4,6 +4,11 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,9 +29,34 @@ import java.awt.CardLayout;
 
 public class Main extends listenAdapter {
 
+//	각자 DB 아이디 및 패스워드 설정하고 실행하세요.
+	static String id = "root";
+	static String passwd = "ysscsc3690";
+	
 	// 기본 캐릭터 설정
 	private CookieImg ci;
 
+//	DB 커넥션
+	public static Connection makeConnection() {
+		String url = "jdbc:mysql://localhost:3306/schema?serverTimezone=Asia/Seoul";
+
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			System.out.println("데이터베이스 연결중 ...");
+			con = DriverManager.getConnection(url, id, passwd);
+			System.out.println("데이터베이스 연결 성공");
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBC 드라이버를 찾지 못했습니다...");
+		} catch (SQLException e) {
+			System.out.println("데이터베이스 연결 실패");
+			System.out.println(e.getMessage());
+		}
+		return con;
+	}
+
+	
 	public CookieImg getCi() {
 		return ci;
 	}
@@ -42,7 +72,7 @@ public class Main extends listenAdapter {
 	
 	public JFrame selectFrame;
 	
-	public Endings endings = new Endings();
+	public Endings ending = new Endings();
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -59,7 +89,7 @@ public class Main extends listenAdapter {
 		return endArchivePanel;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -72,7 +102,19 @@ public class Main extends listenAdapter {
 		});
 	}
 
-	public Main() {
+	public Main() throws SQLException {
+		
+//		
+		Connection con = makeConnection();
+
+		String sql = "SELECT * FROM cookie;";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			if(rs.getInt(2)==0)
+				ending.endings[rs.getInt(1)].isNew = false;
+		}
+
 		initialize();
 	}
 
@@ -98,9 +140,9 @@ public class Main extends listenAdapter {
 		gamePanel = new GamePanel(frame, cl, this);
 		selectPanel = new SelectPanel(this);
 
-		endArchivePanel = new EndArchivePanel(this, endings);
+		endArchivePanel = new EndArchivePanel(this, ending);
 		
-		endPanel = new EndPanel(this,endings);
+		endPanel = new EndPanel(this,ending);
 		
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
