@@ -30,8 +30,8 @@ import java.awt.CardLayout;
 public class Main extends listenAdapter {
 
 //	각자 DB 아이디 및 패스워드 설정하고 실행하세요.
-	static String id = "root";
-	static String passwd = "ysscsc3690";
+	static String id = "";
+	static String passwd = "";
 	
 	// 기본 캐릭터 설정
 	private CookieImg ci;
