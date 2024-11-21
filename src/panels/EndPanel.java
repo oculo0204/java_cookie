@@ -18,8 +18,7 @@ import javax.swing.SwingConstants;
 
 import javax.swing.*;
 import java.awt.*;
-
-import main.listenAdapter;
+import panels.Endings.Ending;
 
 
 public class EndPanel extends JPanel {

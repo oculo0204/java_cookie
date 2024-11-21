@@ -1,6 +1,7 @@
 package panels;
 
 import java.awt.AlphaComposite;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -29,6 +30,7 @@ import ingame.Tacle;
 import main.Main;
 import util.Util;
 import panels.EndPanel;
+import panels.SelectPanel;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -90,6 +92,8 @@ public class GamePanel extends JPanel {
 	private ImageIcon skipIconDown;
 
 	boolean skipActive = false;
+	
+	public boolean selectionon = false;
 
 	ImageIcon artIcon;
 	ImageIcon ballIcon;
@@ -114,17 +118,16 @@ public class GamePanel extends JPanel {
 
 	private List<Integer> mapLengthList;
 
-	// 코인 리스트들 따로 만들어야겠지 아마..?
 
 	private int mapLength = 0;
-
+	
 	private int runPage = 0; // �� ȭ�� �̵��Ҷ����� ü���� ��� ���� ����
 
 	private int runStage = 1; // ���������� Ȯ���ϴ� �����̴�. (�̱���)
 
 	private int resultScore = 0; // ��������� �����ϴ� ����
 
-	private int gameSpeed = 5; // ���� �ӵ�
+	private int gameSpeed = 7; // ���� �ӵ�
 
 	private int nowField = 2000; // ������ ���̸� ����.
 
@@ -205,14 +208,23 @@ public class GamePanel extends JPanel {
 		initListener(); // Ű������ �߰�
 
 		runRepaint(); // ������Ʈ ���ѹݺ� ����
+		
+		//맵길이
+		//System.out.println(mapLenArr[0]+" "+mapLenArr[1]+" "+mapLenArr[2]+" "+mapLenArr[3]+" "); 
 	}
 
 	// ������ �����Ѵ�
 	public void gameStart() {
 
-		mapMove(); // ��� ���� ���� ��ֹ� �۵�
+	    // selectionon이 true일 경우 게임 진행을 멈추고, 화면 갱신도 막음
+	    if (selectionon) {
+	        // 게임 진행 멈추기 (mapMove()와 fall() 호출을 막음)
+	        return;
+	    }
 
-		fall(); // ���� ������ �ߵ�
+	    // selectionon이 false일 때 게임 진행
+	    mapMove(); // 맵 이동
+	    fall(); // 아이템이나 캐릭터 떨어지기
 
 	}
 
@@ -235,18 +247,20 @@ public class GamePanel extends JPanel {
 		// ���� ����
 		Graphics2D g2 = (Graphics2D) buffg;
 
-		super.paintComponent(buffg); // ���� ȭ���� �����.
+		super.paintComponent(buffg);
+	
 
-		// ����̹����� �׸���
+		// �배경 이미지를 그린다.
 		buffg.drawImage(b11.getImage(), b11.getX(), 0, b11.getWidth(), b11.getHeight() * 5 / 4, null);
 		buffg.drawImage(b12.getImage(), b12.getX(), 0, b12.getWidth(), b12.getHeight() * 5 / 4, null);
 		buffg.drawImage(b21.getImage(), b21.getX(), 0, b21.getWidth(), b21.getHeight() * 5 / 4, null);
 		buffg.drawImage(b22.getImage(), b22.getX(), 0, b22.getWidth(), b22.getHeight() * 5 / 4, null);
 
-		// �������� �Ѿ�� ���̵�ƿ� �� ȿ��
+		// 스테이지 넘어갈 시 페이드 아웃 효과
 		if (fadeOn) {
 			buffg.setColor(backFade); // �����ϰ� �ϴ¹�� 1
 			buffg.fillRect(0, 0, this.getWidth(), this.getHeight());
+
 		}
 
 		// ������ �׸���
@@ -557,7 +571,6 @@ public class GamePanel extends JPanel {
 		        generatedCoins++; // 생성된 코인 개수 증가
 		    }
 		}
-
 		this.mapLength = this.mapLength + tempMapLength;
 
 	}
@@ -608,14 +621,14 @@ public class GamePanel extends JPanel {
 
 		makeMo();
 		
-		initImageIcon(mo2);
-		initMap(2, mapLength);
-		mapLengthList.add(mapLength);
-
 		initImageIcon(mo1);
 		initMap(1, mapLength);
 		mapLengthList.add(mapLength);
-
+		
+		
+		initImageIcon(mo2);
+		initMap(2, mapLength);
+		mapLengthList.add(mapLength);
 
 
 		initImageIcon(mo3);
@@ -776,6 +789,13 @@ public class GamePanel extends JPanel {
 			}
 		}).start();
 	}
+	// 게임 패널에서 맵을 넘기고 select 패널로 전환하는 메서드
+	public void goToSelectPanel() {
+		main.selectFrame.setVisible(true);   // 화면에 표시
+	    main.getFrame().setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
+	    main.selectFrame.requestFocus();
+	    selectionon = true;
+	}
 
 	// ȭ���� �����̰� ������ �԰ų�, ��ֹ��� �ε����� ���� �̺�Ʈ�� �߻���Ű�� �޼���
 	private void mapMove() {
@@ -805,7 +825,10 @@ public class GamePanel extends JPanel {
 					if (fadeOn == false) { // ���̵�ƿ��� ���°� �ƴҶ�
 						if (mapLength > mapLengthList.get(2) * 40 + 800 && b11.getImage() != backIc4.getImage()) {
 							fadeOn = true;
-
+						        // 맵 끝에 도달했을 때
+						        System.out.println("현재 맵3이 끝났습니다!");
+						        goToSelectPanel();
+	
 							new Thread(new Runnable() {
 
 								@Override
@@ -836,6 +859,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(2) * 40 + 800
 								&& b11.getImage() != backIc3.getImage()) {
 							fadeOn = true;
+							 // 맵 끝에 도달했을 때
+					        System.out.println("현재 맵2이 끝났습니다!");
+					        goToSelectPanel();
 
 							new Thread(new Runnable() {
 
@@ -867,7 +893,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(1) * 40 + 800
 								&& b11.getImage() != backIc2.getImage()) {
 							fadeOn = true;
-
+							 // 맵 끝에 도달했을 때
+					        System.out.println("현재 맵1이 끝났습니다!");
+					        goToSelectPanel();
 							new Thread(new Runnable() {
 
 								@Override

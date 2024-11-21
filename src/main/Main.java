@@ -1,11 +1,13 @@
 package main;
 
-import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import ingame.CookieImg;
@@ -13,8 +15,12 @@ import panels.EndPanel;
 import panels.Endings;
 import panels.GamePanel;
 import panels.IntroPanel;
-import panels.MainPanel; // 새로운 패널 추가
+import panels.MainPanel; 
+import panels.SelectPanel;
 import panels.EndArchivePanel;
+import main.listenAdapter;
+
+import java.awt.CardLayout;
 
 public class Main extends listenAdapter {
 
@@ -32,6 +38,10 @@ public class Main extends listenAdapter {
 	private MainPanel mainPanel; // MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
+	private SelectPanel selectPanel; // 맵 변경시 디버프 선택
+	
+	public JFrame selectFrame;
+	
 	public Endings endings = new Endings();
 
 	public GamePanel getGamePanel() {
@@ -86,6 +96,7 @@ public class Main extends listenAdapter {
 
 		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
+		selectPanel = new SelectPanel(this);
 
 		endArchivePanel = new EndArchivePanel(this, endings);
 		
@@ -94,6 +105,7 @@ public class Main extends listenAdapter {
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
 		gamePanel.setLayout(null);
+		selectPanel.setLayout(null);
 		endPanel.setLayout(null);
 //		endArchivePanel.setLayout(null);
 
@@ -103,8 +115,21 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
 	
+	    // 새로 생성된 JFrame
+	    selectFrame = new JFrame("Select Map");
+	    selectFrame.setBounds(100, 100, 800, 500);  // 원하는 크기 설정
+	    selectFrame.setLocationRelativeTo(null);  // 화면 중앙에 위치
+
+	    // SelectPanel을 새로 만든 frame에 추가
+	    SelectPanel selectPanel = new SelectPanel(this);  // SelectPanel 객체 생성
+	    selectFrame.getContentPane().add(selectPanel);  // 새 frame에 패널 추가
+	    selectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // 창 닫을 때 종료 설정
+		
 	}
 
+	public JFrame getFrame() {
+	    return frame;
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getComponent().toString().contains("IntroPanel")) {
@@ -144,6 +169,15 @@ public class Main extends listenAdapter {
 		else if (e.getComponent().getName().equals("backBtn")) {
 			cl.show(frame.getContentPane(), "main");
 		}
-		
+		else if(e.getComponent().getName().equals("selectBtn")) {
+			
+			frame.setVisible(true);   // 화면에 표시
+			selectFrame.setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
+			getGamePanel().selectionon = false;
+			frame.getContentPane().add(gamePanel, "gamePanel");
+		    cl.show(frame.getContentPane(), "gamePanel");
+		    gamePanel.requestFocus();
+			
+		}//
 	}
 }
