@@ -35,6 +35,7 @@ import main.listenAdapter;
 
 public class EndArchivePanel extends JScrollPane {
 	
+	private int[] isNew;
 	public Endings endings;
 	public class collection extends JPanel{
 

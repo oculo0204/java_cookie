@@ -9,7 +9,7 @@ public class Endings {
 
 	public static int count = 13;		
 
-	Ending[] endings = new Ending[count];
+	public Ending[] endings = new Ending[count];
 
 	public Endings() {
 		endings[0] = new Ending("옥황상제", "옥황상제 설명");
@@ -28,12 +28,12 @@ public class Endings {
 	}
 
 	
-	public static class Ending{
+	public class Ending{
 		String name;
 		String imagePath;
 		String description;
 		ImageIcon imageicon;
-		boolean isNew;
+		public boolean isNew;
 		
 		public Ending(String n, String des) {
 			name = n;
