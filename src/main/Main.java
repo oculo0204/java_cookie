@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import ingame.CookieImg;
 import panels.EndPanel;
 import panels.Endings;
+import panels.ExplainPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.MainPanel; // 새로운 패널 추가
@@ -31,7 +32,7 @@ public class Main extends listenAdapter {
 	private GamePanel gamePanel;
 	private EndPanel endPanel;
 	private MainPanel mainPanel;
-	//private SelectPanel selectPanel;// MainPanel 변수 추가
+	private ExplainPanel explainPanel;// MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
 	public Endings endings = new Endings();
@@ -49,6 +50,9 @@ public class Main extends listenAdapter {
 	}
 	public EndArchivePanel getEndArchivePanel() {
 		return endArchivePanel;
+	}
+	public ExplainPanel getExplainPanel() {
+		return explainPanel;
 	}
 
 	public static void main(String[] args) {
@@ -87,7 +91,7 @@ public class Main extends listenAdapter {
 		introPanel.addMouseListener(this);
 
 		mainPanel = new MainPanel(this);
-		//selectPanel = new SelectPanel(this);// MainPanel 인스턴스 생성
+		explainPanel = new ExplainPanel(this);// MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 
 		endArchivePanel = new EndArchivePanel(this, endings);
@@ -103,7 +107,7 @@ public class Main extends listenAdapter {
 
 		frame.getContentPane().add(introPanel, "intro");
 		frame.getContentPane().add(mainPanel, "main");
-		//frame.getContentPane().add(selectPanel,"select");// MainPanel을 "main"으로 추가
+		frame.getContentPane().add(explainPanel,"explain");// MainPanel을 "main"으로 추가
 		frame.getContentPane().add(gamePanel, "game");
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
@@ -121,15 +125,19 @@ public class Main extends listenAdapter {
 			cl.show(frame.getContentPane(), "main"); // "select" 대신 "main"으로 변경
 			mainPanel.requestFocus(); // mainPanel에 포커스 요청
 
-		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn")) {
+		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn") || e.getComponent().getName().equals("ExplainBtn")) {
 			if(e.getComponent().getName().equals("StartBtn")) {
 			cl.show(frame.getContentPane(), "game");
 			gamePanel.gameSet(getCi());
 			gamePanel.gameStart();
 			gamePanel.requestFocus();
 			}
-			else {
+			else if(e.getComponent().getName().equals("EndArchiveBtn")){
 				cl.show(frame.getContentPane(), "endArchive");
+				endArchivePanel.requestFocus();
+			}
+			else {
+				cl.show(frame.getContentPane(), "explain");
 				endArchivePanel.requestFocus();
 			}
 
@@ -147,6 +155,9 @@ public class Main extends listenAdapter {
 		}
 //		엔딩수집 돌아가기 버튼
 		else if (e.getComponent().getName().equals("backBtn")) {
+			cl.show(frame.getContentPane(), "main");
+		}
+		else if (e.getComponent().getName().equals("Ex_backBtn")){
 			cl.show(frame.getContentPane(), "main");
 		}
 		

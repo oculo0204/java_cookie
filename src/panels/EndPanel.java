@@ -26,7 +26,7 @@ public class EndPanel extends JPanel {
 	
 	Endings e;
     ImageIcon retryBtn = new ImageIcon("img/end/restart-btn.png"); // 다시 시작 버튼
-    ImageIcon homeBtn = new ImageIcon("img/end/collection-btn.png"); // 엔딩 몽므 이동 버튼
+    ImageIcon homeBtn = new ImageIcon("img/end/collection-btn.png"); // 엔딩 모음 이동 버튼
     JButton retryButton;
     JButton homeButton;
     JLabel endLabel;
