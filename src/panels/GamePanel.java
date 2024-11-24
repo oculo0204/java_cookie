@@ -127,7 +127,10 @@ public class GamePanel extends JPanel {
 
 	private int resultScore = 0; // ��������� �����ϴ� ����
 
-	private int gameSpeed = 7; // ���� �ӵ�
+	public int normalSpeed =5;
+	
+	private int gameSpeed = normalSpeed; // normalspeed로 초기화하게 해놓음 다른 panel에서도 쓰임
+	
 
 	private int nowField = 2000; // ������ ���̸� ����.
 
@@ -142,7 +145,12 @@ public class GamePanel extends JPanel {
 	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
-
+	
+	private boolean isSliding = false; //슬라이딩 디버프가 없으면
+	public void setIsSliding(boolean f)
+	{
+		this.isSliding = f;
+	}
 	int face; // ��Ű�� ����
 	int foot; // ��Ű�� ��
 
@@ -176,6 +184,14 @@ public class GamePanel extends JPanel {
 	CardLayout cl;
 	Main main;
 
+	//selectionPanel로 이동할 때 gamespeed 0으로 만들어 멈춤
+	public void setGameSpeed(int a) {
+		this.gameSpeed = a;
+	}
+	
+	
+	
+	
 	// �����г� ������ (���� �����Ӱ� ī�巹�̾ƿ�, �׸��� Main�ν��Ͻ��� �޴´�)
 	public GamePanel(JFrame superFrame, CardLayout cl, Object o) {
 
@@ -217,14 +233,11 @@ public class GamePanel extends JPanel {
 	public void gameStart() {
 
 	    // selectionon이 true일 경우 게임 진행을 멈추고, 화면 갱신도 막음
-	    if (selectionon) {
-	        // 게임 진행 멈추기 (mapMove()와 fall() 호출을 막음)
-	        return;
+	    if (!selectionon) {
+		    mapMove(); // 맵 이동
+		    fall(); // 아이템이나 캐릭터 떨어지기
 	    }
 
-	    // selectionon이 false일 때 게임 진행
-	    mapMove(); // 맵 이동
-	    fall(); // 아이템이나 캐릭터 떨어지기
 
 	}
 
@@ -794,6 +807,7 @@ public class GamePanel extends JPanel {
 		main.selectFrame.setVisible(true);   // 화면에 표시
 	    main.getFrame().setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
 	    main.selectFrame.requestFocus();
+	    gameSpeed =0;
 	    selectionon = true;
 	}
 
@@ -1038,22 +1052,39 @@ public class GamePanel extends JPanel {
 											+ c1.getHeight() * 1 / 3
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
-
-								switch (tempJelly.getType()) {
-								case 1:
-									type1Count++;
-									break;
-								case 2:
-									type2Count++;
-									break;
-								case 3:
-									type3Count++;
-									break;
-								case 4:
-									type4Count++;
-								default:
-									break;
-								}
+								
+								if(!isSliding) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count++;
+										break;
+									case 2:
+										type2Count++;
+										break;
+									case 3:
+										type3Count++;
+										break;
+									case 4:
+										type4Count++;
+									default:
+										break;
+									}}
+									else if(isSliding) {
+										switch (tempJelly.getType()) {
+										case 1:
+											type1Count--;
+											break;
+										case 2:
+											type2Count--;
+											break;
+										case 3:
+											type3Count--;
+											break;
+										case 4:
+											type4Count--;
+										default:
+											break;
+										}}	
 
 								tempJelly.setImage(jellyEffectIc.getImage());
 								resultScore += tempJelly.getScore();

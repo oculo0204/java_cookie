@@ -20,6 +20,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -35,6 +36,7 @@ import main.listenAdapter;
 
 public class EndArchivePanel extends JScrollPane {
 	
+	private boolean[] isNew = new boolean[Endings.count];
 	public Endings endings;
 	public class collection extends JPanel{
 
@@ -57,9 +59,8 @@ public class EndArchivePanel extends JScrollPane {
 		
 		JLabel name = new JLabel();
 		JLabel image = new JLabel();
-		Boolean isNew;
 		
-		public collection(Endings e, int i) {
+		public collection(Endings e, int i) throws SQLException {
 
 			Font cookieRunBlack = loadCustomFont("fonts/CookieRun Regular.otf", 20f);
 			this.name.setFont(cookieRunBlack);
@@ -67,9 +68,7 @@ public class EndArchivePanel extends JScrollPane {
 			Image img = imgIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 			
 			
-			isNew = e.endings[i].isNew;
-			
-			if(isNew) {
+			if(isNew[i]) {
 				this.name.setText("???");
 				image.setIcon(new ImageIcon("img/endArchive/background.png"));
 			}
@@ -100,23 +99,20 @@ public class EndArchivePanel extends JScrollPane {
 		    g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 		}
 		
-		public EndArchive (Object o, Endings e) {
+		public EndArchive (Object o, Endings e) throws SQLException {
 			
 			
 			setLayout(null);
 			setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 			
 			
-			JPanel collections = new JPanel() {@Override
+			JPanel collections = new JPanel() {
 				public void paintComponent(Graphics g) {
 			    super.paintComponent(g);
 			    g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 			};
-			
-//			GridLayout  gl = new GridLayout(4,4);
-//			collections.setLayout(gl);
-//			
+		
 			collections.setLayout(new FlowLayout());
 			collection[] collectionArray = new collection[Endings.count];
 			
@@ -128,11 +124,7 @@ public class EndArchivePanel extends JScrollPane {
 				collections.add(collectionArray[i]);
 			}
 
-			for(int i = 0; i < 13; i++) {
-				collections.add(collectionArray[i]);
-				
-			}
-			
+		
 			collections.setBounds(50,100,700,900);
 			add(collections);
 			
@@ -186,11 +178,26 @@ public class EndArchivePanel extends JScrollPane {
 		}
 	}
 	
-	
-//	스크롤설정
-	public EndArchivePanel(Object o, Endings endings) {
-		Endings e = endings;
+	public void setIsNewArray(boolean[] array) {
+		System.out.println("엔딩패널 업데이트");
+		for(int i = 0; i < Endings.count; i++) {
+			try {
+				array[i] = DB.getIsNew(i);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
+	}
+	
+	
+	public EndArchivePanel(Object o, Endings endings) throws SQLException {
+		Endings e = endings;
+		setIsNewArray(isNew);
+        // 배열 요소 하나씩 출력
+        for (int i = 0; i < isNew.length; i++) {
+            System.out.println("isNew[" + i + "] = " + isNew[i]);
+        }
 		EndArchive ea = new EndArchive(o, e);
 		setViewportView(ea);		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -198,6 +205,10 @@ public class EndArchivePanel extends JScrollPane {
 		Image track = new ImageIcon("img/endArchive/track.png").getImage();
 		Image thumb = new ImageIcon("img/endArchive/thumb.png").getImage();
 		setVerticalScrollBar(new MyScrollBar(track, thumb));
+		
+
+        revalidate();
+        repaint();
 	}
 
 

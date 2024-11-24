@@ -80,6 +80,8 @@ public class MainPanel extends JPanel {
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
+		btnOptions.addMouseListener((MouseListener) o);
+		btnOptions.setName("ExplainBtn"); 
 		add(btnOptions);
 
 		// EASY 버튼
