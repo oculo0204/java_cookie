@@ -191,15 +191,21 @@ public class EndArchivePanel extends JScrollPane {
 	}
 	
 	
-	public EndArchivePanel(Object o, Endings endings) throws SQLException {
+	public EndArchivePanel(Object o, Endings endings){
 		Endings e = endings;
 		setIsNewArray(isNew);
         // 배열 요소 하나씩 출력
-        for (int i = 0; i < isNew.length; i++) {
-            System.out.println("isNew[" + i + "] = " + isNew[i]);
-        }
-		EndArchive ea = new EndArchive(o, e);
-		setViewportView(ea);		
+//        for (int i = 0; i < isNew.length; i++) {
+//            System.out.println("isNew[" + i + "] = " + isNew[i]);
+//        }
+		EndArchive ea;
+		try {
+			ea = new EndArchive(o, e);
+			setViewportView(ea);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		Image track = new ImageIcon("img/endArchive/track.png").getImage();
