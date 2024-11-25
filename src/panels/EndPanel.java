@@ -187,13 +187,6 @@ public class EndPanel extends JPanel {
         scoreViewLabel.setBounds(360, 42, 400, 87);
         add(scoreViewLabel);
 
-        /*
-        scoreLabel = new JLabel();
-        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Harlow Solid Italic", Font.PLAIN, 49));
-        scoreLabel.setBounds(413, 52, 459, 87);
-        add(scoreLabel);*/
-
         // 엔딩 배경 이미지 (가장 마지막에 추가하여 가장 뒤에 표시되도록 함)
         ImageIcon backIcon = new ImageIcon("img/end/ending-bk.png");
         Image backImage = backIcon.getImage();
@@ -205,6 +198,7 @@ public class EndPanel extends JPanel {
     }
 
     public int setResultScore(int artCoin, int exerciseCoin , int studyCoin, int gameCoin) {
+//    	코인 수 표시
     	exerciseNumberLabel.setText(Integer.toString(exerciseCoin));
     	studyNumberLabel.setText(Integer.toString(studyCoin));
     	gameNumberLabel.setText(Integer.toString(gameCoin));
@@ -277,6 +271,7 @@ public class EndPanel extends JPanel {
 	    contextLabel.setText(e.endings[index].description);
 	    cookieImageLabel.setIcon(images[index]);
 	    try {
+//	    	new 라벨 갱신
 			if(DB.getIsNew(index)) {
 				newCookieLabel.setText("new");
     	    	DB.changeIsNew(index);
@@ -286,6 +281,7 @@ public class EndPanel extends JPanel {
 		}
     }
     
+//    이미지 사이즈 조정
     public ImageIcon resizeImage(int index)    {
     	ImageIcon ii = new ImageIcon(e.endings[index].imagePath);
     	Image i = ii.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
