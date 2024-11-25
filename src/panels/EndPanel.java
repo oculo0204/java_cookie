@@ -201,10 +201,15 @@ public class EndPanel extends JPanel {
         imageLabel = new JLabel(new ImageIcon(resizeBackImage));
         imageLabel.setBounds(0, 0, 800, 500);
         add(imageLabel);
+        
     }
 
     public int setResultScore(int artCoin, int exerciseCoin , int studyCoin, int gameCoin) {
-    	  int index;
+    	exerciseNumberLabel.setText(Integer.toString(exerciseCoin));
+    	studyNumberLabel.setText(Integer.toString(studyCoin));
+    	gameNumberLabel.setText(Integer.toString(gameCoin));
+        artNumberLabel.setText(Integer.toString(artCoin));  
+    	int index;
       	// 코인 수에 따라 이름과 이미지, 설명 설정
       	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
        	if(studyCoin >= 100 && gameCoin >= 50 && artCoin >= 100 && exerciseCoin >= 100) {
