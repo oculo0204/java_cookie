@@ -1,9 +1,0 @@
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{0}: checkout: moving from seowon to gayeon2
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{1}: checkout: moving from gayeon2 to seowon
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{2}: checkout: moving from gayeon2 to gayeon2
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{3}: checkout: moving from origin/seowon to gayeon2
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{4}: checkout: moving from gayeon2 to origin/seowon
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{5}: checkout: moving from gayeon2 to gayeon2
-[33m2d5240e[m[33m ([m[1;36mHEAD -> [m[1;32mgayeon2[m[33m, [m[1;31morigin/gayeon2[m[33m, [m[1;32mseowon[m[33m, [m[1;32morigin/seowon[m[33m)[m HEAD@{6}: commit: 게임코인 제외 각 코인 분류 집계
-[33m09fd2ed[m HEAD@{7}: commit: skip기능 추가
-[33ma3ea847[m HEAD@{8}: 
