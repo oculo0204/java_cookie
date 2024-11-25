@@ -191,13 +191,19 @@ public class EndArchivePanel extends JScrollPane {
 		}
 	}
 
-	public EndArchivePanel(Object o, Endings endings) throws SQLException {
+	public EndArchivePanel(Object o, Endings endings) {
 		Endings e = endings;
 		//		패널 생성시 isNew 업데이트
 		setIsNewArray(isNew);
 
-		EndArchive ea = new EndArchive(o, e);
-		setViewportView(ea);
+		EndArchive ea;
+		try {
+			ea = new EndArchive(o, e);
+			setViewportView(ea);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		//		스크롤바설정
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

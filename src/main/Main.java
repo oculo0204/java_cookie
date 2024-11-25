@@ -163,6 +163,10 @@ private void initialize() throws SQLException {
 			gamePanel.requestFocus();
 			}
 			else {
+			    frame.getContentPane().remove(endArchivePanel);
+			    endArchivePanel = new EndArchivePanel(this, ending);
+			    frame.getContentPane().add(endArchivePanel, "endArchive");
+			    
 				cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
 			}
