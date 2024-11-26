@@ -34,10 +34,6 @@ public class SelectPanel extends JPanel {
     // 선택된 버프를 저장하는 리스트
     private List<ImageIcon> selectedBuffs;
 
-    // 선택된 버튼을 추적
-    private Map<JButton, ImageIcon> buttonToSelectedIconMap;
-    // 현재 선택된 버튼을 추적
-    private JButton currentlySelectedButton;
     
     
  // 선택된 버프 추적 변수
@@ -76,8 +72,6 @@ public class SelectPanel extends JPanel {
     // 게임 시작 버튼
     private JButton startBtn;
 
-    public SelectPanel(Object o) {
-        setLayout(null);
  // 선택완료 버튼
     private JButton selectedBtn;
 
