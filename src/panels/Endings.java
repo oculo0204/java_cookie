@@ -9,7 +9,7 @@ public class Endings {
 
 	public static int count = 13;		
 
-	Ending[] endings = new Ending[count];
+	public Ending[] endings = new Ending[count];
 
 	public Endings() {
 		endings[0] = new Ending("옥황상제", "코인 모으기에 신이 된 쿠키, 옥황상제로 거듭나다!"); 
@@ -27,22 +27,16 @@ public class Endings {
 		endings[12] = new Ending("요리사", "예술과 운동 두 분야에서 모두 뛰어난 쿠키..요리사가 되다!");
 	}
 
-	
-	public static class Ending{
+	public class Ending{
 		String name;
 		String imagePath;
 		String description;
 		ImageIcon imageicon;
-		boolean isNew;
-		
 		public Ending(String n, String des) {
 			name = n;
 			imagePath = "img/endings/"+ n +".png";
 			description = des;
-			isNew = true;
-
-			//ImageIcon img = new ImageIcon("imagePath");
-			//imageicon = new ImageIcon(img.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+	
 		}
 	}
 	

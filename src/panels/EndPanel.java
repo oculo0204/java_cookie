@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,8 +19,8 @@ import javax.swing.SwingConstants;
 
 import javax.swing.*;
 import java.awt.*;
-
 import main.listenAdapter;
+import panels.Endings.Ending;
 
 
 public class EndPanel extends JPanel {
@@ -45,18 +46,12 @@ public class EndPanel extends JPanel {
     JLabel artCoinLabel;
     JLabel artNumberLabel;
     JLabel contextLabel;
-    private Image resizeKingCookieImage;
-    private Image resizeProfessorCookieImage;
-    private Image resizeProgrammerCookieImage;
-    private Image resizePianistCookieImage;
-    private Image resizePainterCookieImage;
-    private Image resizeNationalCookieImage;
-    private Image resizeAthleteCookieImage;
-    private Image resizeProgammerCookieImage;
-    private Image resizeCookerCookieImage;
-    private Image resizeBacksuCookieImage;
-    // private int resultScore;
     
+    
+    private ImageIcon[] images = new ImageIcon[Endings.count];
+    // private int resultScore;
+
+
 	// 폰트 로딩 함수
 	private Font loadCustomFont(String fontPath, float fontSize) {
 		try {
@@ -81,6 +76,14 @@ public class EndPanel extends JPanel {
         Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 24f);
         Font cookieRunRegular = loadCustomFont("fonts/CookieRun Regular.otf", 12f);
         
+        // 이미지 초기화
+        for (int i = 0; i < e.endings.length; i++) {
+            String imagePath = e.endings[i].imagePath; // 이미지 경로
+            ImageIcon cookieIcon = new ImageIcon(imagePath);
+            Image cookieImage = cookieIcon.getImage();
+            images[i] = new ImageIcon(cookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+        }
+        
         //Ending endings;
         //새로운 쿠키일때 
         newCookieLabel = new JLabel("");
@@ -91,50 +94,10 @@ public class EndPanel extends JPanel {
         // 쿠키 이름 라벨
         cookieNameLabel = new JLabel("");
         cookieNameLabel.setFont(cookieRunBlack);
-        cookieNameLabel.setBounds(145, 90, 400, 87);
+        cookieNameLabel.setBounds(115, 100, 400, 87);
         add(cookieNameLabel);
-        
-        // 옥황상제 쿠키 이미지 얻기
-    	ImageIcon king_cookie = new ImageIcon(e.endings[0].imagePath);
-    	Image kingCookieImage = king_cookie.getImage();
-		resizeKingCookieImage = kingCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        // 교수 쿠키 이미지 얻기
-    	ImageIcon professor_cookie = new ImageIcon(e.endings[3].imagePath);
-    	Image professorCookieImage = professor_cookie.getImage();
-		resizeProfessorCookieImage = professorCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 프로그래머 쿠키 이미지 얻기
-	 	ImageIcon programmer_cookie = new ImageIcon(e.endings[5].imagePath);
-    	Image programmerCookieImage = programmer_cookie.getImage();
-		resizeProgrammerCookieImage = programmerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 피아니스트 쿠키 이미지 얻기
-		ImageIcon pianist_cookie = new ImageIcon(e.endings[1].imagePath);
-    	Image pianistCookieImage = pianist_cookie.getImage();
-		resizePianistCookieImage = pianistCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 화가 쿠키 이미지 얻기
-		ImageIcon painter_cookie = new ImageIcon(e.endings[2].imagePath);
-    	Image painterCookieImage = painter_cookie.getImage();
-		resizePainterCookieImage = painterCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 국가대표 쿠키 이미지 얻기
-		ImageIcon national_cookie = new ImageIcon(e.endings[10].imagePath);
-    	Image nationalCookieImage = national_cookie.getImage();
-		resizeNationalCookieImage = nationalCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 운동선수 쿠키 이미지 얻기
-		ImageIcon athlete_cookie = new ImageIcon(e.endings[8].imagePath);
-    	Image athleteCookieImage = athlete_cookie.getImage();
-		resizeAthleteCookieImage = athleteCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 프로게이머 쿠키 이미지 얻기
-		ImageIcon progammer_cookie = new ImageIcon(e.endings[6].imagePath);
-    	Image progammerCookieImage = progammer_cookie.getImage();
-		resizeProgammerCookieImage = progammerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 요리사 쿠키 이미지 얻기
-		ImageIcon cooker_cookie = new ImageIcon(e.endings[12].imagePath);
-    	Image cookerCookieImage = cooker_cookie.getImage();
-		resizeCookerCookieImage = cookerCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		// 백수 쿠키 이미지 얻기
-		ImageIcon backsu_cookie = new ImageIcon(e.endings[11].imagePath);
-		Image backsuCookieImage = backsu_cookie.getImage();
-		resizeBacksuCookieImage = backsuCookieImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-		//쿠키 이미지 라벨
+     
+//		//쿠키 이미지 라벨
         cookieImageLabel = new JLabel();
         cookieImageLabel.setBounds(100, 150, 200, 200); // 위치와 크기 조정
         add(cookieImageLabel);
@@ -226,13 +189,6 @@ public class EndPanel extends JPanel {
         scoreViewLabel.setBounds(360, 60, 400, 87);
         add(scoreViewLabel);
 
-        /*
-        scoreLabel = new JLabel();
-        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Harlow Solid Italic", Font.PLAIN, 49));
-        scoreLabel.setBounds(413, 52, 459, 87);
-        add(scoreLabel);*/
-
         // 엔딩 배경 이미지 (가장 마지막에 추가하여 가장 뒤에 표시되도록 함)
         ImageIcon backIcon = new ImageIcon("img/end/ending-bk.png");
         Image backImage = backIcon.getImage();
@@ -240,170 +196,99 @@ public class EndPanel extends JPanel {
         imageLabel = new JLabel(new ImageIcon(resizeBackImage));
         imageLabel.setBounds(0, 0, 800, 500);
         add(imageLabel);
+
+        
     }
 
-    public void setResultScore(int artCoin, int exerciseCoin , int studyCoin, int gameCoin) {
-        // 코인 수에 따라 이름과 이미지, 설명 설정
-    	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
-     	if(studyCoin >= 100 && gameCoin >= 50 && artCoin >= 100 && exerciseCoin >= 100) {
-    		cookieNameLabel.setText(e.endings[0].name);
-    	    cookieImageLabel.setIcon(new ImageIcon(resizeKingCookieImage));
-    	    contextLabel.setText(e.endings[0].description);
-    	    //새로 얻은 쿠키인지 확인
-    	    if(e.endings[0].isNew) {
-    	    	newCookieLabel.setText("new");
-    	    	e.endings[0].isNew =false;
-    	    }
-    	}
-     	
-     	// 종합 코인(공부 코인 + 게임 코인) - 프로게이머 엔딩
-    	else if(studyCoin >= 50 && gameCoin >= 50 && artCoin < 30 && exerciseCoin < 30) {
-    		cookieNameLabel.setText(e.endings[6].name);
-    	    cookieImageLabel.setIcon(new ImageIcon(resizeProgammerCookieImage));
-    	    contextLabel.setText(e.endings[6].description);	
-    	    //새로 얻은 쿠키인지 확인
-    	    if(e.endings[6].isNew) {
-    	    	newCookieLabel.setText("new");
-    	    	e.endings[6].isNew = false;
-    	    }
-    	}
-     	
-     	// 종합 코인(예술 코인 + 운동 코인) - 요리사 엔딩
-    	else if(artCoin >= 50 && exerciseCoin >= 50 && gameCoin < 30 && studyCoin < 30) {
-    		cookieNameLabel.setText(e.endings[12].name);
-    	    cookieImageLabel.setIcon(new ImageIcon(resizeCookerCookieImage));
-    	    contextLabel.setText(e.endings[12].description);	
-    	    //새로 얻은 쿠키인지 확인
-    	    if(e.endings[12].isNew) {
-    	    	newCookieLabel.setText("new");
-    	    	e.endings[12].isNew = false;
-    	    }
-    	}
+    public int setResultScore(int artCoin, int exerciseCoin , int studyCoin, int gameCoin) {
+//    	코인 수 표시
+    	exerciseNumberLabel.setText(Integer.toString(exerciseCoin));
+    	studyNumberLabel.setText(Integer.toString(studyCoin));
+    	gameNumberLabel.setText(Integer.toString(gameCoin));
+        artNumberLabel.setText(Integer.toString(artCoin));  
+    	int index;
+      	// 코인 수에 따라 이름과 이미지, 설명 설정
+      	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
+       	if(studyCoin >= 100 && gameCoin >= 50 && artCoin >= 100 && exerciseCoin >= 100) {
+      		index = 0;
+      	}
+      	//피아니스트 엔딩
+       	else if(artCoin >= 80 && artCoin >= exerciseCoin && artCoin > studyCoin) {
+      	    index = 1;
+      	}
+      // 화가 엔딩
+       	else if(artCoin >= 50 && artCoin >= exerciseCoin && artCoin > studyCoin) {
+      	    index = 2;
+      	    
+      	}
+      // 교수 엔딩
+       	else if(studyCoin >= 80 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
+      	    index = 3;
+      	}
+      // 의사엔딩
+//       	else if() {
+//      	    index = 4;
+//      	}
+      // 프로그래머엔딩
+       	else if(studyCoin >= 50 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
+      	    index = 5;
+      	}
+	        // 프로게이머엔딩
+	       	else if(studyCoin >= 50 && gameCoin >= 50 && artCoin < 30 && exerciseCoin < 30) {
+	      	    index = 6;
+	      	}
+        // 가수 엔딩
+       	else if(artCoin >= 50 && exerciseCoin >= 50 && gameCoin < 30 && studyCoin < 30) {
+      	    index = 7;
+      	}
+        // 아마추어 엔딩
+       	else if(exerciseCoin >= 50 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
+      	    index = 8;
+      	}
+//        // 운동선수 엔딩
+//       	else if() {
+//      	    index = 9;
+//      	}
+        // 국가대표 엔딩
+       	else if(exerciseCoin >= 80 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
+      	    index = 10;
+      	}
+//        // 요기사 엔딩
+//       	else if() {
+//      	    index = 12;
+//      	}
+       	
+      
+       	// 백수 엔딩
+      	else index = 11;
+  	    setLabel(index);
+          //코인 수 업데이트
+          
+          // 변경 사항 반영
+          revalidate();
+          repaint();
+          return index;
+    }
 
-     	// 백수 엔딩
-    	else if(studyCoin < 50 && artCoin < 50 && exerciseCoin < 50 && gameCoin < 50) {
-    		cookieNameLabel.setText(e.endings[11].name);
-    	    cookieImageLabel.setIcon(new ImageIcon(resizeBacksuCookieImage));
-    	    contextLabel.setText(e.endings[11].description);	
-    	    //새로 얻은 쿠키인지 확인
-    	    if(e.endings[11].isNew) {
-    	    	newCookieLabel.setText("new");
-    	    	e.endings[11].isNew = false;
-    	    }
-    	}
-     	//최다 코인 엔딩 로직
-    	else if(studyCoin >= artCoin) { //코인의 우선순위는 공부 > 예술 > 운동
-     		if(studyCoin > exerciseCoin) { //최다 코인이 공부 코인인 경우 
-     			//공부 코인 - 교수 엔딩
-     	    	if(studyCoin >= 80) {
-     	    		cookieNameLabel.setText(e.endings[3].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeProfessorCookieImage));
-     	    	    contextLabel.setText(e.endings[3].description);	
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[3].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[3].isNew =false;
-     	    	    }
-     	    	}
-  
-     			//공부 코인 - 프로그래머 엔딩
-     	    	else if(studyCoin >= 50) {
-     	    		cookieNameLabel.setText(e.endings[5].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeProgrammerCookieImage));
-     	    	    contextLabel.setText(e.endings[5].description);
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[5].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[5].isNew =false;
-     	    	    }
-     	    	}
-     		}
-     	     else { //최다 코인이 운동 코인인 경우
-     	    	 
-     	    	//운동 코인 - 국가 대표 엔딩
-     	    	if(exerciseCoin >= 80) {
-     	    		cookieNameLabel.setText(e.endings[10].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeNationalCookieImage));
-     	    	    contextLabel.setText(e.endings[10].description);	
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[10].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[10].isNew = false;
-     	    	    }
-     	    	}
-     	    	//운동 코인 - 아마추어 운동 선수 엔딩
-     	    	else if(exerciseCoin >= 50) {
-     	    		cookieNameLabel.setText(e.endings[8].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeAthleteCookieImage));
-     	    	    contextLabel.setText(e.endings[8].description);	
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[8].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[8].isNew =false;
-     	    	    }
-     	    	}
-     	    }
-        }
-     		
-     	else { 
-     		if(artCoin >= exerciseCoin) { //최다 코인이 예술 코인인 경우
-     			//에술 코인 - 피아니스트 엔딩
-     	    	if(artCoin >= 80) {
-     	    		cookieNameLabel.setText(e.endings[1].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizePianistCookieImage));
-     	    	    contextLabel.setText(e.endings[1].description);
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[1].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[1].isNew = false;
-     	    	    }
-     	    	}
-     	    	//에술 코인 - 화가 엔딩
-     	    	else if(artCoin >= 50) {
-     	    		cookieNameLabel.setText(e.endings[2].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizePainterCookieImage));
-     	    	    contextLabel.setText(e.endings[2].description);
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[2].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[2].isNew =false;
-     	    	}
-     		}
-     	}
-     		else { //최다 코인이 운동 코인인 경우
-     			//운동 코인 - 국가 대표 엔딩
-     	    	if(exerciseCoin >= 80) {
-     	    		cookieNameLabel.setText(e.endings[10].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeNationalCookieImage));
-     	    	    contextLabel.setText(e.endings[10].description);	
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[10].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[10].isNew = false;
-     	    	    }
-     	    	}
-     	    	//운동 코인 - 아마추어 운동 선수 엔딩
-     	    	else if(exerciseCoin >= 50) {
-     	    		cookieNameLabel.setText(e.endings[8].name);
-     	    	    cookieImageLabel.setIcon(new ImageIcon(resizeAthleteCookieImage));
-     	    	    contextLabel.setText(e.endings[8].description);	
-     	    	    //새로 얻은 쿠키인지 확인
-     	    	    if(e.endings[8].isNew) {
-     	    	    	newCookieLabel.setText("new");
-     	    	    	e.endings[8].isNew =false;
-     	    	    }
-     	    	}
-     		}
-     }
-        //코인 수 업데이트
-        exerciseNumberLabel.setText(String.valueOf(exerciseCoin));
-        gameNumberLabel.setText(String.valueOf(gameCoin));
-        artNumberLabel.setText(String.valueOf(artCoin)); 
-        studyNumberLabel.setText(String.valueOf(studyCoin));
-        
-        
-        // 변경 사항 반영
-        revalidate();
-        repaint();
+    public void setLabel(int index) {
+ 		cookieNameLabel.setText(e.endings[index].name);
+	    contextLabel.setText(e.endings[index].description);
+	    cookieImageLabel.setIcon(images[index]);
+	    try {
+//	    	new 라벨 갱신
+			if(DB.getIsNew(index)) {
+				newCookieLabel.setText("new");
+    	    	DB.changeIsNew(index);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    
+//    이미지 사이즈 조정
+    public ImageIcon resizeImage(int index)    {
+    	ImageIcon ii = new ImageIcon(e.endings[index].imagePath);
+    	Image i = ii.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+    	return new ImageIcon(i);
     }
 }

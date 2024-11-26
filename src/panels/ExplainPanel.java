@@ -8,11 +8,7 @@ import java.io.IOException;
 
 public class ExplainPanel extends JPanel {
 	
-
-
     public ExplainPanel(Object o) {
-
-    	
         setLayout(new BorderLayout(0, 20)); // 상하 간격 설정
 
 

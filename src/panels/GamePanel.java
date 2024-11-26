@@ -29,6 +29,10 @@ import ingame.Tacle;
 import main.Main;
 import util.Util;
 import panels.EndPanel;
+import panels.SelectPanel;
+
+import java.util.Set;
+import java.util.HashSet;
 
 public class GamePanel extends JPanel {
 
@@ -87,6 +91,7 @@ public class GamePanel extends JPanel {
 	private ImageIcon skipIconDown;
 
 	boolean skipActive = false;
+	public boolean selectionon = false;
 
 	ImageIcon artIcon;
 	ImageIcon ballIcon;
@@ -111,17 +116,19 @@ public class GamePanel extends JPanel {
 
 	private List<Integer> mapLengthList;
 
-	// 코인 리스트들 따로 만들어야겠지 아마..?
 
 	private int mapLength = 0;
-
+	
 	private int runPage = 0; // �� ȭ�� �̵��Ҷ����� ü���� ��� ���� ����
 
 	private int runStage = 1; // ���������� Ȯ���ϴ� �����̴�. (�̱���)
 
 	private int resultScore = 0; // ��������� �����ϴ� ����
 
-	private int gameSpeed = 5; // ���� �ӵ�
+	public int normalSpeed =5;
+	
+	private int gameSpeed = normalSpeed; // normalspeed로 초기화하게 해놓음 다른 panel에서도 쓰임
+	
 
 	private int nowField = 2000; // ������ ���̸� ����.
 
@@ -136,7 +143,11 @@ public class GamePanel extends JPanel {
 	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
-
+	private boolean isSliding = false; //슬라이딩 디버프가 없으면
+	public void setIsSliding(boolean f)
+	{
+		this.isSliding = f;
+	}
 	int face; // ��Ű�� ����
 	int foot; // ��Ű�� ��
 
@@ -170,6 +181,13 @@ public class GamePanel extends JPanel {
 	CardLayout cl;
 	Main main;
 
+	//selectionPanel로 이동할 때 gamespeed 0으로 만들어 멈춤
+	public void setGameSpeed(int a) {
+		this.gameSpeed = a;
+	}
+	
+	
+
 	// �����г� ������ (���� �����Ӱ� ī�巹�̾ƿ�, �׸��� Main�ν��Ͻ��� �޴´�)
 	public GamePanel(JFrame superFrame, CardLayout cl, Object o) {
 
@@ -202,14 +220,19 @@ public class GamePanel extends JPanel {
 		initListener(); // Ű������ �߰�
 
 		runRepaint(); // ������Ʈ ���ѹݺ� ����
+		//맵길이
+		//System.out.println(mapLenArr[0]+" "+mapLenArr[1]+" "+mapLenArr[2]+" "+mapLenArr[3]+" "); 
 	}
 
 	// ������ �����Ѵ�
 	public void gameStart() {
 
-		mapMove(); // ��� ���� ���� ��ֹ� �۵�
+	    // selectionon이 true일 경우 게임 진행을 멈추고, 화면 갱신도 막음
+	    if (!selectionon) {
+		    mapMove(); // 맵 이동
+		    fall(); // 아이템이나 캐릭터 떨어지기
+	    }
 
-		fall(); // ���� ������ �ߵ�
 
 	}
 
@@ -232,18 +255,20 @@ public class GamePanel extends JPanel {
 		// ���� ����
 		Graphics2D g2 = (Graphics2D) buffg;
 
-		super.paintComponent(buffg); // ���� ȭ���� �����.
+		super.paintComponent(buffg);
+	
 
-		// ����̹����� �׸���
+		// �배경 이미지를 그린다.
 		buffg.drawImage(b11.getImage(), b11.getX(), 0, b11.getWidth(), b11.getHeight() * 5 / 4, null);
 		buffg.drawImage(b12.getImage(), b12.getX(), 0, b12.getWidth(), b12.getHeight() * 5 / 4, null);
 		buffg.drawImage(b21.getImage(), b21.getX(), 0, b21.getWidth(), b21.getHeight() * 5 / 4, null);
 		buffg.drawImage(b22.getImage(), b22.getX(), 0, b22.getWidth(), b22.getHeight() * 5 / 4, null);
 
-		// �������� �Ѿ�� ���̵�ƿ� �� ȿ��
+		// 스테이지 넘어갈 시 페이드 아웃 효과
 		if (fadeOn) {
 			buffg.setColor(backFade); // �����ϰ� �ϴ¹�� 1
 			buffg.fillRect(0, 0, this.getWidth(), this.getHeight());
+
 		}
 
 		// ������ �׸���
@@ -524,82 +549,39 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		// 젤리 위치 임의로 생성 (지정된 맵 영역 내에서)
-		Random rand = new Random();
 
-		// 전체 맵넓이의 /20 만큼 젤리를 생성한다
-		int maxRan = (20) * 3; // maxRan * 맵 수
-		ArrayList<Integer> randListX = new ArrayList<>();
-		ArrayList<Integer> randListY = new ArrayList<>();
+		// 랜덤 젤리 생성 (좌표 중복 방지)
+		Set<String> occupiedCoordinates = new HashSet<>();
 
-		// maxRan개수 만큼 젤리를 생성한다.
-		for (int i = 0; i < maxRan; i += 1) {
-			int resultX = 0;
-			int resultY = 0;
-			int randX = (int) (Math.random() * (maxX - 20)) + 20; // 20~maxX까지 중에 생성
+		// 모든 객체를 생성할 때 좌표를 기록
+		for (Tacle tacle : tacleList) {
+		    occupiedCoordinates.add(tacle.getX() / 40 + "," + tacle.getY() / 40);
+		}
+		for (Field field : fieldList) {
+		    occupiedCoordinates.add(field.getX() / 40 + "," + field.getY() / 40);
+		}
+		for (Jelly jelly : jellyList) {
+		    occupiedCoordinates.add(jelly.getX() / 40 + "," + jelly.getY() / 40);
+		}
 
-			// Y 값은 4,6,8 픽셀에만 설정되도록 조건 추가
-			int randY = (int) ((Math.random() * 2) + 2)*2;
+		int coinsToGenerate = 20; // 목표 개수
+		int generatedCoins = 0; // 생성된 코인 개수
 
-			boolean isTacle = false;
-			// 현재 젤리 위치가 장애물과 같으면 isTacle=true
-			for (Tacle tacle : tacleList) {
-				// 장애물이 젤리 영역에 겹치는지 확인
-				// System.out.println("장애물 위치: " + tacle.getX()+", "+ tacle.getY());
+		// 40개의 랜덤 젤리가 생성될 때까지 반복
+		while (generatedCoins < coinsToGenerate) {
+			int randX = (int) ((Math.random() * (maxX / 2 - 10)) + 10) * 2;
+	        int randY = (int) ((Math.random() * 2) + 2)*2;
+		    String coord = randX + "," + randY;
 
-				if ((tacle.getX() / 40 == randX && tacle.getY() / 40 == randY)
-						|| (tacle.getX() / 40 == randX + 1 && tacle.getY() / 40 == randY)
-						|| (tacle.getX() / 40 == randX && tacle.getY() / 40 == randY + 1)
-						|| (tacle.getX() / 40 == randX + 1 && tacle.getY() / 40 == randY + 1)) {
-					isTacle = true;
-					break;
-				}
-			}
-
-			for (Field field : fieldList) {
-				// 필드의 특정 위치와 젤리의 겹침 여부 확인
-				if ((field.getX() / 40 == randX && field.getY() / 40 == randY)
-						|| (field.getX() / 40 == randX + 1 && field.getY() / 40 == randY)
-						|| (field.getX() / 40 == randX && field.getY() / 40 == randY + 1)
-						|| (field.getX() / 40 == randX + 1 && field.getY() / 40 == randY + 1)) {
-					isTacle = true; // 겹친다면 true로 설정
-					break; // 겹쳤으면 더 이상 확인하지 않음
-				}
-			}
-			if (!isTacle) {
-				for (int j = 0; j < randListX.size(); j++) {
-
-					if (randListX.get(j) == randX && randListY.get(j) == randY
-							|| randListX.get(j) == randX + 1 && randListY.get(j) == randY
-							|| randListX.get(j) == randX && randListY.get(j) == randY + 1
-							|| randListX.get(j) == randX + 1 && randListY.get(j) == randY + 1) {
-						break;
-					} else {
-						resultX = randX;
-						resultY = randY;
-					}
-				}
-
-			}
-
-			// 다른 젤리와 겹치는지 확인
-			// 현재 추가된 randX,randY중에 지금 추가하려는 좌표가있는지 확인하고 없으면 result로 넣는다.
-
-			// 새로 만든 젤리를 리스트에 투가
-			randListX.add(resultX);
-			randListY.add(resultY);
-			
-			
-			// 게임 젤리 생성
-
-			Jelly newJelly = new Jelly(jelly4Ic.getImage(), resultX * 40 + mapLength * 40, resultY * 40, 80, 80, 255, 1,
-					4);
-
-			// 젤리 추가 후 콘솔에 출력
-			jellyList.add(newJelly);
-
+		    if (!occupiedCoordinates.contains(coord)) {
+		        occupiedCoordinates.add(coord);
+		        jellyList.add(new Jelly(jelly4Ic.getImage(), randX * 40 + mapLength * 40, randY * 40, 80, 80, 255, 1, 4));
+		        System.out.println((randX * 40 + mapLength * 40) + "," + (randY * 40)); // 생성된 좌표 출력
+		        generatedCoins++; // 생성된 코인 개수 증가
+		    }
 		}
 		this.mapLength = this.mapLength + tempMapLength;
+
 	}
 
 	// makeMo, initImageIcon, imitMap �޼��带 �̿��ؼ� ��ü ����
@@ -647,11 +629,11 @@ public class GamePanel extends JPanel {
 		// �� �ν��Ͻ����� ����
 
 		makeMo();
-
+		
 		initImageIcon(mo1);
 		initMap(1, mapLength);
 		mapLengthList.add(mapLength);
-
+		
 		initImageIcon(mo2);
 		initMap(2, mapLength);
 		mapLengthList.add(mapLength);
@@ -814,8 +796,15 @@ public class GamePanel extends JPanel {
 			}
 		}).start();
 	}
+	// 게임 패널에서 맵을 넘기고 select 패널로 전환하는 메서드
+	public void goToSelectPanel() {
+		main.selectFrame.setVisible(true);   // 화면에 표시
+	    main.getFrame().setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
+	    main.selectFrame.requestFocus();
+	    gameSpeed =0;
+	    selectionon = true;
+	}
 
-	// ȭ���� �����̰� ������ �԰ų�, ��ֹ��� �ε����� ���� �̺�Ʈ�� �߻���Ű�� �޼���
 	private void mapMove() {
 		new Thread(new Runnable() {
 
@@ -843,7 +832,9 @@ public class GamePanel extends JPanel {
 					if (fadeOn == false) { // ���̵�ƿ��� ���°� �ƴҶ�
 						if (mapLength > mapLengthList.get(2) * 40 + 800 && b11.getImage() != backIc4.getImage()) {
 							fadeOn = true;
-
+						        // 맵 끝에 도달했을 때
+						        System.out.println("현재 맵3이 끝났습니다!");
+						        goToSelectPanel();
 							new Thread(new Runnable() {
 
 								@Override
@@ -874,6 +865,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(2) * 40 + 800
 								&& b11.getImage() != backIc3.getImage()) {
 							fadeOn = true;
+							 // 맵 끝에 도달했을 때
+					        System.out.println("현재 맵2이 끝났습니다!");
+					        goToSelectPanel();
 
 							new Thread(new Runnable() {
 
@@ -905,7 +899,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(1) * 40 + 800
 								&& b11.getImage() != backIc2.getImage()) {
 							fadeOn = true;
-
+							 // 맵 끝에 도달했을 때
+					        System.out.println("현재 맵1이 끝났습니다!");
+					        goToSelectPanel();
 							new Thread(new Runnable() {
 
 								@Override
@@ -991,8 +987,9 @@ public class GamePanel extends JPanel {
 								tempJelly.setAlpha(tempJelly.getAlpha() - 5);
 							}
 
-							foot = c1.getY() + c1.getHeight(); // 캐릭터의 발 위치
+							   int foot = c1.getCountJump()>0 ? c1.getY() + c1.getHeight()+40 : c1.getY() + c1.getHeight(); // 점프 중이라면 점프 높이만큼 발 위치를 변경
 
+							
 							// HP 물약(jellyHPIc) 충돌 처리 - skipActive 여부와 상관없이 HP 충돌 처리
 							if (tempJelly.getImage() == jellyHPIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
@@ -1047,22 +1044,39 @@ public class GamePanel extends JPanel {
 											+ c1.getHeight() * 1 / 3
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
-
-								switch (tempJelly.getType()) {
-								case 1:
-									type1Count++;
-									break;
-								case 2:
-									type2Count++;
-									break;
-								case 3:
-									type3Count++;
-									break;
-								case 4:
-									type4Count++;
-								default:
-									break;
-								}
+								
+								if(!isSliding) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count++;
+										break;
+									case 2:
+										type2Count++;
+										break;
+									case 3:
+										type3Count++;
+										break;
+									case 4:
+										type4Count++;
+									default:
+										break;
+									}}
+									else if(isSliding) {
+										switch (tempJelly.getType()) {
+										case 1:
+											type1Count--;
+											break;
+										case 2:
+											type2Count--;
+											break;
+										case 3:
+											type3Count--;
+											break;
+										case 4:
+											type4Count--;
+										default:
+											break;
+										}}	
 
 								tempJelly.setImage(jellyEffectIc.getImage());
 								resultScore += tempJelly.getScore();

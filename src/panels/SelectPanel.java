@@ -18,16 +18,16 @@ public class SelectPanel extends JPanel {
     // 버프 이미지 (선택 전)
     private ImageIcon speedUp = new ImageIcon("img/select/speedUp.png");
     private ImageIcon noSkip = new ImageIcon("img/select/skipRemove.png");
-    private ImageIcon smallCoin = new ImageIcon("img/select/selectCh3.png");
-    private ImageIcon hurdleScale2 = new ImageIcon("img/select/selectCh4.png");
+    private ImageIcon smallCoin = new ImageIcon("img/select/heartUp.png");
+    private ImageIcon hurdleScale2 = new ImageIcon("img/select/jumpUp.png");
     private ImageIcon decreaseCoin = new ImageIcon("img/select/slideCoinDrop.png");
     private ImageIcon coinScore2 = new ImageIcon("img/select/coinDouble.png");
 
     // 버프 이미지 (선택 후)
     private ImageIcon selectedSpeedUp = new ImageIcon("img/select/speedUp_selected.png");
     private ImageIcon selectedNoSkip = new ImageIcon("img/select/skipRemove_selected.png");
-    private ImageIcon selectedSmallCoin = new ImageIcon("img/select/selectedCh3.png");
-    private ImageIcon selectedHurdleScale2 = new ImageIcon("img/select/selectedCh4.png");
+    private ImageIcon selectedSmallCoin = new ImageIcon("img/select/heartUp_selected.png");
+    private ImageIcon selectedHurdleScale2 = new ImageIcon("img/select/jumpUp_selected.png");
     private ImageIcon selectedDecreaseCoin = new ImageIcon("img/select/slideCoinDrop_selected.png");
     private ImageIcon selectedCoinScore2 = new ImageIcon("img/select/coinDouble_selected.png");
 
@@ -38,6 +38,26 @@ public class SelectPanel extends JPanel {
     private Map<JButton, ImageIcon> buttonToSelectedIconMap;
     // 현재 선택된 버튼을 추적
     private JButton currentlySelectedButton;
+    
+    
+ // 선택된 버프 추적 변수
+    private ImageIcon selectedBuff = null;
+    public String getSelectedBuff() {
+    	return getBuffName(selectedBuff);
+    }
+    private JLabel selectedBuffLabel;  // 선택된 버프 이름을 표시할 라벨
+
+    // 선택된 버튼을 추적
+    private Map<JButton, ImageIcon> buttonToSelectedIconMap;
+    private JButton currentlySelectedButton;
+    
+    private boolean isCheckedbuff = false;
+    public boolean getIsCheckedBuff() {
+    	return isCheckedbuff;
+    }
+    public void setIsCheckedBuff(boolean a) {
+    	this.isCheckedbuff =a;
+    }
     
     // 폰트 로딩 함수
  	private Font loadCustomFont(String fontPath, float fontSize) {
@@ -58,6 +78,14 @@ public class SelectPanel extends JPanel {
 
     public SelectPanel(Object o) {
         setLayout(null);
+ // 선택완료 버튼
+    private JButton selectedBtn;
+
+    public SelectPanel(Object o) {
+        setLayout(null);
+        //폰트
+        Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 24f);
+        Font cookieRunRegular = loadCustomFont("fonts/CookieRun Regular.otf", 12f);
 
         // 랜덤으로 3개의 버프 선택
         selectedBuffs = getRandomBuffs();
@@ -77,10 +105,27 @@ public class SelectPanel extends JPanel {
         startBtn.addMouseListener((MouseListener) o);
         add(startBtn);
 
+        // 선택완료 버튼
+        selectedBtn = new JButton(new ImageIcon("img/select/GameStartBtn.png"));
+        selectedBtn.setBounds(450, 370, 291, 81);
+        selectedBtn.setBorderPainted(false);
+        selectedBtn.setContentAreaFilled(false);
+        selectedBtn.setFocusPainted(false);
+        selectedBtn.addMouseListener((MouseListener) o);
+        selectedBtn.setName("selectBtn");
+        add(selectedBtn);
+        selectedBtn.setEnabled(false);  
+
         // 배경 이미지
-        JLabel selectBg = new JLabel(new ImageIcon("img/select/background.png"));
+        JLabel selectBg = new JLabel(new ImageIcon("img/select/selectBg.png"));
         selectBg.setBounds(0, 0, 800, 500);
         add(selectBg);
+        
+        // 선택된 버프 이름을 표시할 라벨 추가
+        selectedBuffLabel = new JLabel("선택된 버프: ");
+        selectedBuffLabel.setFont(cookieRunBlack);
+        selectedBuffLabel.setBounds(20, 350, 300, 50);
+        add(selectedBuffLabel);
     }
 
     // 랜덤으로 3개의 버프 선택
@@ -123,6 +168,11 @@ public class SelectPanel extends JPanel {
                     if (currentlySelectedButton != buffButton) {
                         buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));
                         currentlySelectedButton = buffButton;
+                   	 selectedBuff = buff;  // 선택된 버프 추적
+                     selectedBuffLabel.setText("선택된 버프: " + getBuffName(selectedBuff));  // 선택된 버프 이름 업데이트
+                    buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));
+                    isCheckedbuff =true;
+                    selectedBtn.setEnabled(true);
                     } else {
                         // 동일한 버튼을 다시 클릭하면 선택 해제
                         currentlySelectedButton = null;
@@ -158,7 +208,6 @@ public class SelectPanel extends JPanel {
         return null;
     }
 
-
     // 선택 후 이미지를 반환하는 메서드
     private ImageIcon getSelectedImageForBuff(ImageIcon buff) {
         if (buff.equals(speedUp)) return selectedSpeedUp;
@@ -174,8 +223,8 @@ public class SelectPanel extends JPanel {
     private String getBuffName(ImageIcon buff) {
         if (buff.equals(speedUp)) return "스피드 업";
         if (buff.equals(noSkip)) return "스킵 기능 무효";
-        if (buff.equals(smallCoin)) return "미정2";
-        if (buff.equals(hurdleScale2)) return "미정1";
+        if (buff.equals(smallCoin)) return "무한 체력";
+        if (buff.equals(hurdleScale2)) return "점프 1.5배";
         if (buff.equals(decreaseCoin)) return "코인 수 감소";
         if (buff.equals(coinScore2)) return "코인 점수 두배";
         return "";

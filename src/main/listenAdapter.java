@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-// main에 리스너를 넣기위한 어댑터
 public abstract class listenAdapter implements KeyListener, MouseListener, ActionListener{
 
 	@Override
