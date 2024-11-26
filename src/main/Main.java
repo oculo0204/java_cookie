@@ -122,9 +122,6 @@ private void initialize() throws SQLException {
 		mainPanel.setLayout(null);
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
-
-		// main 브랜치
-		explainPanel.setLayout(null); 
 		
 //		endArchivePanel.setLayout(null);
 
@@ -161,7 +158,7 @@ private void initialize() throws SQLException {
 			cl.show(frame.getContentPane(), "main"); // "select" 대신 "main"으로 변경
 			mainPanel.requestFocus(); // mainPanel에 포커스 요청
 
-		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn") || e.getComponent().getName().equals("ExplainBtn")) {
+		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn")) {
 			if(e.getComponent().getName().equals("StartBtn")) {
 			cl.show(frame.getContentPane(), "game");
 			gamePanel.gameSet(getCi());
@@ -174,9 +171,6 @@ private void initialize() throws SQLException {
 			    frame.getContentPane().add(endArchivePanel, "endArchive");
 			    cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
-			}
-			else {
-				cl.show(frame.getContentPane(), "explain");
 			}
 
 		} else if (e.getComponent().getName().equals("endAccept")) {
@@ -195,6 +189,17 @@ private void initialize() throws SQLException {
 		else if (e.getComponent().getName().equals("backBtn")) {
 			cl.show(frame.getContentPane(), "main");
 		    mainPanel.requestFocus();
+		    frame.getContentPane().remove(gamePanel);
+		    gamePanel = new GamePanel(frame, cl, this);
+		    gamePanel.setLayout(null);
+		    frame.getContentPane().add(gamePanel, "game");
+
+		    mainPanel = new MainPanel(this);
+		    mainPanel.setLayout(null);
+		    frame.getContentPane().add(mainPanel, "main");
+		    cl.show(frame.getContentPane(), "main");
+		    mainPanel.requestFocus();
+
 		}
 		else if (e.getComponent().getName().equals("Ex_backBtn")){
 			cl.show(frame.getContentPane(), "main");
