@@ -64,7 +64,7 @@ public class EndArchivePanel extends JScrollPane {
 		JLabel image = new JLabel();
 
 //		셀 레이아웃 설정
-		public collection(Endings e, int i) throws SQLException {
+		public collection(Endings e, int i) {
 
 			Font cookieRunBlack = loadCustomFont("fonts/CookieRun Regular.otf", 20f);
 			this.name.setFont(cookieRunBlack);
@@ -103,7 +103,7 @@ public class EndArchivePanel extends JScrollPane {
 			g.drawImage(new ImageIcon("img/endArchive/background.png").getImage(), 0, 0, getWidth(), getHeight(), this);
 		}
 
-		public EndArchive(Object o, Endings e) throws SQLException {
+		public EndArchive(Object o, Endings e)  {
 			setLayout(null);
 			setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
@@ -135,7 +135,6 @@ public class EndArchivePanel extends JScrollPane {
 			JButton back = new JButton();
 			ImageIcon backIcon = new ImageIcon("img/endArchive/back.png");
 			Image backImg = backIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-
 			back.setIcon(new ImageIcon(backImg));
 			back.setBorderPainted(false);
 			back.setContentAreaFilled(false);
@@ -156,7 +155,6 @@ public class EndArchivePanel extends JScrollPane {
 				protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
 					g.drawImage(track, r.x, r.y, r.width, r.height, null);
 				}
-
 				@Override
 				protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
 					g.drawImage(thumb, r.x, r.y, r.width, r.height, null);
@@ -197,13 +195,8 @@ public class EndArchivePanel extends JScrollPane {
 		setIsNewArray(isNew);
 
 		EndArchive ea;
-		try {
-			ea = new EndArchive(o, e);
-			setViewportView(ea);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ea = new EndArchive(o, e);
+		setViewportView(ea);
 
 		//		스크롤바설정
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

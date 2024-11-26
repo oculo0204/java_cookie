@@ -1,7 +1,6 @@
 package panels;
 
 import java.awt.AlphaComposite;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -92,7 +91,6 @@ public class GamePanel extends JPanel {
 	private ImageIcon skipIconDown;
 
 	boolean skipActive = false;
-	
 	public boolean selectionon = false;
 
 	ImageIcon artIcon;
@@ -145,7 +143,6 @@ public class GamePanel extends JPanel {
 	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
-	
 	private boolean isSliding = false; //슬라이딩 디버프가 없으면
 	public void setIsSliding(boolean f)
 	{
@@ -190,8 +187,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	
-	
-	
+
 	// �����г� ������ (���� �����Ӱ� ī�巹�̾ƿ�, �׸��� Main�ν��Ͻ��� �޴´�)
 	public GamePanel(JFrame superFrame, CardLayout cl, Object o) {
 
@@ -224,7 +220,6 @@ public class GamePanel extends JPanel {
 		initListener(); // Ű������ �߰�
 
 		runRepaint(); // ������Ʈ ���ѹݺ� ����
-		
 		//맵길이
 		//System.out.println(mapLenArr[0]+" "+mapLenArr[1]+" "+mapLenArr[2]+" "+mapLenArr[3]+" "); 
 	}
@@ -554,6 +549,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 
+
 		// 랜덤 젤리 생성 (좌표 중복 방지)
 		Set<String> occupiedCoordinates = new HashSet<>();
 
@@ -638,11 +634,9 @@ public class GamePanel extends JPanel {
 		initMap(1, mapLength);
 		mapLengthList.add(mapLength);
 		
-		
 		initImageIcon(mo2);
 		initMap(2, mapLength);
 		mapLengthList.add(mapLength);
-
 
 		initImageIcon(mo3);
 		initMap(3, mapLength);
@@ -811,7 +805,6 @@ public class GamePanel extends JPanel {
 	    selectionon = true;
 	}
 
-	// ȭ���� �����̰� ������ �԰ų�, ��ֹ��� �ε����� ���� �̺�Ʈ�� �߻���Ű�� �޼���
 	private void mapMove() {
 		new Thread(new Runnable() {
 
@@ -842,7 +835,6 @@ public class GamePanel extends JPanel {
 						        // 맵 끝에 도달했을 때
 						        System.out.println("현재 맵3이 끝났습니다!");
 						        goToSelectPanel();
-	
 							new Thread(new Runnable() {
 
 								@Override

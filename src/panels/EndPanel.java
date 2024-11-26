@@ -19,14 +19,15 @@ import javax.swing.SwingConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import main.listenAdapter;
 import panels.Endings.Ending;
 
 
 public class EndPanel extends JPanel {
 	
 	Endings e;
-    ImageIcon retryBtn = new ImageIcon("img/end/home-btn.png"); // 다시 시작 버튼
-    ImageIcon homeBtn = new ImageIcon("img/end/collection.png"); // 메인 버튼
+    ImageIcon retryBtn = new ImageIcon("img/end/restart-btn.png"); // 다시 시작 버튼
+    ImageIcon homeBtn = new ImageIcon("img/end/collection-btn.png"); // 엔딩 모음 이동 버튼
     JButton retryButton;
     JButton homeButton;
     JLabel endLabel;
@@ -87,7 +88,7 @@ public class EndPanel extends JPanel {
         //새로운 쿠키일때 
         newCookieLabel = new JLabel("");
         newCookieLabel.setFont(cookieRunBlack);
-        newCookieLabel.setBounds(100, 70, 400, 87);
+        newCookieLabel.setBounds(80, 60, 400, 87);
         newCookieLabel.setForeground(Color.RED);
         add(newCookieLabel);
         // 쿠키 이름 라벨
@@ -105,70 +106,71 @@ public class EndPanel extends JPanel {
         Image exerciseImage = exerciseIcon.getImage();
         Image resizeExerciseImage = exerciseImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         exerciseCoinLabel = new JLabel(new ImageIcon(resizeExerciseImage));
-        exerciseCoinLabel.setBounds(380, 115, 67, 68);
+        exerciseCoinLabel.setBounds(405, 140, 67, 68);
         add(exerciseCoinLabel);
         //운동 코인 수
         exerciseNumberLabel = new JLabel();
         exerciseNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-        exerciseNumberLabel.setBounds(460, 110, 300, 80);
+        exerciseNumberLabel.setBounds(485, 135, 300, 80);
         add(exerciseNumberLabel);
         //게임 코인
         ImageIcon gameIcon = new ImageIcon("img/end/game.png");
         Image gameImage = gameIcon.getImage();
         Image resizeGameImage = gameImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         gameCoinLabel = new JLabel(new ImageIcon(resizeGameImage));
-        gameCoinLabel.setBounds(560, 115, 67, 68);
+        gameCoinLabel.setBounds(570, 140, 67, 68);
         add(gameCoinLabel);
         //게임 코인 수
         gameNumberLabel = new JLabel();
         gameNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-        gameNumberLabel.setBounds(640, 110, 300, 80);
+        gameNumberLabel.setBounds(660, 135, 300, 80);
         add(gameNumberLabel);
         //예술 코인
         ImageIcon artIcon = new ImageIcon("img/end/art.png");
         Image artImage = artIcon.getImage();
         Image resizeArtImage = artImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         artCoinLabel = new JLabel(new ImageIcon(resizeArtImage));
-        artCoinLabel.setBounds(380, 205, 67, 68);
+        artCoinLabel.setBounds(405, 225, 67, 68);
         add(artCoinLabel);
         //예술 코인 수
         artNumberLabel = new JLabel();
         artNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-        artNumberLabel.setBounds(460, 200, 300, 80);
+        artNumberLabel.setBounds(485, 220, 300, 80);
         add(artNumberLabel);
         //공부 코인
         ImageIcon studyIcon = new ImageIcon("img/end/study.png");
         Image studyImage = studyIcon.getImage();
         Image resizeStudyImage = studyImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         studyCoinLabel = new JLabel(new ImageIcon(resizeStudyImage));
-        studyCoinLabel.setBounds(560, 205, 67, 68);
+        studyCoinLabel.setBounds(570, 225, 67, 68);
         add(studyCoinLabel);
         //공부 코인 수
         studyNumberLabel = new JLabel();
         studyNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-        studyNumberLabel.setBounds(640, 200, 300, 80);
+        studyNumberLabel.setBounds(660, 220, 300, 80);
         add(studyNumberLabel);
         //쿠키 설명
         contextLabel = new JLabel();
         contextLabel.setFont(cookieRunRegular);
-        contextLabel.setBounds(50, 350, 600, 80);
+        contextLabel.setBounds(35, 370, 350, 80);
+        contextLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        contextLabel.setVerticalAlignment(SwingConstants.CENTER);
         add(contextLabel);
         // 다시 시작 버튼
         retryButton = new JButton(retryBtn);
         retryButton.setName("endAccept");
         retryButton.addMouseListener((MouseListener) o);
-        retryButton.setBounds(520, 300, 250, 70);
+        retryButton.setBounds(560, 350, 220, 70);
         retryButton.setBorderPainted(false);
         retryButton.setFocusPainted(false);
         retryButton.setContentAreaFilled(false);
         add(retryButton);
 
-
         // 엔딩 모음 이동 버튼
         homeButton = new JButton(homeBtn);
         homeButton.setName("EndArchiveBtn");
         homeButton.addMouseListener((MouseListener) o);
-        homeButton.setBounds(520, 370, 250, 70);
+        homeButton.setBounds(360, 350, 220, 70);
         homeButton.setBorderPainted(false);
         homeButton.setFocusPainted(false);
         homeButton.setContentAreaFilled(false);
@@ -184,7 +186,7 @@ public class EndPanel extends JPanel {
         scoreViewLabel = new JLabel("score");
         scoreViewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         scoreViewLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 49));
-        scoreViewLabel.setBounds(360, 42, 400, 87);
+        scoreViewLabel.setBounds(360, 60, 400, 87);
         add(scoreViewLabel);
 
         // 엔딩 배경 이미지 (가장 마지막에 추가하여 가장 뒤에 표시되도록 함)
@@ -194,6 +196,7 @@ public class EndPanel extends JPanel {
         imageLabel = new JLabel(new ImageIcon(resizeBackImage));
         imageLabel.setBounds(0, 0, 800, 500);
         add(imageLabel);
+
         
     }
 
@@ -266,6 +269,7 @@ public class EndPanel extends JPanel {
           repaint();
           return index;
     }
+
     public void setLabel(int index) {
  		cookieNameLabel.setText(e.endings[index].name);
 	    contextLabel.setText(e.endings[index].description);

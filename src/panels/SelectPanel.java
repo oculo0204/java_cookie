@@ -13,7 +13,6 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-
 public class SelectPanel extends JPanel {
 
     // 버프 이미지 (선택 전)
@@ -34,6 +33,8 @@ public class SelectPanel extends JPanel {
 
     // 선택된 버프를 저장하는 리스트
     private List<ImageIcon> selectedBuffs;
+
+    
     
  // 선택된 버프 추적 변수
     private ImageIcon selectedBuff = null;
@@ -68,6 +69,9 @@ public class SelectPanel extends JPanel {
  		}
  	}
 
+    // 게임 시작 버튼
+    private JButton startBtn;
+
  // 선택완료 버튼
     private JButton selectedBtn;
 
@@ -85,6 +89,15 @@ public class SelectPanel extends JPanel {
 
         // 선택된 버프 배치
         arrangeBuffs();
+
+        // 게임 시작 버튼
+        startBtn = new JButton(new ImageIcon("img/select/GameStartBtn.png"));
+        startBtn.setBounds(450, 370, 291, 81);
+        startBtn.setBorderPainted(false);
+        startBtn.setContentAreaFilled(false);
+        startBtn.setFocusPainted(false);
+        startBtn.addMouseListener((MouseListener) o);
+        add(startBtn);
 
         // 선택완료 버튼
         selectedBtn = new JButton(new ImageIcon("img/select/GameStartBtn.png"));
@@ -116,8 +129,6 @@ public class SelectPanel extends JPanel {
         Collections.shuffle(allBuffs); // 랜덤으로 섞기
         return allBuffs.subList(0, 3); // 상위 3개 반환
     }
-
-    // 선택된 버프를 화면에 배치
     private void arrangeBuffs() {
         int x = 80; // 초기 X 좌표
         int y = 90; // Y 좌표
@@ -141,8 +152,6 @@ public class SelectPanel extends JPanel {
             buffButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-
-//                    
                     // 이전에 선택된 버튼이 있다면 기본 이미지로 되돌리기
                     if (currentlySelectedButton != null) {
                         ImageIcon originalImage = getOriginalImageForButton(currentlySelectedButton);
@@ -153,7 +162,6 @@ public class SelectPanel extends JPanel {
                     if (currentlySelectedButton != buffButton) {
                         buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));
                         currentlySelectedButton = buffButton;
-                        
                    	 selectedBuff = buff;  // 선택된 버프 추적
                      selectedBuffLabel.setText("선택된 버프: " + getBuffName(selectedBuff));  // 선택된 버프 이름 업데이트
                     buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));

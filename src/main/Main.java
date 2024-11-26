@@ -1,5 +1,11 @@
 package main;
 
+import java.awt.CardLayout;
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -18,16 +24,15 @@ import javax.swing.JScrollPane;
 import ingame.CookieImg;
 import panels.EndPanel;
 import panels.Endings;
+import panels.ExplainPanel;
 import panels.GamePanel;
 import panels.IntroPanel;
-import panels.MainPanel; 
+import panels.MainPanel; // 새로운 패널 추가
 import panels.SelectPanel;
-import panels.DB;
 import panels.EndArchivePanel;
-import panels.ExplainPanel;
+import panels.DB;
 import main.listenAdapter;
 
-import java.awt.CardLayout;
 
 public class Main extends listenAdapter {
 
@@ -42,15 +47,13 @@ public class Main extends listenAdapter {
 	private IntroPanel introPanel;
 	private GamePanel gamePanel;
 	private EndPanel endPanel;
-	private MainPanel mainPanel; // MainPanel 변수 추가
-	private ExplainPanel explainPanel;
+	private MainPanel mainPanel;
+	private ExplainPanel explainPanel;// MainPanel 변수 추가
 	private CardLayout cl;
 	private EndArchivePanel endArchivePanel;
-	private SelectPanel selectPanel; // 맵 변경시 디버프 선택
-	
-	public JFrame selectFrame;
-	
 	public Endings ending = new Endings();
+	private SelectPanel selectPanel; // 맵 변경시 디버프 선택
+	public JFrame selectFrame;
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
@@ -65,6 +68,9 @@ public class Main extends listenAdapter {
 	}
 	public EndArchivePanel getEndArchivePanel() {
 		return endArchivePanel;
+	}
+	public ExplainPanel getExplainPanel() {
+		return explainPanel;
 	}
 
 	public static void main(String[] args) {
@@ -104,22 +110,19 @@ private void initialize() throws SQLException {
 
 		introPanel = new IntroPanel();
 		introPanel.addMouseListener(this);
-
-		mainPanel = new MainPanel(this); // MainPanel 인스턴스 생성
+		mainPanel = new MainPanel(this);
+		explainPanel = new ExplainPanel(this);// MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
-		selectPanel = new SelectPanel(this);
-		explainPanel = new ExplainPanel(this);
-
 		endArchivePanel = new EndArchivePanel(this, ending);
-		
+		selectPanel = new SelectPanel(this);
 		endPanel = new EndPanel(this,ending);
-		
-		introPanel.setLayout(null);
-		mainPanel.setLayout(null); // MainPanel 레이아웃 설정
-		explainPanel.setLayout(null); 
-		gamePanel.setLayout(null);
+
 		selectPanel.setLayout(null);
+		introPanel.setLayout(null);
+		mainPanel.setLayout(null);
+		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
+		
 //		endArchivePanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
@@ -162,12 +165,11 @@ private void initialize() throws SQLException {
 			gamePanel.gameStart();
 			gamePanel.requestFocus();
 			}
-			else {
-			    frame.getContentPane().remove(endArchivePanel);
+			else if(e.getComponent().getName().equals("EndArchiveBtn")){
+				frame.getContentPane().remove(endArchivePanel);
 			    endArchivePanel = new EndArchivePanel(this, ending);
 			    frame.getContentPane().add(endArchivePanel, "endArchive");
-			    
-				cl.show(frame.getContentPane(), "endArchive");
+			    cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
 			}
 
@@ -185,10 +187,24 @@ private void initialize() throws SQLException {
 		}
 //		엔딩수집 돌아가기 버튼
 		else if (e.getComponent().getName().equals("backBtn")) {
-			
+			cl.show(frame.getContentPane(), "main");
+		    mainPanel.requestFocus();
+		    frame.getContentPane().remove(gamePanel);
+		    gamePanel = new GamePanel(frame, cl, this);
+		    gamePanel.setLayout(null);
+		    frame.getContentPane().add(gamePanel, "game");
+
+		    mainPanel = new MainPanel(this);
+		    mainPanel.setLayout(null);
+		    frame.getContentPane().add(mainPanel, "main");
 		    cl.show(frame.getContentPane(), "main");
 		    mainPanel.requestFocus();
+
 		}
+		else if (e.getComponent().getName().equals("Ex_backBtn")){
+			cl.show(frame.getContentPane(), "main");
+		}
+		
 		//설명 창으로 가기
 		else if (e.getComponent().getName().equals("ExplainBtn")){
 			cl.show(frame.getContentPane(), "explain");
@@ -224,8 +240,6 @@ private void initialize() throws SQLException {
 			if(selectPanel.getSelectedBuff().equals("코인 점수 두배")) {
 				getGamePanel().setGameSpeed(10);
 			}
-			
 		}
-	
 	}
 }
