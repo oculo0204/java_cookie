@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -11,6 +12,7 @@ public class ExplainPanel extends JPanel {
     public ExplainPanel(Object o) {
         setLayout(new BorderLayout(0, 20)); // 상하 간격 설정
 
+        setBackground(new Color(255, 197, 73));
 
         Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 26f);
         Font cookieRunRegular = loadCustomFont("fonts/CookieRun Regular.otf", 14f);
@@ -29,7 +31,7 @@ public class ExplainPanel extends JPanel {
         // 상단 패널에 엔딩 설명서와 뒤로 가기 버튼을 배치
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS)); // 수평으로 배치
-
+        topPanel.setBackground(new Color(255, 197, 73));
         // 왼쪽에는 빈 공간 (뒤로 가기 버튼을 오른쪽에 배치할 수 있도록 여백을 추가)
         topPanel.add(Box.createHorizontalGlue());
 
@@ -43,15 +45,19 @@ public class ExplainPanel extends JPanel {
         topPanel.add(back); // 뒤로 가기 버튼 추가
 
         add(topPanel, BorderLayout.NORTH);
-
+     // 이미지 로딩 예시
         // 여러 쿠키와 코인 정보를 담을 패널
         JPanel mainPanel = new JPanel(new GridLayout(10, 1, 0, 10)); // 총 10개의 행, 각 행 간격 10px
-
+        mainPanel.setBackground(new Color(255, 197, 73));
         // JScrollPane을 이용해 mainPanel을 감싸서 스크롤 기능 추가
         JScrollPane scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 항상 세로 스크롤바 보이기
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		Image track = new ImageIcon("img/endArchive/track.png").getImage();
+		Image thumb = new ImageIcon("img/endArchive/thumb.png").getImage();
+		 scrollPane.setVerticalScrollBar(new MyScrollBar(track, thumb));
         add(scrollPane, BorderLayout.CENTER);
-
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(230, 177, 66), 2));
         // 쿠키 추가
         addCookieRow(mainPanel, "옥황상제", "img/endings/옥황상제.png",
                 new String[]{"운동", "게임", "예술", "공부"},
@@ -63,7 +69,7 @@ public class ExplainPanel extends JPanel {
                 new String[]{"< x30", ">= x50", "< x30", ">= x50"},
                 cookieRunBlack, cookieRunRegular);
 
-        addCookieRow(mainPanel, "요리사", "img/endings/요리사.png",
+        addCookieRow(mainPanel, "가수", "img/endings/가수.png",
                 new String[]{"운동", "게임", "예술", "공부"},
                 new String[]{">= x50", "< x30", ">= x50", "< x30"},
                 cookieRunBlack, cookieRunRegular);
@@ -107,6 +113,7 @@ public class ExplainPanel extends JPanel {
         // 개발자명 하단 오른쪽에 배치
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // 오른쪽 정렬
         JLabel personLabel = new JLabel("개발자: 자바 쿠키(장서원, 이주연, 박가연, 이하경)");
+        bottomPanel.setBackground(new Color(255, 197, 73));
         personLabel.setFont(cookieRunRegular);
         bottomPanel.add(personLabel);
 
@@ -115,44 +122,58 @@ public class ExplainPanel extends JPanel {
     	}
     
 
-    	// 쿠키와 코인 정보 추가 메서드
-    	private void addCookieRow(JPanel panel, String cookieName, String cookieImagePath,
-                              String[] coinTypes, String[] coinCounts, Font nameFont, Font countFont) {
-        JPanel rowPanel = new JPanel(new BorderLayout(10, 0)); // 좌우 간격 10px
-        panel.add(rowPanel);
-
-        // 왼쪽: 쿠키 이미지와 이름
-        JPanel leftPanel = new JPanel(new GridLayout(2, 1, 0, 5)); // 쿠키 이미지와 이름 사이 간격 5px
-        rowPanel.add(leftPanel, BorderLayout.WEST);
-
-        // 쿠키 이미지 (크기 조정) + 왼쪽 여백 추가
-        JPanel cookieImagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 0)); // 왼쪽 간격 20px
-        ImageIcon cookieIcon = new ImageIcon(cookieImagePath);
-        Image cookieImg = cookieIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // 이미지 크기 100x100
-        JLabel cookieImage = new JLabel(new ImageIcon(cookieImg));
-        cookieImagePanel.add(cookieImage);
-        leftPanel.add(cookieImagePanel);
-
-        // 쿠키 이름
-        JLabel cookieLabel = new JLabel(cookieName, JLabel.CENTER);
-        cookieLabel.setFont(nameFont);
-        leftPanel.add(cookieLabel);
-
-        // 오른쪽: 코인과 수량
-        JPanel rightPanel = new JPanel(new GridLayout(1, coinTypes.length, 5, 0)); // 코인 타입 개수만큼 열 생성, 간격 5px
-        rowPanel.add(rightPanel, BorderLayout.CENTER);
-
-        for (int i = 0; i < coinTypes.length; i++) {
-            // 코인 이미지 (크기 조정)
-            JLabel coinLabel = createCoinLabel("img/end/" + getCoinImageName(coinTypes[i]) + ".png", 60, 60); // 이미지 크기 60x60
-            rightPanel.add(coinLabel);
-
-            // 코인 수량 (간격을 좁힘)
-            JLabel countLabel = new JLabel(coinCounts[i], JLabel.CENTER);
-            countLabel.setFont(countFont);
-            rightPanel.add(countLabel);
-        }
-    }
+    private void addCookieRow(JPanel panel, String cookieName, String cookieImagePath,
+            String[] coinTypes, String[] coinCounts, Font nameFont, Font countFont) {
+		JPanel rowPanel = new JPanel(new BorderLayout(10, 0)); // 좌우 간격 10px
+		panel.add(rowPanel);
+		
+		// 왼쪽: 쿠키 이미지와 이름 (BoxLayout을 사용)
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS)); // 수직으로 배치
+		leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
+		leftPanel.setPreferredSize(new Dimension(200, leftPanel.getPreferredSize().width));
+		rowPanel.add(leftPanel, BorderLayout.WEST);
+		
+		// 쿠키 이미지 (크기 조정) + 왼쪽 여백 추가
+		JPanel cookieImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,10)); // 왼쪽 간격 20px
+		ImageIcon cookieIcon = new ImageIcon(cookieImagePath);
+		Image cookieImg = cookieIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // 이미지 크기 100x100
+		JLabel cookieImage = new JLabel(new ImageIcon(cookieImg));
+		cookieImagePanel.add(cookieImage);
+		leftPanel.add(cookieImagePanel);
+		
+		//쿠키 이름
+		JPanel cookieNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		cookieNamePanel.setLayout(null); // 위치를 설정할 수 있게 null 레이아웃 사용
+		JLabel cookieLabel = new JLabel(cookieName, JLabel.CENTER);
+		cookieLabel.setFont(nameFont);
+		cookieLabel.setBounds(0, 5, 200, 30); // 위치와 크기 설정 (여기서 위치 조정 가능)
+		cookieNamePanel.setBackground(new Color(255, 225, 145));
+		cookieNamePanel.add(cookieLabel);
+		leftPanel.add(cookieNamePanel);
+		
+		
+		// 오른쪽: 코인과 수량 (GridLayout 대신 BoxLayout을 사용하여 수평으로 배치)
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS)); // 수평으로 배치
+		rowPanel.add(rightPanel, BorderLayout.CENTER);
+		
+		for (int i = 0; i < coinTypes.length; i++) {
+		// 코인 이미지 (크기 조정)
+		JLabel coinLabel = createCoinLabel("img/end/" + getCoinImageName(coinTypes[i]) + ".png", 60, 60); // 이미지 크기 60x60
+		rightPanel.add(coinLabel);
+		
+		// 코인 수량 (간격을 좁힘)
+		JLabel countLabel = new JLabel(coinCounts[i], JLabel.CENTER);
+		countLabel.setFont(countFont);
+		rightPanel.add(countLabel);
+		}
+		
+		rowPanel.setBackground(new Color(255, 225, 145));
+		leftPanel.setBackground(new Color(255, 225, 145));
+		rightPanel.setBackground(new Color(255, 240, 190));
+		cookieImagePanel.setBackground(new Color(255, 225, 145));
+}
 
     // 코인 이름을 매핑하는 함수
     private String getCoinImageName(String coinType) {
@@ -189,5 +210,51 @@ public class ExplainPanel extends JPanel {
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(img));
+    }
+ // 커스텀 스크롤바 UI
+    class MyScrollBar extends JScrollBar {
+        private Image trackImage;
+        private Image thumbImage;
+
+        public MyScrollBar(Image trackImage, Image thumbImage) {
+            super();
+            this.trackImage = trackImage;
+            this.thumbImage = thumbImage;
+            setUI(new BasicScrollBarUI() {
+                @Override
+                protected void configureScrollBarColors() {
+                    this.thumbColor = new Color(255, 140, 0); // 오렌지 색상으로 설정
+                    this.trackColor = new Color(255, 197, 73); // 밝은 노란색
+                }
+
+                @Override
+                protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+                    if (thumbBounds.width > 0 && thumbBounds.height > 0) {
+                        g.drawImage(thumbImage, thumbBounds.x, thumbBounds.y,
+                                thumbBounds.width, thumbBounds.height, null);
+                    }
+                }
+             // 위 화살표 버튼을 숨기기 위해 크기를 0, 0으로 설정
+                @Override
+                protected JButton createDecreaseButton(int orientation) {
+                    JButton btn = new JButton();
+                    btn.setPreferredSize(new Dimension(0, 0));
+                    return btn;
+                }
+
+                // 아래 화살표 버튼을 숨기기 위해 크기를 0, 0으로 설정
+                @Override
+                protected JButton createIncreaseButton(int orientation) {
+                    JButton btn = new JButton();
+                    btn.setPreferredSize(new Dimension(0, 0));
+                    return btn;
+                }
+                @Override
+                protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+                    g.drawImage(trackImage, trackBounds.x, trackBounds.y,
+                            trackBounds.width, trackBounds.height, null);
+                }
+            });
+        }
     }
 } 

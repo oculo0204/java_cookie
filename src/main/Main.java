@@ -221,24 +221,24 @@ private void initialize() throws SQLException {
 		    cl.show(frame.getContentPane(), "gamePanel");
 		    gamePanel.requestFocus();
 		    
-			System.out.println(selectPanel.getSelectedBuff());
-			if(selectPanel.getSelectedBuff().equals("스피드 업")) {
+		    System.out.println(selectPanel.getSelectedBuff());
+			if (selectPanel.getSelectedBuff().equals("스피드 업")) {
 				getGamePanel().setGameSpeed(10);
 			}
-			if(selectPanel.getSelectedBuff().equals("스킵 기능 무효")) {
+			if (selectPanel.getSelectedBuff().equals("스킵 기능 무효")) {
+				getGamePanel().setIsNoSkip(true);
+			}
+			if (selectPanel.getSelectedBuff().equals("무한 체력")) {
+				getGamePanel().setInfiniteHealth(true);
+			}
+			if (selectPanel.getSelectedBuff().equals("점프 1.5배")) {
 				getGamePanel().setGameSpeed(10);
 			}
-			if(selectPanel.getSelectedBuff().equals("코인 크기 감소")) { //현재 구현 불가
-				getGamePanel().setGameSpeed(10);
-			}
-			if(selectPanel.getSelectedBuff().equals("장애물 크기 증가")) {//현재 구현 불가
-				getGamePanel().setGameSpeed(10);
-			}
-			if(selectPanel.getSelectedBuff().equals("코인 수 감소")) { //슬라이딩으로 먹는 코인수 감소
+			if (selectPanel.getSelectedBuff().equals("코인 수 감소")) { // 슬라이딩으로 먹는 코인수 감소
 				getGamePanel().setIsSliding(true);
 			}
-			if(selectPanel.getSelectedBuff().equals("코인 점수 두배")) {
-				getGamePanel().setGameSpeed(10);
+			if (selectPanel.getSelectedBuff().equals("코인 점수 두배")) {
+				getGamePanel().setDoubleJellyActive(true);
 			}
 		}
 	}

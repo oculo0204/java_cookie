@@ -84,20 +84,10 @@ public class MainPanel extends JPanel {
 		btnOptions.setName("ExplainBtn"); 
 		add(btnOptions);
 
-		// EASY 버튼
-		btnEasy = new JButton("", easyButtonImg);
-		btnEasy = new JButton("", resizeImageIcon(easyButtonImg, 0.5));
-		btnEasy.setBounds(570, 275, 175, 60);
-		btnEasy.setBorderPainted(false);
-		btnEasy.setFocusPainted(false);
-		btnEasy.setContentAreaFilled(false);
-		btnEasy.addActionListener(e -> toggleDifficulty()); // 클릭 시 난이도 전환
-		add(btnEasy);
-
 		// START 버튼
-		btnStart = new JButton("", resizeImageIcon(startButtonImg, 0.5));
+		btnStart = new JButton("", resizeImageIcon(startButtonImg, 0.6));
 		btnStart.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnStart.setBounds(570, 350, 175, 60);
+		btnStart.setBounds(530, 320, 210, 112);
 		btnStart.setBorderPainted(false);
 		btnStart.setFocusPainted(false);
 		btnStart.setContentAreaFilled(false);

@@ -11,8 +11,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,11 +29,6 @@ import ingame.MapObjectImg;
 import ingame.Tacle;
 import main.Main;
 import util.Util;
-import panels.EndPanel;
-import panels.SelectPanel;
-
-import java.util.Set;
-import java.util.HashSet;
 
 public class GamePanel extends JPanel {
 
@@ -91,6 +87,7 @@ public class GamePanel extends JPanel {
 	private ImageIcon skipIconDown;
 
 	boolean skipActive = false;
+
 	public boolean selectionon = false;
 
 	ImageIcon artIcon;
@@ -116,19 +113,17 @@ public class GamePanel extends JPanel {
 
 	private List<Integer> mapLengthList;
 
-
 	private int mapLength = 0;
-	
+
 	private int runPage = 0; // �� ȭ�� �̵��Ҷ����� ü���� ��� ���� ����
 
 	private int runStage = 1; // ���������� Ȯ���ϴ� �����̴�. (�̱���)
 
 	private int resultScore = 0; // ��������� �����ϴ� ����
 
-	public int normalSpeed =5;
-	
+	public int normalSpeed = 7;
+
 	private int gameSpeed = normalSpeed; // normalspeed로 초기화하게 해놓음 다른 panel에서도 쓰임
-	
 
 	private int nowField = 2000; // ������ ���̸� ����.
 
@@ -143,11 +138,49 @@ public class GamePanel extends JPanel {
 	private boolean skipKeyOn = false; // 스킵키 눌렀는지 여부
 
 	private boolean redScreen = false; // �ǰݽ� ��¦ ���� ȭ�� ����
-	private boolean isSliding = false; //슬라이딩 디버프가 없으면
-	public void setIsSliding(boolean f)
-	{
+
+	private boolean isSliding = false; // 슬라이딩 디버프가 없으면
+
+	boolean isDoubleJellyActive = false;
+
+	boolean isInfiniteHealth = false;
+
+	boolean isOnepointfiveJump = false;
+
+	public void setIsSliding(boolean f) {
 		this.isSliding = f;
 	}
+
+	public void setInfiniteHealth(boolean isActive) {
+		this.isInfiniteHealth = isActive;
+	}
+
+	public void isOnepointfiveJump(boolean isActive) {
+		this.isOnepointfiveJump = isActive;
+	}
+
+	boolean isNoSkip = false;
+
+	public void setIsNoSkip(boolean isActive) {
+		this.isNoSkip = isActive;
+	}
+
+	boolean activeBuff = false; // 현재 활성화된 버프
+
+	public void setActiveBuff(boolean isActiveBuff) {
+		this.activeBuff = isActiveBuff;
+	}
+
+	// 젤리 점수를 증가시키는 함수
+	public int TwiceCoin(int originalScore, boolean isDoubleJellyActive) {
+		return isDoubleJellyActive ? originalScore * 2 : originalScore;
+
+	}
+
+	public void setDoubleJellyActive(boolean isActive) {
+		this.isDoubleJellyActive = isActive; // 두 배 상태를 활성화하거나 비활성화
+	}
+
 	int face; // ��Ű�� ����
 	int foot; // ��Ű�� ��
 
@@ -181,12 +214,10 @@ public class GamePanel extends JPanel {
 	CardLayout cl;
 	Main main;
 
-	//selectionPanel로 이동할 때 gamespeed 0으로 만들어 멈춤
+	// selectionPanel로 이동할 때 gamespeed 0으로 만들어 멈춤
 	public void setGameSpeed(int a) {
 		this.gameSpeed = a;
 	}
-	
-	
 
 	// �����г� ������ (���� �����Ӱ� ī�巹�̾ƿ�, �׸��� Main�ν��Ͻ��� �޴´�)
 	public GamePanel(JFrame superFrame, CardLayout cl, Object o) {
@@ -220,19 +251,20 @@ public class GamePanel extends JPanel {
 		initListener(); // Ű������ �߰�
 
 		runRepaint(); // ������Ʈ ���ѹݺ� ����
-		//맵길이
-		//System.out.println(mapLenArr[0]+" "+mapLenArr[1]+" "+mapLenArr[2]+" "+mapLenArr[3]+" "); 
+
+		// 맵길이
+		// System.out.println(mapLenArr[0]+" "+mapLenArr[1]+" "+mapLenArr[2]+"
+		// "+mapLenArr[3]+" ");
 	}
 
 	// ������ �����Ѵ�
 	public void gameStart() {
 
-	    // selectionon이 true일 경우 게임 진행을 멈추고, 화면 갱신도 막음
-	    if (!selectionon) {
-		    mapMove(); // 맵 이동
-		    fall(); // 아이템이나 캐릭터 떨어지기
-	    }
-
+		// selectionon이 true일 경우 게임 진행을 멈추고, 화면 갱신도 막음
+		if (!selectionon) {
+			mapMove(); // 맵 이동
+			fall(); // 아이템이나 캐릭터 떨어지기
+		}
 
 	}
 
@@ -256,7 +288,6 @@ public class GamePanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) buffg;
 
 		super.paintComponent(buffg);
-	
 
 		// �배경 이미지를 그린다.
 		buffg.drawImage(b11.getImage(), b11.getX(), 0, b11.getWidth(), b11.getHeight() * 5 / 4, null);
@@ -534,11 +565,11 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < maxX; i += 2) { // 장애물
 			for (int j = 0; j < maxY; j += 2) {
-				if (colorArr[i][j] ==  16711830) { //빨강 꼬깔콘
+				if (colorArr[i][j] == 16711830) { // 빨강 꼬깔콘
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 80���� �Ѵ�.
 					tacleList.add(new Tacle(tacle10Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80, 0));
 
-				} else if (colorArr[i][j] == 16711680) { //분홍 새
+				} else if (colorArr[i][j] == 16711680) { // 분홍 새
 					// ��ǥ�� 40�� ���ϰ�, ���̿� ���̴� 160���� �Ѵ�.
 					tacleList.add(new Tacle(tacle20Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 160, 0));
 
@@ -549,19 +580,18 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-
 		// 랜덤 젤리 생성 (좌표 중복 방지)
 		Set<String> occupiedCoordinates = new HashSet<>();
 
 		// 모든 객체를 생성할 때 좌표를 기록
 		for (Tacle tacle : tacleList) {
-		    occupiedCoordinates.add(tacle.getX() / 40 + "," + tacle.getY() / 40);
+			occupiedCoordinates.add(tacle.getX() / 40 + "," + tacle.getY() / 40);
 		}
 		for (Field field : fieldList) {
-		    occupiedCoordinates.add(field.getX() / 40 + "," + field.getY() / 40);
+			occupiedCoordinates.add(field.getX() / 40 + "," + field.getY() / 40);
 		}
 		for (Jelly jelly : jellyList) {
-		    occupiedCoordinates.add(jelly.getX() / 40 + "," + jelly.getY() / 40);
+			occupiedCoordinates.add(jelly.getX() / 40 + "," + jelly.getY() / 40);
 		}
 
 		int coinsToGenerate = 20; // 목표 개수
@@ -570,15 +600,16 @@ public class GamePanel extends JPanel {
 		// 40개의 랜덤 젤리가 생성될 때까지 반복
 		while (generatedCoins < coinsToGenerate) {
 			int randX = (int) ((Math.random() * (maxX / 2 - 10)) + 10) * 2;
-	        int randY = (int) ((Math.random() * 2) + 2)*2;
-		    String coord = randX + "," + randY;
+			int randY = (int) ((Math.random() * 2) + 2) * 2;
+			String coord = randX + "," + randY;
 
-		    if (!occupiedCoordinates.contains(coord)) {
-		        occupiedCoordinates.add(coord);
-		        jellyList.add(new Jelly(jelly4Ic.getImage(), randX * 40 + mapLength * 40, randY * 40, 80, 80, 255, 1, 4));
-		        System.out.println((randX * 40 + mapLength * 40) + "," + (randY * 40)); // 생성된 좌표 출력
-		        generatedCoins++; // 생성된 코인 개수 증가
-		    }
+			if (!occupiedCoordinates.contains(coord)) {
+				occupiedCoordinates.add(coord);
+				jellyList.add(
+						new Jelly(jelly4Ic.getImage(), randX * 40 + mapLength * 40, randY * 40, 80, 80, 255, 1, 4));
+				System.out.println((randX * 40 + mapLength * 40) + "," + (randY * 40)); // 생성된 좌표 출력
+				generatedCoins++; // 생성된 코인 개수 증가
+			}
 		}
 		this.mapLength = this.mapLength + tempMapLength;
 
@@ -629,14 +660,14 @@ public class GamePanel extends JPanel {
 		// �� �ν��Ͻ����� ����
 
 		makeMo();
-		
-		initImageIcon(mo1);
-		initMap(1, mapLength);
-		mapLengthList.add(mapLength);
-		
 		initImageIcon(mo2);
 		initMap(2, mapLength);
 		mapLengthList.add(mapLength);
+
+		initImageIcon(mo1);
+		initMap(1, mapLength);
+		mapLengthList.add(mapLength);
+
 
 		initImageIcon(mo3);
 		initMap(3, mapLength);
@@ -710,10 +741,14 @@ public class GamePanel extends JPanel {
 					}
 				}
 				if (e.getKeyCode() == KeyEvent.VK_S) {
-					skipBtn = skipIconDown.getImage();
-					skipActive = true;
-					skipKeyOn = true;
-
+					if (isNoSkip == true) {
+						skipActive = false;
+						skipKeyOn = false;
+					} else {
+						skipBtn = skipIconDown.getImage();
+						skipActive = true;
+						skipKeyOn = true;
+					}
 				}
 				if (!escKeyOn) {
 					if (e.getKeyCode() == KeyEvent.VK_SPACE) {// �����̽� Ű�� ������ ���������� 2�� �ƴҶ�
@@ -760,8 +795,8 @@ public class GamePanel extends JPanel {
 					skipBtn = skipIconUp.getImage();
 					skipActive = false;
 					skipKeyOn = false;
-
 				}
+
 			}
 
 		});
@@ -796,15 +831,17 @@ public class GamePanel extends JPanel {
 			}
 		}).start();
 	}
+
 	// 게임 패널에서 맵을 넘기고 select 패널로 전환하는 메서드
 	public void goToSelectPanel() {
-		main.selectFrame.setVisible(true);   // 화면에 표시
-	    main.getFrame().setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
-	    main.selectFrame.requestFocus();
-	    gameSpeed =0;
-	    selectionon = true;
+		main.selectFrame.setVisible(true); // 화면에 표시
+		main.getFrame().setVisible(false); // 기존 main frame 숨기기 (원하는 경우에만)
+		main.selectFrame.requestFocus();
+		gameSpeed = 0;
+		selectionon = true;
 	}
 
+	// ȭ���� �����̰� ������ �԰ų�, ��ֹ��� �ε����� ���� �̺�Ʈ�� �߻���Ű�� �޼���
 	private void mapMove() {
 		new Thread(new Runnable() {
 
@@ -812,16 +849,21 @@ public class GamePanel extends JPanel {
 			public void run() {
 				while (true) {
 
-					if (runPage > 800) { // 800�ȼ� �̵� ���� ü���� 10�� �����Ѵ� (���� �ʱ��̿� ���߾� ���ҷ� ����)
+					if (isInfiniteHealth == false && runPage > 800) { // 800�ȼ� �̵� ���� ü���� 10�� �����Ѵ� (���� �ʱ��̿�
+																		// ���߾�
+						// ���ҷ� ����)
 						c1.setHealth(c1.getHealth() - 10);
 						runPage = 0;
+					}
+					if (isInfiniteHealth == true) {
+						c1.setHealth(c1.getHealth() + 2000);
 					}
 
 					runPage += gameSpeed; // ȭ���� �̵��ϸ� runPage�� �̵��� ��ŭ ����ȴ�.
 
 					foot = c1.getY() + c1.getHeight(); // ĳ���� �� ��ġ �罺ĵ
 					if (foot > 1999 || c1.getHealth() < 1) {
-						main.getEndPanel().setResultScore(type1Count,type2Count,type3Count,type4Count);
+						main.getEndPanel().setResultScore(type1Count, type2Count, type3Count, type4Count);
 						cl.show(superFrame.getContentPane(), "end");
 						main.setGamePanel(new GamePanel(superFrame, cl, main));
 						superFrame.requestFocus();
@@ -832,9 +874,10 @@ public class GamePanel extends JPanel {
 					if (fadeOn == false) { // ���̵�ƿ��� ���°� �ƴҶ�
 						if (mapLength > mapLengthList.get(2) * 40 + 800 && b11.getImage() != backIc4.getImage()) {
 							fadeOn = true;
-						        // 맵 끝에 도달했을 때
-						        System.out.println("현재 맵3이 끝났습니다!");
-						        goToSelectPanel();
+							// 맵 끝에 도달했을 때
+							System.out.println("현재 맵3이 끝났습니다!");
+							goToSelectPanel();
+
 							new Thread(new Runnable() {
 
 								@Override
@@ -865,9 +908,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(2) * 40 + 800
 								&& b11.getImage() != backIc3.getImage()) {
 							fadeOn = true;
-							 // 맵 끝에 도달했을 때
-					        System.out.println("현재 맵2이 끝났습니다!");
-					        goToSelectPanel();
+							// 맵 끝에 도달했을 때
+							System.out.println("현재 맵2이 끝났습니다!");
+							goToSelectPanel();
 
 							new Thread(new Runnable() {
 
@@ -899,9 +942,9 @@ public class GamePanel extends JPanel {
 								&& mapLength < mapLengthList.get(1) * 40 + 800
 								&& b11.getImage() != backIc2.getImage()) {
 							fadeOn = true;
-							 // 맵 끝에 도달했을 때
-					        System.out.println("현재 맵1이 끝났습니다!");
-					        goToSelectPanel();
+							// 맵 끝에 도달했을 때
+							System.out.println("현재 맵1이 끝났습니다!");
+							goToSelectPanel();
 							new Thread(new Runnable() {
 
 								@Override
@@ -987,9 +1030,9 @@ public class GamePanel extends JPanel {
 								tempJelly.setAlpha(tempJelly.getAlpha() - 5);
 							}
 
-							   int foot = c1.getCountJump()>0 ? c1.getY() + c1.getHeight()+40 : c1.getY() + c1.getHeight(); // 점프 중이라면 점프 높이만큼 발 위치를 변경
+							int foot = c1.getCountJump() > 0 ? c1.getY() + c1.getHeight() + 40
+									: c1.getY() + c1.getHeight(); // 점프 중이라면 점프 높이만큼 발 위치를 변경
 
-							
 							// HP 물약(jellyHPIc) 충돌 처리 - skipActive 여부와 상관없이 HP 충돌 처리
 							if (tempJelly.getImage() == jellyHPIc.getImage()
 									&& tempJelly.getX() + tempJelly.getWidth() * 20 / 100 >= c1.getX()
@@ -1015,20 +1058,38 @@ public class GamePanel extends JPanel {
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-								switch (tempJelly.getType()) {
-								case 1:
-									type1Count++;
-									break;
-								case 2:
-									type2Count++;
-									break;
-								case 3:
-									type3Count++;
-									break;
-								case 4:
-									type4Count++;
-								default:
-									break;
+								if (isDoubleJellyActive == false) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count++;
+										break;
+									case 2:
+										type2Count++;
+										break;
+									case 3:
+										type3Count++;
+										break;
+									case 4:
+										type4Count++;
+									default:
+										break;
+									}
+								} else if (isDoubleJellyActive == true) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count += 2;
+										break;
+									case 2:
+										type2Count += 2;
+										break;
+									case 3:
+										type3Count += 2;
+										break;
+									case 4:
+										type4Count += 2;
+									default:
+										break;
+									}
 								}
 
 								tempJelly.setImage(jellyEffectIc.getImage());
@@ -1044,8 +1105,8 @@ public class GamePanel extends JPanel {
 											+ c1.getHeight() * 1 / 3
 									&& tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
 									&& tempJelly.getImage() != jellyEffectIc.getImage()) {
-								
-								if(!isSliding) {
+
+								if (!isSliding && isDoubleJellyActive == false) {
 									switch (tempJelly.getType()) {
 									case 1:
 										type1Count++;
@@ -1060,23 +1121,40 @@ public class GamePanel extends JPanel {
 										type4Count++;
 									default:
 										break;
-									}}
-									else if(isSliding) {
-										switch (tempJelly.getType()) {
-										case 1:
-											type1Count--;
-											break;
-										case 2:
-											type2Count--;
-											break;
-										case 3:
-											type3Count--;
-											break;
-										case 4:
-											type4Count--;
-										default:
-											break;
-										}}	
+									}
+								} else if (!isSliding && isDoubleJellyActive == true) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count += 2;
+										break;
+									case 2:
+										type2Count += 2;
+										break;
+									case 3:
+										type3Count += 2;
+										break;
+									case 4:
+										type4Count += 2;
+									default:
+										break;
+									}
+								} else if (isSliding) {
+									switch (tempJelly.getType()) {
+									case 1:
+										type1Count--;
+										break;
+									case 2:
+										type2Count--;
+										break;
+									case 3:
+										type3Count--;
+										break;
+									case 4:
+										type4Count--;
+									default:
+										break;
+									}
+								}
 
 								tempJelly.setImage(jellyEffectIc.getImage());
 								resultScore += tempJelly.getScore();
@@ -1209,7 +1287,9 @@ public class GamePanel extends JPanel {
 
 				redScreen = true; // �ǰ� ���� ����Ʈ ����
 
-				c1.setHealth(c1.getHealth() - 100); // ��Ű�� ü���� 100 ��´�
+				if (isInfiniteHealth == false) {
+					c1.setHealth(c1.getHealth() - 100); // ��Ű�� ü���� 100 ��´�
+				}
 
 				c1.setImage(hitIc.getImage()); // ��Ű�� �ε��� ������� ����
 
@@ -1391,8 +1471,11 @@ public class GamePanel extends JPanel {
 				while (jumpY >= 0) { // ��� ���̰� 0�϶����� �ݺ�
 
 					t2 = Util.getTime() - t1; // ���� �ð����� t1�� ����
-
-					jumpY = set - (int) ((t2) / 50); // jumpY �� �����Ѵ�.
+					if (isOnepointfiveJump == true) {
+						jumpY = set - (int) ((t2) / 70); // jumpY �� �����Ѵ�.
+					} else {
+						jumpY = set - (int) ((t2) / 50); // jumpY �� �����Ѵ�.
+					}
 
 					c1.setY(c1.getY() - jumpY); // Y���� �����Ѵ�.
 
