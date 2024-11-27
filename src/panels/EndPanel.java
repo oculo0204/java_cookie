@@ -280,6 +280,7 @@ public class EndPanel extends JPanel {
 				newCookieLabel.setText("new");
     	    	DB.changeIsNew(index);
 			}
+			else newCookieLabel.setText("");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
