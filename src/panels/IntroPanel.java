@@ -3,7 +3,10 @@ package panels;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -23,18 +26,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import main.listenAdapter;
 
 public class IntroPanel extends JPanel {
 
 	public JLabel introIc = new JLabel(new ImageIcon("img/intro/intro.jpg")); // 인트로 이미지
-	public JTextArea id = new JTextArea();
-	public JTextArea pw = new JTextArea();
-	public JButton login = new JButton("로그인");
-	public JButton join = new JButton("회원가입");
-	public JButton confirm = new JButton("확인");
-	public JButton cancel = new JButton("취소");
+	public JTextField id = new JTextField();
+	public JTextField pw = new JTextField();
+	public JLabel login = new JLabel(new ImageIcon("img/intro/login.png"));
+	public JLabel join = new JLabel(new ImageIcon("img/intro/join.png"));
+	public JLabel confirm = new JLabel(new ImageIcon("img/intro/confirm.png"));
+	public JLabel cancel = new JLabel(new ImageIcon("img/intro/cancel.png"));
 	public JLabel alert = new JLabel("알림창");
 	MouseListener o;
 	public LoginPanel lp;
@@ -46,6 +50,20 @@ public class IntroPanel extends JPanel {
 
 	public class LoginPanel extends JPanel {
 
+//		폰트 설정
+		private Font loadCustomFont(String fontPath, float fontSize) {
+			try {
+				File fontFile = new File(fontPath);
+				Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(font);
+				return font;
+			} catch (IOException | FontFormatException e) {
+				e.printStackTrace();
+				return new Font("Arial", Font.BOLD, 24); // 예외가 발생하면 기본 폰트 반환
+			}
+		}
+		
 		public LoginPanel(MouseListener o) {
 			setLayout(null);
 
@@ -57,14 +75,25 @@ public class IntroPanel extends JPanel {
 			confirm.setName("confirm");
 			cancel.setName("cancel");
 
-			id.setBounds(0,0, 200, 20);
-			pw.setBounds(0,20, 200, 20);
-			login.setBounds(0,40, 100, 20);
-			join.setBounds(100,40, 100, 20);
-			alert.setBounds(0,60, 200, 20);
-			confirm.setBounds(0,40, 100, 20);
-			cancel.setBounds(100,40, 100, 20);
+			id.setBounds(350,150, 200, 20);
+			pw.setBounds(350,210, 200, 20);
+			login.setBounds(250,320, 100, 50);
+			join.setBounds(390, 320, 150, 50);
+			alert.setBounds(200,280, 400, 30);
+			confirm.setBounds(270,320, 100, 50);
+			cancel.setBounds(410,320, 100, 50);
+			
+			id.setBackground(new Color(241,137,100));
+			id.setBorder(null);
 
+			pw.setBackground(new Color(241,137,100));
+			pw.setBorder(null);
+			
+			Font cookieRunBlack = loadCustomFont("fonts/CookieRun Regular.otf", 20f);
+			alert.setForeground(new Color(250,0,0));
+			alert.setHorizontalAlignment(JLabel.CENTER);
+			alert.setFont(cookieRunBlack);
+			
 			login.addMouseListener((MouseListener) o);
 			join.addMouseListener((MouseListener) o);
 			confirm.addMouseListener((MouseListener) o);
@@ -74,7 +103,6 @@ public class IntroPanel extends JPanel {
 			cancel.setVisible(false);
 
 			setOpaque(false);
-//			setBackground(new Color(0,0,0,122));
 
 			setBounds(0, 0, 800, 500);
 			add(confirm);
