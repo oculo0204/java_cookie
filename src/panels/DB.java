@@ -117,18 +117,24 @@ public final class DB {
 
 
 	public static boolean isPossibleAccount(String id, String pw) {
-		
+		int idL = id.length();
+		int pwL = pw.length();
+		if(idL<11 && pwL<11 && idL>0 && pwL>0) {
+			for(int i = 0; i < idL; i++) {
+//				if (id.charAt(i) )
+			}
+		}
 		return false;
 	}
 	
-	public static void makeAccount(String id, String pw) {
+	public static int makeAccount(String id, String pw) {
 		try {
 			insertQuery("INSERT into user (id, pw) values ('" + id + "', '" + pw +"');");
 			insertQuery("INSERT into endings (id_user) values ('" + id +"');");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return e.getErrorCode();
 		}
+		return 1;
 	}
 }
 

@@ -179,12 +179,11 @@ public class Main extends listenAdapter {
 			introPanel.login.setVisible(true);
 			introPanel.join.setVisible(true);
 		} else if (e.getComponent().getName().equals("confirm")) {
-			if (DB.isNewID(introPanel.id.getText())) {
-				DB.makeAccount(introPanel.id.getText(), introPanel.pw.getText());
-				introPanel.alert.setText("회원가입 성공");
-			} else {
-				introPanel.alert.setText("회원가입 실패");
-			}
+				int errCode = DB.makeAccount(introPanel.id.getText(), introPanel.pw.getText());
+				if (errCode == 1)introPanel.alert.setText("회원가입 성공");
+				else if(errCode == 1406) introPanel.alert.setText("아이디 및 비밀번호 조건을 확인해주세요.");
+				else if(errCode == 1062) introPanel.alert.setText("이미 존재하는 아이디입니다.");
+				else introPanel.alert.setText("회원가입 실패");
 		} else if (e.getComponent().getName().equals("StartBtn")
 				|| e.getComponent().getName().equals("EndArchiveBtn")) {
 			if (e.getComponent().getName().equals("StartBtn")) {
