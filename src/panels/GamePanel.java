@@ -660,7 +660,7 @@ public class GamePanel extends JPanel {
 		// �� �ν��Ͻ����� ����
 
 		makeMo();
-		
+
 		initImageIcon(mo1);
 		initMap(1, mapLength);
 		mapLengthList.add(mapLength);
@@ -672,7 +672,6 @@ public class GamePanel extends JPanel {
 		initImageIcon(mo3);
 		initMap(3, mapLength);
 		mapLengthList.add(mapLength);
-
 
 		initImageIcon(mo4);
 		initMap(4, mapLength);
