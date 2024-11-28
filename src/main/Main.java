@@ -180,10 +180,10 @@ public class Main extends listenAdapter {
 			introPanel.join.setVisible(true);
 		} else if (e.getComponent().getName().equals("confirm")) {
 				int errCode = DB.makeAccount(introPanel.id.getText(), introPanel.pw.getText());
-				if (errCode == 1)introPanel.alert.setText("회원가입 성공");
+				if (errCode == 0)introPanel.alert.setText("회원가입 성공");
 				else if(errCode == 1406) introPanel.alert.setText("10글자를 초과하였습니다.");
 				else if(errCode == 1062) introPanel.alert.setText("이미 존재하는 아이디입니다.");
-				else introPanel.alert.setText("회원가입 실패");
+				else introPanel.alert.setText("아이디와 비밀번호를 확인해주세요.");
 		} else if (e.getComponent().getName().equals("StartBtn")
 				|| e.getComponent().getName().equals("EndArchiveBtn")) {
 			if (e.getComponent().getName().equals("StartBtn")) {

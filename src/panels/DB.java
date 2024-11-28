@@ -116,13 +116,14 @@ public final class DB {
 	}
 	
 	public static int makeAccount(String id, String pw) {
-		try {
+		if(id.equals("")||pw.equals("")) return 1;
+		else try {
 			insertQuery("INSERT into user (id, pw) values ('" + id + "', '" + pw +"');");
 			insertQuery("INSERT into endings (id_user) values ('" + id +"');");
+			return 0;
 		} catch (SQLException e) {
 			return e.getErrorCode();
 		}
-		return 1;
 	}
 }
 

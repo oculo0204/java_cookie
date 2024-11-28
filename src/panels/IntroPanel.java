@@ -39,14 +39,9 @@ public class IntroPanel extends JPanel {
 	public JLabel join = new JLabel(new ImageIcon("img/intro/join.png"));
 	public JLabel confirm = new JLabel(new ImageIcon("img/intro/confirm.png"));
 	public JLabel cancel = new JLabel(new ImageIcon("img/intro/cancel.png"));
-	public JLabel alert = new JLabel("알림창");
+	public JLabel alert = new JLabel("");
 	MouseListener o;
 	public LoginPanel lp;
-//	@Override
-//	protected void paintComponent(Graphics g) {
-//		super.paintComponent(g); // 화면을 비운다
-//		g.drawImage(introIc.getImage(), 0, 0, 790, 470, this);
-//	}
 
 	public class LoginPanel extends JPanel {
 
