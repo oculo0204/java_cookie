@@ -65,8 +65,8 @@ public class MainPanel extends JPanel {
 		add(lblGymCoin);
 
 		// 트로피 버튼
-		btnTrophy = new JButton(resizeImageIconAb(trophyIcon, 80, 80));
-		btnTrophy.setBounds(570, 20, 80, 80);
+		btnTrophy = new JButton(resizeImageIcon(trophyIcon, 0.6));
+		btnTrophy.setBounds(530, -20, 180, 180);
 		btnTrophy.setBorderPainted(false);
 		btnTrophy.setFocusPainted(false);
 		btnTrophy.setContentAreaFilled(false);
@@ -75,8 +75,8 @@ public class MainPanel extends JPanel {
 		add(btnTrophy);
 
 		// 옵션 버튼
-		btnOptions = new JButton(resizeImageIconAb(optionsIcon, 80,80));
-		btnOptions.setBounds(670, 20, 80, 80);
+		btnOptions = new JButton(resizeImageIcon(optionsIcon, 0.6));
+		btnOptions.setBounds(620, -20, 180, 180);
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
@@ -126,17 +126,6 @@ public class MainPanel extends JPanel {
 
 		// 이미지를 새 크기로 리사이징
 		Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_DEFAULT);
-
-		// 리사이징된 이미지를 새 ImageIcon으로 반환
-		return new ImageIcon(resizedImage);
-	}
-	
-	private ImageIcon resizeImageIconAb(ImageIcon originalIcon, int w, int h) {
-		// 원본 이미지 가져오기
-		Image originalImage = originalIcon.getImage();
-
-		// 이미지를 새 크기로 리사이징
-		Image resizedImage = originalImage.getScaledInstance(w, h, Image.SCALE_DEFAULT);
 
 		// 리사이징된 이미지를 새 ImageIcon으로 반환
 		return new ImageIcon(resizedImage);

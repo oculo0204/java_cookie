@@ -33,6 +33,7 @@ import panels.EndArchivePanel;
 import panels.DB;
 import main.listenAdapter;
 
+
 public class Main extends listenAdapter {
 
 	// 기본 캐릭터 설정
@@ -41,8 +42,6 @@ public class Main extends listenAdapter {
 	public CookieImg getCi() {
 		return ci;
 	}
-
-	public static String userId = "";
 
 	private JFrame frame;
 	private IntroPanel introPanel;
@@ -67,11 +66,9 @@ public class Main extends listenAdapter {
 	public EndPanel getEndPanel() {
 		return endPanel;
 	}
-
 	public EndArchivePanel getEndArchivePanel() {
 		return endArchivePanel;
 	}
-
 	public ExplainPanel getExplainPanel() {
 		return explainPanel;
 	}
@@ -89,13 +86,14 @@ public class Main extends listenAdapter {
 		});
 	}
 
-	public Main() throws SQLException {
-
+public Main() throws SQLException {
+		
 		initialize();
 	}
 
-	private void initialize() throws SQLException {
-
+private void initialize() throws SQLException {
+		DB.connectionTest();
+		
 		ci = new CookieImg(new ImageIcon("img/cookieimg/cookie1/player_origin.gif"),
 				new ImageIcon("img/cookieimg/cookie1/player_up.gif"),
 				new ImageIcon("img/cookieimg/cookie1/player_doubleup.gif"),
@@ -110,21 +108,21 @@ public class Main extends listenAdapter {
 		cl = new CardLayout(0, 0);
 		frame.getContentPane().setLayout(cl);
 
-		introPanel = new IntroPanel(this);
+		introPanel = new IntroPanel();
 		introPanel.addMouseListener(this);
 		mainPanel = new MainPanel(this);
 		explainPanel = new ExplainPanel(this);// MainPanel 인스턴스 생성
 		gamePanel = new GamePanel(frame, cl, this);
 		endArchivePanel = new EndArchivePanel(this, ending);
 		selectPanel = new SelectPanel(this);
-		endPanel = new EndPanel(this, ending);
+		endPanel = new EndPanel(this,ending);
 
 		selectPanel.setLayout(null);
 		introPanel.setLayout(null);
 		mainPanel.setLayout(null);
 		gamePanel.setLayout(null);
 		endPanel.setLayout(null);
-
+		
 //		endArchivePanel.setLayout(null);
 
 		frame.getContentPane().add(introPanel, "intro");
@@ -133,119 +131,97 @@ public class Main extends listenAdapter {
 		frame.getContentPane().add(endPanel, "end");
 		frame.getContentPane().add(endArchivePanel, "endArchive");
 		frame.getContentPane().add(explainPanel, "explain");
+		
+	    // 새로 생성된 JFrame
+	    selectFrame = new JFrame("Select Map");
+	    selectFrame.setBounds(100, 100, 800, 500);  // 원하는 크기 설정
+	    selectFrame.setLocationRelativeTo(null);  // 화면 중앙에 위치
 
-		// 새로 생성된 JFrame
-		selectFrame = new JFrame("Select Map");
-		selectFrame.setBounds(100, 100, 800, 500); // 원하는 크기 설정
-		selectFrame.setLocationRelativeTo(null); // 화면 중앙에 위치
-
-		// SelectPanel을 새로 만든 frame에 추가
-		selectPanel = new SelectPanel(this); // SelectPanel 객체 생성
-		selectFrame.getContentPane().add(selectPanel); // 새 frame에 패널 추가
-		selectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창 닫을 때 종료 설정
-
+	    // SelectPanel을 새로 만든 frame에 추가
+	    selectPanel = new SelectPanel(this);  // SelectPanel 객체 생성
+	    selectFrame.getContentPane().add(selectPanel);  // 새 frame에 패널 추가
+	    selectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // 창 닫을 때 종료 설정
+		
 	}
 
 	public JFrame getFrame() {
-		return frame;
+	    return frame;
 	}
-
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getComponent().getName().equals("introIc")) {
-			introPanel.introIc.setIcon(new ImageIcon("img/intro/intro_login.jpg"));
-			introPanel.lp.setVisible(true);
-		}
-//			cl.show(frame.getContentPane(), "main"); // "select" 대신 "main"으로 변경
-//			mainPanel.requestFocus(); // mainPanel에 포커스 요청
-		else if (e.getComponent().getName().equals("login")) {
-			if (DB.isWrongAccount(introPanel.id.getText(), introPanel.pw.getText())) {
-				introPanel.alert.setText("아이디 혹은 비밀번호가 틀렸습니다.");
-				System.out.println("로그인 실패");
-			} else {
-				System.out.println("로그인성공");
-				userId = new String(introPanel.id.getText());
-				cl.show(frame.getContentPane(), "main");
-				mainPanel.requestFocus();
+		if (e.getComponent().toString().contains("IntroPanel")) {
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-		} else if (e.getComponent().getName().equals("join")) {
-			introPanel.confirm.setVisible(true);
-			introPanel.cancel.setVisible(true);
-			introPanel.login.setVisible(false);
-			introPanel.join.setVisible(false);
-		} else if (e.getComponent().getName().equals("cancel")) {
-			introPanel.confirm.setVisible(false);
-			introPanel.cancel.setVisible(false);
-			introPanel.login.setVisible(true);
-			introPanel.join.setVisible(true);
-		} else if (e.getComponent().getName().equals("confirm")) {
-				int errCode = DB.makeAccount(introPanel.id.getText(), introPanel.pw.getText());
-				if (errCode == 0)introPanel.alert.setText("회원가입 성공");
-				else if(errCode == 1406) introPanel.alert.setText("10글자를 초과하였습니다.");
-				else if(errCode == 1062) introPanel.alert.setText("이미 존재하는 아이디입니다.");
-				else introPanel.alert.setText("아이디와 비밀번호를 확인해주세요.");
-		} else if (e.getComponent().getName().equals("StartBtn")
-				|| e.getComponent().getName().equals("EndArchiveBtn")) {
-			if (e.getComponent().getName().equals("StartBtn")) {
-				cl.show(frame.getContentPane(), "game");
-				gamePanel.gameSet(getCi());
-				gamePanel.gameStart();
-				gamePanel.requestFocus();
-			} else if (e.getComponent().getName().equals("EndArchiveBtn")) {
+			cl.show(frame.getContentPane(), "main"); // "select" 대신 "main"으로 변경
+			mainPanel.requestFocus(); // mainPanel에 포커스 요청
+
+		} else if (e.getComponent().getName().equals("StartBtn")||e.getComponent().getName().equals("EndArchiveBtn")) {
+			if(e.getComponent().getName().equals("StartBtn")) {
+			cl.show(frame.getContentPane(), "game");
+			gamePanel.gameSet(getCi());
+			gamePanel.gameStart();
+			gamePanel.requestFocus();
+			}
+			else if(e.getComponent().getName().equals("EndArchiveBtn")){
 				frame.getContentPane().remove(endArchivePanel);
-				endArchivePanel = new EndArchivePanel(this, ending);
-				frame.getContentPane().add(endArchivePanel, "endArchive");
-				cl.show(frame.getContentPane(), "endArchive");
+			    endArchivePanel = new EndArchivePanel(this, ending);
+			    frame.getContentPane().add(endArchivePanel, "endArchive");
+			    cl.show(frame.getContentPane(), "endArchive");
 				endArchivePanel.requestFocus();
 			}
 
 		} else if (e.getComponent().getName().equals("endAccept")) {
-			frame.getContentPane().remove(gamePanel);
-			gamePanel = new GamePanel(frame, cl, this);
-			gamePanel.setLayout(null);
-			frame.getContentPane().add(gamePanel, "game");
+		    frame.getContentPane().remove(gamePanel);
+		    gamePanel = new GamePanel(frame, cl, this);
+		    gamePanel.setLayout(null);
+		    frame.getContentPane().add(gamePanel, "game");
 
-			mainPanel = new MainPanel(this);
-			mainPanel.setLayout(null);
-			frame.getContentPane().add(mainPanel, "main");
-			cl.show(frame.getContentPane(), "main");
-			mainPanel.requestFocus();
+		    mainPanel = new MainPanel(this);
+		    mainPanel.setLayout(null);
+		    frame.getContentPane().add(mainPanel, "main");
+		    cl.show(frame.getContentPane(), "main");
+		    mainPanel.requestFocus();
 		}
 //		엔딩수집 돌아가기 버튼
 		else if (e.getComponent().getName().equals("backBtn")) {
 			cl.show(frame.getContentPane(), "main");
-			mainPanel.requestFocus();
-			frame.getContentPane().remove(gamePanel);
-			gamePanel = new GamePanel(frame, cl, this);
-			gamePanel.setLayout(null);
-			frame.getContentPane().add(gamePanel, "game");
+		    mainPanel.requestFocus();
+		    frame.getContentPane().remove(gamePanel);
+		    gamePanel = new GamePanel(frame, cl, this);
+		    gamePanel.setLayout(null);
+		    frame.getContentPane().add(gamePanel, "game");
 
-			mainPanel = new MainPanel(this);
-			mainPanel.setLayout(null);
-			frame.getContentPane().add(mainPanel, "main");
-			cl.show(frame.getContentPane(), "main");
-			mainPanel.requestFocus();
+		    mainPanel = new MainPanel(this);
+		    mainPanel.setLayout(null);
+		    frame.getContentPane().add(mainPanel, "main");
+		    cl.show(frame.getContentPane(), "main");
+		    mainPanel.requestFocus();
 
-		} else if (e.getComponent().getName().equals("Ex_backBtn")) {
+		}
+		else if (e.getComponent().getName().equals("Ex_backBtn")){
 			cl.show(frame.getContentPane(), "main");
 		}
-
-		// 설명 창으로 가기
-		else if (e.getComponent().getName().equals("ExplainBtn")) {
+		
+		//설명 창으로 가기
+		else if (e.getComponent().getName().equals("ExplainBtn")){
 			cl.show(frame.getContentPane(), "explain");
 			explainPanel.requestFocus();
-		} else if (e.getComponent().getName().equals("selectBtn") && selectPanel.getIsCheckedBuff()) {
+		}
+		else if(e.getComponent().getName().equals("selectBtn")&&selectPanel.getIsCheckedBuff()) {
 
 			selectPanel.setIsCheckedBuff(true);
-			frame.setVisible(true); // 화면에 표시
-			selectFrame.setVisible(false); // 기존 main frame 숨기기 (원하는 경우에만)
+			frame.setVisible(true);   // 화면에 표시
+			selectFrame.setVisible(false);  // 기존 main frame 숨기기 (원하는 경우에만)
 			getGamePanel().selectionon = false;
 			getGamePanel().setGameSpeed(getGamePanel().normalSpeed);
 			frame.getContentPane().add(gamePanel, "gamePanel");
-			cl.show(frame.getContentPane(), "gamePanel");
-			gamePanel.requestFocus();
-
-			System.out.println(selectPanel.getSelectedBuff());
+		    cl.show(frame.getContentPane(), "gamePanel");
+		    gamePanel.requestFocus();
+		    
+		    System.out.println(selectPanel.getSelectedBuff());
 			if (selectPanel.getSelectedBuff().equals("스피드 업")) {
 				getGamePanel().setGameSpeed(10);
 			}

@@ -118,7 +118,7 @@ public class EndArchivePanel extends JScrollPane {
 //			캐릭터 이미지 및 이름을 포함하는 셀들의 모임
 			collections.setLayout(new FlowLayout());
 
-			for (int i = 0; i < Endings.count; i++) {
+			for (int i = 0; i < 13; i++) {
 				collections.add(new collection(e, i));
 			}
 
@@ -174,14 +174,18 @@ public class EndArchivePanel extends JScrollPane {
 					return btn;
 				}
 			});
-		}	
+		}
 	}
 
 //	isNew 배열 업데이트
 	public void setIsNewArray(boolean[] array) {
 		System.out.println("엔딩패널 업데이트");
 		for (int i = 0; i < Endings.count; i++) {
+			try {
 				array[i] = DB.getIsNew(i);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
