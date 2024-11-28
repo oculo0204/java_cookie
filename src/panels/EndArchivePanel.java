@@ -174,7 +174,7 @@ public class EndArchivePanel extends JScrollPane {
 					return btn;
 				}
 			});
-		}
+		}	
 	}
 
 //	isNew 배열 업데이트
