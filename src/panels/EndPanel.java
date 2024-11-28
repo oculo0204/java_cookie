@@ -257,16 +257,12 @@ public class EndPanel extends JPanel {
 		cookieNameLabel.setText(e.endings[index].name);
 		contextLabel.setText(e.endings[index].description);
 		cookieImageLabel.setIcon(images[index]);
-		try {
 //	    	new 라벨 갱신
 			if (DB.getIsNew(index)) {
 				newCookieLabel.setText("new");
 				DB.changeIsNew(index);
 			} else
 				newCookieLabel.setText("");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 //    이미지 사이즈 조정

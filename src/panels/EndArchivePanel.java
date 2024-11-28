@@ -181,11 +181,7 @@ public class EndArchivePanel extends JScrollPane {
 	public void setIsNewArray(boolean[] array) {
 		System.out.println("엔딩패널 업데이트");
 		for (int i = 0; i < Endings.count; i++) {
-			try {
 				array[i] = DB.getIsNew(i);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

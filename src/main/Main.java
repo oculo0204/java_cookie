@@ -43,6 +43,8 @@ public class Main extends listenAdapter {
 		return ci;
 	}
 
+	public static String userId ="";
+	
 	private JFrame frame;
 	private IntroPanel introPanel;
 	private GamePanel gamePanel;
@@ -92,7 +94,6 @@ public Main() throws SQLException {
 	}
 
 private void initialize() throws SQLException {
-		DB.connectionTest();
 		
 		ci = new CookieImg(new ImageIcon("img/cookieimg/cookie1/player_origin.gif"),
 				new ImageIcon("img/cookieimg/cookie1/player_up.gif"),
