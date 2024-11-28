@@ -114,18 +114,6 @@ public final class DB {
 		}
 		return false;
 	}
-
-
-	public static boolean isPossibleAccount(String id, String pw) {
-		int idL = id.length();
-		int pwL = pw.length();
-		if(idL<11 && pwL<11 && idL>0 && pwL>0) {
-			for(int i = 0; i < idL; i++) {
-//				if (id.charAt(i) )
-			}
-		}
-		return false;
-	}
 	
 	public static int makeAccount(String id, String pw) {
 		try {
