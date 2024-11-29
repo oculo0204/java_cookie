@@ -197,7 +197,7 @@ public class Main extends listenAdapter {
 			cl.show(frame.getContentPane(), "explain");
 			explainPanel.requestFocus();
 		} else if (e.getComponent().getName().equals("selectBtn") && selectPanel.getIsCheckedBuff()) {
-
+			selectPanel.setSelectedBuffs(selectPanel.getRandomBuffs());
 			selectPanel.setIsCheckedBuff(true);
 			frame.setVisible(true); // 화면에 표시
 			selectFrame.setVisible(false); // 기존 main frame 숨기기 (원하는 경우에만)

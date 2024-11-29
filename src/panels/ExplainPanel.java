@@ -61,17 +61,17 @@ public class ExplainPanel extends JPanel {
         // 쿠키 추가
         addCookieRow(mainPanel, "옥황상제", "img/endings/옥황상제.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{">= x100", ">= x50", ">= x100", ">= x100"},
+                new String[]{">= x180", ">= x30", ">= x180", ">= x180"},
                 cookieRunBlack, cookieRunRegular);
 
-        addCookieRow(mainPanel, "프로게이머", "img/endings/프로게이머.png",
+        addCookieRow(mainPanel, "프로그래머", "img/endings/프로그래머.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"< x30", ">= x50", "< x30", ">= x50"},
+                new String[]{"anyway", "anyway", "anyway", ">= x130"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "가수", "img/endings/가수.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{">= x50", "< x30", ">= x50", "< x30"},
+                new String[]{">= x180", "< x50", ">= x180", "< x50"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "백수", "img/endings/백수.png",
@@ -81,34 +81,34 @@ public class ExplainPanel extends JPanel {
 
         addCookieRow(mainPanel, "교수", "img/endings/교수.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"anyway", "anyway", "anyway", ">= x80"},
+                new String[]{"anyway", "anyway", "anyway", ">= x180"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "프로그래머", "img/endings/프로그래머.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"anyway", "anyway", "anyway", ">= x50"},
+                new String[]{"anyway", "anyway", "anyway", ">= x130"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "국가대표", "img/endings/국가대표.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{">= 80", "anyway", "anyway", "anyway"},
+                new String[]{">= x180", "anyway", "anyway", "anyway"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "아마추어 운동선수", "img/endings/아마추어 운동선수.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{">= 50", "anyway", "anyway", "anyway"},
+                new String[]{">= x130", "anyway", "anyway", "anyway"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "피아니스트", "img/endings/피아니스트.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"anyway", "anyway", ">= 80", "anyway"},
+                new String[]{"anyway", "anyway", ">= x180", "anyway"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "화가", "img/endings/화가.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"anyway", "anyway", ">= 50", "anyway"},
+                new String[]{"anyway", "anyway", ">= x130", "anyway"},
                 cookieRunBlack, cookieRunRegular);
-        
+
 
         // 개발자명 하단 오른쪽에 배치
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // 오른쪽 정렬

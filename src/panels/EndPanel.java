@@ -118,7 +118,7 @@ public class EndPanel extends JPanel {
         Image gameImage = gameIcon.getImage();
         Image resizeGameImage = gameImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         gameCoinLabel = new JLabel(new ImageIcon(resizeGameImage));
-        gameCoinLabel.setBounds(570, 140, 67, 68);
+        gameCoinLabel.setBounds(590, 140, 67, 68);
         add(gameCoinLabel);
         //게임 코인 수
         gameNumberLabel = new JLabel();
@@ -142,7 +142,7 @@ public class EndPanel extends JPanel {
         Image studyImage = studyIcon.getImage();
         Image resizeStudyImage = studyImage.getScaledInstance(67, 68, Image.SCALE_SMOOTH);
         studyCoinLabel = new JLabel(new ImageIcon(resizeStudyImage));
-        studyCoinLabel.setBounds(570, 225, 67, 68);
+        studyCoinLabel.setBounds(590, 225, 67, 68);
         add(studyCoinLabel);
         //공부 코인 수
         studyNumberLabel = new JLabel();
@@ -209,20 +209,12 @@ public class EndPanel extends JPanel {
     	int index;
       	// 코인 수에 따라 이름과 이미지, 설명 설정
       	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
-       	if(studyCoin >= 100 && gameCoin >= 50 && artCoin >= 100 && exerciseCoin >= 100) {
+       	if(studyCoin >= 180 && gameCoin >= 30 && artCoin >= 180 && exerciseCoin >= 180) {
       		index = 0;
       	}
-      	//피아니스트 엔딩
-       	else if(artCoin >= 80 && artCoin >= exerciseCoin && artCoin > studyCoin) {
-      	    index = 1;
-      	}
-      // 화가 엔딩
-       	else if(artCoin >= 50 && artCoin >= exerciseCoin && artCoin > studyCoin) {
-      	    index = 2;
-      	    
-      	}
+
       // 교수 엔딩
-       	else if(studyCoin >= 80 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
+       	else if(studyCoin >= 180 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
       	    index = 3;
       	}
       // 의사엔딩
@@ -230,29 +222,39 @@ public class EndPanel extends JPanel {
 //      	    index = 4;
 //      	}
       // 프로그래머엔딩
-       	else if(studyCoin >= 50 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
+       	else if(studyCoin >= 130 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
       	    index = 5;
       	}
 	        // 프로게이머엔딩
-	       	else if(studyCoin >= 50 && gameCoin >= 50 && artCoin < 30 && exerciseCoin < 30) {
+	       	else if(studyCoin >= 130 && gameCoin >= 60 && artCoin < 50 && exerciseCoin < 50) {
 	      	    index = 6;
 	      	}
         // 가수 엔딩
-       	else if(artCoin >= 50 && exerciseCoin >= 50 && gameCoin < 30 && studyCoin < 30) {
+       	else if(artCoin >= 130 && exerciseCoin >= 130 && gameCoin < 50 && studyCoin < 50) {
       	    index = 7;
       	}
+      	//피아니스트 엔딩
+       	else if(artCoin >= 180 && artCoin >= exerciseCoin && artCoin > studyCoin) {
+      	    index = 1;
+      	}
+      // 화가 엔딩
+       	else if(artCoin >= 130 && artCoin >= exerciseCoin && artCoin > studyCoin) {
+      	    index = 2;
+      	    
+      	}
+        // 국가대표 엔딩
+       	else if(exerciseCoin >= 180 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
+      	    index = 10;
+      	}
         // 아마추어 엔딩
-       	else if(exerciseCoin >= 50 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
+       	else if(exerciseCoin >= 130 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
       	    index = 8;
       	}
 //        // 운동선수 엔딩
 //       	else if() {
 //      	    index = 9;
 //      	}
-        // 국가대표 엔딩
-       	else if(exerciseCoin >= 80 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
-      	    index = 10;
-      	}
+
 //        // 요기사 엔딩
 //       	else if() {
 //      	    index = 12;
