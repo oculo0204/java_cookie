@@ -256,7 +256,7 @@ public class Main extends listenAdapter {
 				getGamePanel().setInfiniteHealth(true);
 			}
 			if (selectPanel.getSelectedBuff().equals("점프 1.5배")) {
-				getGamePanel().setGameSpeed(10);
+				getGamePanel().isOnepointfiveJump(true);
 			}
 			if (selectPanel.getSelectedBuff().equals("코인 수 감소")) { // 슬라이딩으로 먹는 코인수 감소
 				getGamePanel().setIsSliding(true);
