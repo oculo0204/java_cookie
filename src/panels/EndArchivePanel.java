@@ -118,7 +118,7 @@ public class EndArchivePanel extends JScrollPane {
 //			캐릭터 이미지 및 이름을 포함하는 셀들의 모임
 			collections.setLayout(new FlowLayout());
 
-			for (int i = 0; i < 13; i++) {
+			for (int i = 0; i < Endings.count; i++) {
 				collections.add(new collection(e, i));
 			}
 
