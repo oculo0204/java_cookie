@@ -34,6 +34,9 @@ public class SelectPanel extends JPanel {
 
     // 선택된 버프를 저장하는 리스트
     private List<ImageIcon> selectedBuffs;
+    public void setSelectedBuffs(List<ImageIcon> buffs) {
+    	this.selectedBuffs = buffs;
+    }
     
  // 선택된 버프 추적 변수
     private ImageIcon selectedBuff = null;
@@ -110,7 +113,7 @@ public class SelectPanel extends JPanel {
     }
 
     // 랜덤으로 3개의 버프 선택
-    private List<ImageIcon> getRandomBuffs() {
+  public List<ImageIcon> getRandomBuffs() {
         List<ImageIcon> allBuffs = new ArrayList<>(Arrays.asList(
                 speedUp, noSkip, smallCoin, hurdleScale2, decreaseCoin, coinScore2));
         Collections.shuffle(allBuffs); // 랜덤으로 섞기

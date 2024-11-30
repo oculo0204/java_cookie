@@ -231,39 +231,39 @@ public class Main extends listenAdapter {
 		}
 
 		// 설명 창으로 가기
-		else if (e.getComponent().getName().equals("ExplainBtn")) {
-			cl.show(frame.getContentPane(), "explain");
-			explainPanel.requestFocus();
-		} else if (e.getComponent().getName().equals("selectBtn") && selectPanel.getIsCheckedBuff()) {
+				else if (e.getComponent().getName().equals("ExplainBtn")) {
+					cl.show(frame.getContentPane(), "explain");
+					explainPanel.requestFocus();
+				} else if (e.getComponent().getName().equals("selectBtn") && selectPanel.getIsCheckedBuff()) {
+					selectPanel.setSelectedBuffs(selectPanel.getRandomBuffs());
+					selectPanel.setIsCheckedBuff(true);
+					frame.setVisible(true); // 화면에 표시
+					selectFrame.setVisible(false); // 기존 main frame 숨기기 (원하는 경우에만)
+					getGamePanel().selectionon = false;
+					getGamePanel().setGameSpeed(getGamePanel().normalSpeed);
+					frame.getContentPane().add(gamePanel, "gamePanel");
+					cl.show(frame.getContentPane(), "gamePanel");
+					gamePanel.requestFocus();
 
-			selectPanel.setIsCheckedBuff(true);
-			frame.setVisible(true); // 화면에 표시
-			selectFrame.setVisible(false); // 기존 main frame 숨기기 (원하는 경우에만)
-			getGamePanel().selectionon = false;
-			getGamePanel().setGameSpeed(getGamePanel().normalSpeed);
-			frame.getContentPane().add(gamePanel, "gamePanel");
-			cl.show(frame.getContentPane(), "gamePanel");
-			gamePanel.requestFocus();
-
-			System.out.println(selectPanel.getSelectedBuff());
-			if (selectPanel.getSelectedBuff().equals("스피드 업")) {
-				getGamePanel().setGameSpeed(10);
-			}
-			if (selectPanel.getSelectedBuff().equals("스킵 기능 무효")) {
-				getGamePanel().setIsNoSkip(true);
-			}
-			if (selectPanel.getSelectedBuff().equals("무한 체력")) {
-				getGamePanel().setInfiniteHealth(true);
-			}
-			if (selectPanel.getSelectedBuff().equals("점프 1.5배")) {
-				getGamePanel().isOnepointfiveJump(true);
-			}
-			if (selectPanel.getSelectedBuff().equals("코인 수 감소")) { // 슬라이딩으로 먹는 코인수 감소
-				getGamePanel().setIsSliding(true);
-			}
-			if (selectPanel.getSelectedBuff().equals("코인 점수 두배")) {
-				getGamePanel().setDoubleJellyActive(true);
-			}
-		}
+					System.out.println(selectPanel.getSelectedBuff());
+					if (selectPanel.getSelectedBuff().equals("스피드 업")) {
+						getGamePanel().setGameSpeed(10);
+					}
+					if (selectPanel.getSelectedBuff().equals("스킵 기능 무효")) {
+						getGamePanel().setIsNoSkip(true);
+					}
+					if (selectPanel.getSelectedBuff().equals("무한 체력")) {
+						getGamePanel().setInfiniteHealth(true);
+					}
+					if (selectPanel.getSelectedBuff().equals("점프 1.5배")) {
+						getGamePanel().isOnepointfiveJump(true);
+					}
+					if (selectPanel.getSelectedBuff().equals("코인 수 감소")) { // 슬라이딩으로 먹는 코인수 감소
+						getGamePanel().setIsSliding(true);
+					}
+					if (selectPanel.getSelectedBuff().equals("코인 점수 두배")) {
+						getGamePanel().setDoubleJellyActive(true);
+					}
+				}
 	}
 }
