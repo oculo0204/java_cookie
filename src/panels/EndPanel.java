@@ -230,7 +230,7 @@ public class EndPanel extends JPanel {
 	      	    index = 6;
 	      	}
         // 가수 엔딩
-       	else if(artCoin >= 130 && exerciseCoin >= 130 && gameCoin < 50 && studyCoin < 50) {
+       	else if(artCoin >= 180 && exerciseCoin >= 180 && gameCoin < 50 && studyCoin < 50) {
       	    index = 7;
       	}
       	//피아니스트 엔딩
