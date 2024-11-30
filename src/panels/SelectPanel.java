@@ -4,15 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.List; // Collections Framework의 List
-import java.util.Map;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
-
 
 public class SelectPanel extends JPanel {
 
@@ -35,50 +34,50 @@ public class SelectPanel extends JPanel {
     // 선택된 버프를 저장하는 리스트
     private List<ImageIcon> selectedBuffs;
     public void setSelectedBuffs(List<ImageIcon> buffs) {
-    	this.selectedBuffs = buffs;
+        this.selectedBuffs = buffs;
+        refreshBuffDisplay(); // 화면을 갱신
     }
-    
- // 선택된 버프 추적 변수
+
+    // 선택된 버프 추적 변수
     private ImageIcon selectedBuff = null;
     public String getSelectedBuff() {
-    	return getBuffName(selectedBuff);
+        return getBuffName(selectedBuff);
     }
     private JLabel selectedBuffLabel;  // 선택된 버프 이름을 표시할 라벨
 
     // 선택된 버튼을 추적
     private Map<JButton, ImageIcon> buttonToSelectedIconMap;
     private JButton currentlySelectedButton;
-    
-    private boolean isCheckedbuff = false;
-    public boolean getIsCheckedBuff() {
-    	return isCheckedbuff;
-    }
-    public void setIsCheckedBuff(boolean a) {
-    	this.isCheckedbuff =a;
-    }
-    
-    // 폰트 로딩 함수
- 	private Font loadCustomFont(String fontPath, float fontSize) {
- 		try {
- 			File fontFile = new File(fontPath);
- 			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
- 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
- 			ge.registerFont(font);
- 			return font;
- 		} catch (IOException | FontFormatException e) {
- 			e.printStackTrace();
- 			return new Font("Arial", Font.BOLD, 24); // 예외가 발생하면 기본 폰트 반환
- 		}
- 	}
 
- // 선택완료 버튼
+    private boolean isCheckedBuff = false;
+    public boolean getIsCheckedBuff() {
+        return isCheckedBuff;
+    }
+    public void setIsCheckedBuff(boolean checked) {
+        this.isCheckedBuff = checked;
+    }
+
+    // 폰트 로딩 함수
+    private Font loadCustomFont(String fontPath, float fontSize) {
+        try {
+            File fontFile = new File(fontPath);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(font);
+            return font;
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            return new Font("Arial", Font.BOLD, 24); // 예외가 발생하면 기본 폰트 반환
+        }
+    }
+
+    // 선택완료 버튼
     private JButton selectedBtn;
 
     public SelectPanel(Object o) {
         setLayout(null);
-        //폰트
+        // 폰트
         Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 24f);
-        Font cookieRunRegular = loadCustomFont("fonts/CookieRun Regular.otf", 12f);
 
         // 랜덤으로 3개의 버프 선택
         selectedBuffs = getRandomBuffs();
@@ -98,13 +97,13 @@ public class SelectPanel extends JPanel {
         selectedBtn.addMouseListener((MouseListener) o);
         selectedBtn.setName("selectBtn");
         add(selectedBtn);
-        selectedBtn.setEnabled(false);  
+        selectedBtn.setEnabled(false);
 
         // 배경 이미지
         JLabel selectBg = new JLabel(new ImageIcon("img/select/selectBg.png"));
         selectBg.setBounds(0, 0, 800, 500);
         add(selectBg);
-        
+
         // 선택된 버프 이름을 표시할 라벨 추가
         selectedBuffLabel = new JLabel("선택된 버프: ");
         selectedBuffLabel.setFont(cookieRunBlack);
@@ -125,7 +124,7 @@ public class SelectPanel extends JPanel {
         int x = 80; // 초기 X 좌표
         int y = 90; // Y 좌표
         int width = 150; // 버튼 너비
-        int height = 200; // 버튼 높이
+        int height = 200;
         Font cookieRunBlack = loadCustomFont("fonts/CookieRun Black.otf", 21f);
 
         // 선택된 3개의 버프를 화면에 배치
@@ -144,8 +143,6 @@ public class SelectPanel extends JPanel {
             buffButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-
-//                    
                     // 이전에 선택된 버튼이 있다면 기본 이미지로 되돌리기
                     if (currentlySelectedButton != null) {
                         ImageIcon originalImage = getOriginalImageForButton(currentlySelectedButton);
@@ -156,12 +153,10 @@ public class SelectPanel extends JPanel {
                     if (currentlySelectedButton != buffButton) {
                         buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));
                         currentlySelectedButton = buffButton;
-                        
-                   	 selectedBuff = buff;  // 선택된 버프 추적
-                     selectedBuffLabel.setText("선택된 버프: " + getBuffName(selectedBuff));  // 선택된 버프 이름 업데이트
-                    buffButton.setIcon(buttonToSelectedIconMap.get(buffButton));
-                    isCheckedbuff =true;
-                    selectedBtn.setEnabled(true);
+                        selectedBuff = buff;  // 선택된 버프 추적
+                        selectedBuffLabel.setText("선택된 버프: " + getBuffName(selectedBuff));  // 선택된 버프 이름 업데이트
+                        isCheckedBuff = true;
+                        selectedBtn.setEnabled(true);
                     } else {
                         // 동일한 버튼을 다시 클릭하면 선택 해제
                         currentlySelectedButton = null;
@@ -186,7 +181,6 @@ public class SelectPanel extends JPanel {
     private ImageIcon getOriginalImageForButton(JButton button) {
         for (Map.Entry<JButton, ImageIcon> entry : buttonToSelectedIconMap.entrySet()) {
             if (entry.getKey() == button) {
-                // `selectedBuffs`에서 해당 버튼의 기본 이미지를 찾아 반환
                 for (ImageIcon buff : selectedBuffs) {
                     if (buttonToSelectedIconMap.get(button).equals(getSelectedImageForBuff(buff))) {
                         return buff;
@@ -217,5 +211,19 @@ public class SelectPanel extends JPanel {
         if (buff.equals(decreaseCoin)) return "코인 수 감소";
         if (buff.equals(coinScore2)) return "코인 점수 두배";
         return "";
+    }
+
+    // 화면 갱신
+    private void refreshBuffDisplay() {
+        removeAll(); // 기존 컴포넌트를 모두 제거
+        arrangeBuffs(); // 버프를 다시 배치
+        // 선택된 버튼과 배경을 다시 추가
+        add(selectedBtn);
+        selectedBtn.setEnabled(false);
+        JLabel selectBg = new JLabel(new ImageIcon("img/select/selectBg.png"));
+        selectBg.setBounds(0, 0, 800, 500);
+        add(selectBg);
+        revalidate(); // 화면 갱신
+        repaint();
     }
 }
