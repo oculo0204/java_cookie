@@ -248,7 +248,7 @@ public class EndPanel extends JPanel {
       	}
         // 아마추어 엔딩
        	else if(exerciseCoin >= 130 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
-      	    index = 8;
+      	    index = 6;
       	}
 //        // 운동선수 엔딩
 //       	else if() {
