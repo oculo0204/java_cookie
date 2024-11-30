@@ -210,7 +210,7 @@ public class EndPanel extends JPanel {
       	// 코인 수에 따라 이름과 이미지, 설명 설정
       	//종합 코인 (공부+예술+게임+운동) - 옥황상제 엔딩
        	if(studyCoin >= 180 && gameCoin >= 30 && artCoin >= 180 && exerciseCoin >= 180) {
-      		index = 0;
+       	 index = 0;
       	}
 
       // 교수 엔딩
@@ -223,15 +223,15 @@ public class EndPanel extends JPanel {
 //      	}
       // 프로그래머엔딩
        	else if(studyCoin >= 130 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
-      	    index = 5;
+       		index = 4;
       	}
 	        // 프로게이머엔딩
 	       	else if(studyCoin >= 130 && gameCoin >= 60 && artCoin < 50 && exerciseCoin < 50) {
-	      	    index = 6;
+	       		index = 5;
 	      	}
         // 가수 엔딩
        	else if(artCoin >= 180 && exerciseCoin >= 180 && gameCoin < 50 && studyCoin < 50) {
-      	    index = 7;
+       		index = 8;
       	}
       	//피아니스트 엔딩
        	else if(artCoin >= 180 && artCoin >= exerciseCoin && artCoin > studyCoin) {
@@ -244,7 +244,7 @@ public class EndPanel extends JPanel {
       	}
         // 국가대표 엔딩
        	else if(exerciseCoin >= 180 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
-      	    index = 10;
+       		index = 7;
       	}
         // 아마추어 엔딩
        	else if(exerciseCoin >= 130 && exerciseCoin >= artCoin && exerciseCoin > studyCoin) {
@@ -262,7 +262,7 @@ public class EndPanel extends JPanel {
        	
       
        	// 백수 엔딩
-      	else index = 11;
+      	else index = 9;
   	    setLabel(index);
           //코인 수 업데이트
           
