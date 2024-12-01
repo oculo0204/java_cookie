@@ -143,9 +143,9 @@ public class GamePanel extends JPanel {
 
 	boolean isDoubleJellyActive = false;
 
-	boolean isInfiniteHealth = false;
+	private boolean isInfiniteHealth = false;
 
-	boolean isOnepointfiveJump = false;
+	private boolean isOnepointfiveJump = false;
 
 	public void setIsSliding(boolean f) {
 		this.isSliding = f;
@@ -159,7 +159,7 @@ public class GamePanel extends JPanel {
 		this.isOnepointfiveJump = isActive;
 	}
 
-	boolean isNoSkip = false;
+	private boolean isNoSkip = false;
 
 	public void setIsNoSkip(boolean isActive) {
 		this.isNoSkip = isActive;
