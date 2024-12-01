@@ -64,9 +64,9 @@ public class ExplainPanel extends JPanel {
                 new String[]{">= x180", ">= x30", ">= x180", ">= x180"},
                 cookieRunBlack, cookieRunRegular);
 
-        addCookieRow(mainPanel, "프로그래머", "img/endings/프로그래머.png",
+        addCookieRow(mainPanel, "프로게이머", "img/endings/프로게이머.png",
                 new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"anyway", "anyway", "anyway", ">= x130"},
+                new String[]{"< 50", ">= 60", "< 50", ">= 130"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "가수", "img/endings/가수.png",
