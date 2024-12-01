@@ -381,9 +381,9 @@ public class GamePanel extends JPanel {
 		}
 
 		Util.drawFancyString(g2, Integer.toString(type1Count), 90, 110, 18, Color.white);
-		Util.drawFancyString(g2, Integer.toString(type2Count), 190, 110, 18, Color.white);
-		Util.drawFancyString(g2, Integer.toString(type3Count), 290, 110, 18, Color.white);
-		Util.drawFancyString(g2, Integer.toString(type4Count), 390, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type2Count), 210, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type3Count), 330, 110, 18, Color.white);
+		Util.drawFancyString(g2, Integer.toString(type4Count), 450, 110, 18, Color.white);
 
 		// ü�°������� �׸���
 		buffg.drawImage(lifeBar.getImage(), 20, 30, null);
@@ -396,9 +396,9 @@ public class GamePanel extends JPanel {
 		buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
 		buffg.drawImage(skipBtn, 650, 240, 132, 100, null);
 		buffg.drawImage(artIcon.getImage(), 30, 100, null);
-		buffg.drawImage(ballIcon.getImage(), 130, 100, null);
-		buffg.drawImage(bookIcon.getImage(), 230, 100, null);
-		buffg.drawImage(gameIcon.getImage(), 330, 100, null);
+		buffg.drawImage(ballIcon.getImage(), 150, 100, null);
+		buffg.drawImage(bookIcon.getImage(), 270, 100, null);
+		buffg.drawImage(gameIcon.getImage(), 390, 100, null);
 
 		if (escKeyOn) { // escŰ�� ������� ȭ���� �帮�� �����
 
