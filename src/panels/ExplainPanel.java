@@ -75,8 +75,8 @@ public class ExplainPanel extends JPanel {
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "백수", "img/endings/백수.png",
-                new String[]{"운동", "게임", "예술", "공부"},
-                new String[]{"< x50", "< x50", "< x50", "< x50"},
+                new String[]{""},
+                new String[]{" Not applicable"},
                 cookieRunBlack, cookieRunRegular);
 
         addCookieRow(mainPanel, "교수", "img/endings/교수.png",

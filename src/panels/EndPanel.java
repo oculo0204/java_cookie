@@ -108,7 +108,7 @@ public class EndPanel extends JPanel {
 		// 운동 코인 수
 		exerciseNumberLabel = new JLabel();
 		exerciseNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-		exerciseNumberLabel.setBounds(485, 135, 300, 80);
+		exerciseNumberLabel.setBounds(475, 135, 300, 80);
 		add(exerciseNumberLabel);
 		// 게임 코인
 		ImageIcon gameIcon = new ImageIcon("img/end/game.png");
@@ -132,7 +132,7 @@ public class EndPanel extends JPanel {
 		// 예술 코인 수
 		artNumberLabel = new JLabel();
 		artNumberLabel.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 40));
-		artNumberLabel.setBounds(485, 220, 300, 80);
+		artNumberLabel.setBounds(475, 220, 300, 80);
 		add(artNumberLabel);
 		// 공부 코인
 		ImageIcon studyIcon = new ImageIcon("img/end/study.png");
@@ -217,14 +217,14 @@ public class EndPanel extends JPanel {
 //       	else if() {
 //      	    index = 4;
 //      	}
+     // 프로게이머엔딩
+       	else if(studyCoin >= 130 && gameCoin >= 60 && artCoin < 50 && exerciseCoin < 50) {
+       		index = 5;
+      	}
       // 프로그래머엔딩
        	else if(studyCoin >= 130 && studyCoin >= artCoin && studyCoin > exerciseCoin) {
        		index = 4;
       	}
-	        // 프로게이머엔딩
-	       	else if(studyCoin >= 130 && gameCoin >= 60 && artCoin < 50 && exerciseCoin < 50) {
-	       		index = 5;
-	      	}
         // 가수 엔딩
        	else if(artCoin >= 180 && exerciseCoin >= 180 && gameCoin < 50 && studyCoin < 50) {
        		index = 8;
